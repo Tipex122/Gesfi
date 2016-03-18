@@ -1,0 +1,7 @@
+sudo supervisorctl restart gesfi
+sudo supervisorctl status gesfi
+
+voir site:
+http://apprendre-python.com/page-django-deploiement-python-mise-en-production-linux-gunicorn-supervisor-nginx-installer-configurer-serveur-http-web
+
+

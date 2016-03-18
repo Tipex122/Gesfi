@@ -1,0 +1,227 @@
+sudo supervisorctl restart gesfi
+sudo supervisorctl status gesfi
+
+voir site:
+http://apprendre-python.com/page-django-deploiement-python-mise-en-production-linux-gunicorn-supervisor-nginx-installer-configurer-serveur-http-web
+
+Django déploiement Gunicorn Supervisor Nginx WSGI
+Accueil › Django › Django déploiement
+ Django Rest Framework
+ Présentation Raspberry pi 
+ 
+ Contrairement à l'environnement LAMP (Linux Apache MySQL PHP) qui est très facile à installer, l'environnement Python / Django est un peu plus délicat à mettre en oeuvre pour un débutant. Nous avons vu précédemment qu'il est possible de lancer le serveur web de notre projet directement depuis le manager:
+ 
+ python manager.py runserver 80000
+ 
+ Ce serveur web est uniquement destiné aux développeurs, cela leur permet d'avoir un serveur web fonctionnel rapidement sans faire aucune configuration sur leur machine. En aucun cas ce serveur web est destiné à être utilisé sur un serveur de production, c'est à dire où les ressources sont accessibles depuis l'extérieur (internet).
+ 
+ Pour cela il faudra faire un peu de lignes de commmande pour installer et configurer les outils nécessaires à la mise en place d'un serveur web solide, performant et stable.
+ Projet Django
+ 
+ Dans ce tutoriel nous partons d'un serveur vierge (Ubuntu serveur). En premier lieu créons un dossier à la racine du système:
+ 
+ sudo mkdir /django
+ sudo chown -R www-data:www-data
+ sudo chmod -R 775 /django
+ 
+ Puis ajoutons notre compte au groupe www-data:
+ 
+ sudo adduser olivier www-data
+ 
+ Ensuite copions notre projet Django directement dans le dossier /django que nous venons de créer, de manière à avoir l'arboresence suivante:
+ 
+ /django/eboutique
+         ├── eboutique
+                 │   ├── __init__.py
+                         │   ├── settings.py
+                                 │   ├── test.py
+                                         │   ├── urls.py
+                                                 │   ├── wsgi.py
+                                                         └── backoffice
+                                                         
+                                                         Environnement virtuel
+                                                         
+                                                         Créons ensuite un environnement python virtuel pour pouvoir installer les librairies dont notre projet a besoin.
+                                                         
+                                                         cd /django/eboutique
+                                                         virtualenv .
+                                                         
+                                                         Activons maintenant notre environnement virtuel
+                                                         
+                                                         source bin/activate
+                                                         
+                                                         Premier test projet
+                                                         
+                                                         Maintenant que nous sommes dans notre environnement virtuel, nous pouvons lancer le serveur web de dev depuis le manager pour voir si tout va bien. Généralement il manque toujours une librairie python. Si le serveur de dev se lance correctement nous pouvons passer à la suite. Sinon corrigez les erreurs indiquées.
+                                                         pip install [librairie]
+                                                         
+                                                         Installons les librairies python dont notre projet à besoin depuis notre environnement virtuel:
+                                                         
+                                                         Exemple de librairies:
+                                                         
+                                                         pip install django
+                                                         pip install MySQL-python
+                                                         pip install djangorestframework
+                                                         pip install django-mptt
+                                                         pip install Pillow
+                                                         
+                                                         Gunicorn
+                                                         
+                                                         Gunicorn pour Green Unicorn est un serveur HTTP Python WSGI pour Unix. Sa particularité est sa puissance, sa rapidité et sa facilité d'installation / configuration.
+                                                         
+                                                         L'installation se fait en ligne de commande:
+                                                         
+                                                         sudo aptitude install gunicorn
+                                                         
+                                                         Et dans notre environnement virtuel:
+                                                         
+                                                         pip install gunicorn
+                                                         
+                                                         Et ajoutons gunicorn dans la liste des apps dans settings.py:
+                                                         
+                                                         INSTALLED_APPS = (
+                                                             'django.contrib.admin',
+                                                                 'django.contrib.auth',
+                                                                     ...
+                                                                         'gunicorn',
+                                                                         )
+                                                                         
+                                                                         Puis exécutons gunicorn depuis le dossier racine de notre projet:
+                                                                         
+                                                                         cd /django/eboutique
+                                                                         gunicorn eboutique.wsgi:application --bind votredomaineouadresseip:8000
+                                                                         
+                                                                         Si vous n'arrivez pas à voir le rendu, vous pouvez utiliser l'adresse 0.0.0.0 :
+                                                                         
+                                                                         gunicorn eboutique.wsgi:application --bind=0.0.0.0:8000
+                                                                         
+                                                                         Créons un script bash pour pouvoir exécuter cette commande dans son environnement:
+                                                                         
+                                                                         cd /django/eboutique
+                                                                         nano gunicorn.bash
+                                                                         
+                                                                         Puis donnons lui le contenu suivant:
+                                                                         
+                                                                         #!/bin/bash
+                                                                         cd /django/ab
+                                                                         source bin/activate
+                                                                         gunicorn ab.wsgi:application --name "eboutique" \
+                                                                         	--workers=4 \
+                                                                         		--bind=0.0.0.0:8000 \
+                                                                         			--user="www-data" \
+                                                                         				--group="www-data"
+                                                                         				
+                                                                         				Vérifions que tout se passe bien:
+                                                                         				
+                                                                         				bash gunicorn.bash
+                                                                         				
+                                                                         				En cas de bug, utilisez l'option suivante:
+                                                                         				
+                                                                         				--debug --log-level debug
+                                                                         				
+                                                                         				Supervisor
+                                                                         				
+                                                                         				Supervisor est un excellent programme qui facilite la vie des développeurs. En effet, créer des daemons en fonction de notre distrib est assez... ennuyeux! Supervisor vous permet de gérer les tâches qui doivent tourner en background avec une facilité déconcertante quelque soit votre distribution linux en quelques paramétrages... un excellent concept pour fainéants! Et évidemment le soft est écrit en python. Bah oui comme par hasard!
+                                                                         				
+                                                                         				Installons ce merveilleux soft:
+                                                                         				
+                                                                         				sudo aptitude install supervisor
+                                                                         				
+                                                                         				Puis créons le fichier /etc/supervisor/conf.d/eboutique.conf et donnons lui le contenu suivant:
+                                                                         				
+                                                                         				[program:eboutique]
+                                                                         				command = /django/eboutique/gunicorn.sh                      ; Command to start app
+                                                                         				user = www-data                                              ; User to run as
+                                                                         				stdout_logfile = /django/eboutique/gunicorn_supervisor.log   ; Where to write log messages
+                                                                         				redirect_stderr = true                                       ; Save stderr in the same log
+                                                                         				environment=LANG=fr_FR.UTF-8,LC_ALL=fr_FR.UTF-8              ; Set UTF-8 as default encoding
+                                                                         				
+                                                                         				Exécutons la commande suivante, elle devrait nous retourner l'information eboutique: available
+                                                                         				
+                                                                         				sudo supervisorctl reread
+                                                                         				
+                                                                         				Ensuite ajoutons le script gunicorn.sh -crée auparavant- à supervisor. La commande devrait nous retourner: eboutique: added process group
+                                                                         				
+                                                                         				sudo supervisorctl update
+                                                                         				
+                                                                         				Vérifions que tout fonctionne bien en consultant le statut
+                                                                         				
+                                                                         				sudo supervisorctl status eboutique
+                                                                         				
+                                                                         				Redemarrons supervisor
+                                                                         				
+                                                                         				sudo supervisorctl restart eboutique 
+                                                                         				
+                                                                         				A ce stade nous devrions pouvoir accéder tout le temps à notre projet, même après avoir redémarré notre machine.
+                                                                         				Nginx
+                                                                         				
+                                                                         				Nginx (que l'on prononce engine-x) est un serveur HTTP open source qui fait aussi bien reverse proxy que serveur POP3 / IMAP. Le projet existe depuis 2002 et à noter que 12% des sites hébergés dans le monde l'utilise. Nginx est surpuissant, stable et simple de configuration. Il excelle dans la distribution de fichiers statiques.
+                                                                         				
+                                                                         				sudo aptitude install nginx
+                                                                         				
+                                                                         				Puis configurons le fichier de configuration /etc/nginx/nginx.conf:
+                                                                         				
+                                                                         				user www-data;
+                                                                         				worker_processes 4;
+                                                                         				pid /run/nginx.pid;
+                                                                         				
+                                                                         				events {
+                                                                         					worker_connections 1024;
+                                                                         						# multi_accept on;
+                                                                         						}
+                                                                         						
+                                                                         						http {
+                                                                         						
+                                                                         							sendfile on;
+                                                                         								tcp_nopush on;
+                                                                         									tcp_nodelay on;
+                                                                         										keepalive_timeout 65;
+                                                                         											types_hash_max_size 2048;
+                                                                         											
+                                                                         												include /etc/nginx/mime.types;
+                                                                         													default_type application/octet-stream;
+                                                                         													
+                                                                         														access_log /var/log/nginx/access.log;
+                                                                         															error_log /var/log/nginx/error.log;
+                                                                         															
+                                                                         																gzip on;
+                                                                         																	gzip_disable "msie6";
+                                                                         																	
+                                                                         																		# gzip_vary on;
+                                                                         																			# gzip_proxied any;
+                                                                         																				# gzip_comp_level 6;
+                                                                         																					# gzip_buffers 16 8k;
+                                                                         																						# gzip_http_version 1.1;
+                                                                         																							# gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+                                                                         																							
+                                                                         																								upstream app_servers {
+                                                                         																										server 127.0.0.1:8080;
+                                                                         																											}
+                                                                         																											
+                                                                         																												server {
+                                                                         																												
+                                                                         																														listen 80;
+                                                                         																														
+                                                                         																																location /static/  {
+                                                                         																																			alias /django/eboutique/static/;
+                                                                         																																					}
+                                                                         																																					
+                                                                         																																							location = /favico.ico  {
+                                                                         																																										root /app/favico.ico;
+                                                                         																																												}
+                                                                         																																												
+                                                                         																																														location / {
+                                                                         																																																	proxy_pass         http://127.0.0.1:8000;
+                                                                         																																																				proxy_redirect     off;
+                                                                         																																																							proxy_set_header   Host $host;
+                                                                         																																																										proxy_set_header   X-Real-IP $remote_addr;
+                                                                         																																																													proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+                                                                         																																																																proxy_set_header   X-Forwarded-Host $server_name;
+                                                                         																																																																		}
+                                                                         																																																																			}
+                                                                         																																																																			}
+                                                                         																																																																			
+                                                                         																																																																			Notre projet est enfin disponible depuis le port 80!
+                                                                         																																																																			
+                                                                         																																																																			Dernière mise à jour le 15 mai 2015
+                                                                         																																																																			
