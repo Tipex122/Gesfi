@@ -15,7 +15,9 @@ class Category(MPTTModel):
         order_insertion_by = ['name']
 
     class Meta:
-        verbose_name_plural = u"Categories"
+        ordering = ['name']
+        verbose_name = u'Catégorie'
+        verbose_name_plural = u'Catégories'
 
     def __str__(self):              # __unicode__ on Python 2
         return self.name

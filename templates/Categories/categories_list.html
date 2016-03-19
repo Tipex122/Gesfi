@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Latest categories{% endblock %}
+
+{% block heading %}
+  <h2>Latest categories</h2>
+{% endblock %}
+
+{% block content %}
+  <ul class="list-unstyled">
+  {% for category in categories %}
+    <li class="well well-sm">{% include "Categories/category.html" %}</li>
+  {% empty %}
+    <li>No category. :(</li>
+  {% endfor %}
+  </ul>
+{% endblock %}
