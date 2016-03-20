@@ -1,17 +1,23 @@
 {% extends "base.html" %}
+{% load mptt_tags %}
 
 {% block title %}Latest categories{% endblock %}
 
 {% block heading %}
-  <h2>Latest categories</h2>
+    <h2>Latest categories</h2>
 {% endblock %}
 
 {% block content %}
-  <ul class="list-unstyled">
-  {% for category in categories %}
-    <li class="well well-sm">{% include "Categories/category.html" %}</li>
-  {% empty %}
-    <li>No category. :(</li>
-  {% endfor %}
-  </ul>
+    <ul class="list-unstyled">
+        {% recursetree categories %}
+            <li class="well well-sm">
+                {{ category.name }} {{ category.amount }}
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+    </ul>
 {% endblock %}

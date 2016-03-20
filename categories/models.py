@@ -11,6 +11,8 @@ class Category(MPTTModel):
 
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
 
+    #objects = models.Manager()
+
     class MPTTMeta:
         order_insertion_by = ['name']
 
