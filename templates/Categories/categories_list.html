@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 {% load mptt_tags %}
 
-{% block title %}Latest categories{% endblock %}
+{% block title %}Categories{% endblock %}
 
 {% block heading %}
-    <h2>Latest categories</h2>
+    <h2>Categories</h2>
 {% endblock %}
 
 {% block content %}
     <ul class="list-unstyled">
         {% recursetree categories %}
             <li class="well well-sm">
-                {{ category.name }} {{ category.amount }}
+                {{ node.name }} {{ node.amount }}
                 {% if not node.is_leaf_node %}
                     <ul class="children">
                         {{ children }}
@@ -20,4 +20,51 @@
             </li>
         {% endrecursetree %}
     </ul>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>##</th>
+                    <th>Category</th>
+                    <th>Parent's category</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                    {% recursetree categories %}
+                        <tr>
+
+                            <td>##</td> <td>{{ node.name }}</td> <td> Cat Parent</td> <td> {{ node.amount }}</td>
+                            {% if not node.is_leaf_node %}
+
+                                <td class="children">
+                                    {{ children }}
+                                </td>
+
+                            {% endif %}
+
+                        </tr>
+                    {% endrecursetree %}
+
+                <tr>
+                    <td>01</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <td>02</td>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <td>03</td>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+            </tbody>
+        </table>
 {% endblock %}

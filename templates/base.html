@@ -71,20 +71,44 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 {% block content %}{% endblock %}
             </div>
-            <div class="col-md-4">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Menu</div>
-                        <div class="panel-body">
-                            {% block sidebar %}Test +++++++++++++ {% endblock %}
-                        </div>
+            <div class="col-md-3">
+                {% block sidebar %}
+                <div class="row">
+                    <div class="list-group">
+                            <a class="list-group-item active" href="#"> Banque N°1 </a>
+                            <a class="list-group-item" href="#">Compte N°1</a>
+                            <a class="list-group-item" href="#">Compte N°2</a>
+                            <a class="list-group-item" href="#">Compte N°3</a>
+                            <a class="list-group-item" href="#">Compte N°3</a>
+                    </div>
+                    <div class="list-group">
+                            <a class="list-group-item active" href="#"> Banque N°2 </a>
+                            <a class="list-group-item" href="#">Compte N°1</a>
+                            <a class="list-group-item" href="#">Compte N°2</a>
+                            <a class="list-group-item" href="#">Compte N°3</a>
+                            <a class="list-group-item" href="#">Compte N°3</a>
+                    </div>
+
+                    <div class="list-group">
+                            <a class="list-group-item active" href="#"> Banque N°3 </a>
+                            <a class="list-group-item" href="#">Compte N°1</a>
+                            <a class="list-group-item" href="#">Compte N°2</a>
+                            <a class="list-group-item" href="#">Compte N°3</a>
+                            <a class="list-group-item" href="#">Compte N°3</a>
+                    </div>
+                    <div class="list-group">
+                            <a class="list-group-item active" href="#"> Budget (Changer couleur) </a>
+                            <a class="list-group-item" href="#">Mettre autre boîte ici</a>
                     </div>
                 </div>
+                {% endblock %}
             </div>
         </div>
     </div>
+
         <hr>
 
 
