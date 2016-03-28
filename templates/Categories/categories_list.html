@@ -8,19 +8,240 @@
 {% endblock %}
 
 {% block content %}
+
+        <!-- XLH -->
+
+        <div id="test_jstree1"  class="list-group">
+            <!-- in this example the tree is populated from inline HTML -->
+            <ul>
+              <li>Root node 1
+                <ul>
+                  <li id="child_node_1">Child node 1</li>
+                  <li><a href="#">Child node 2</a></li>
+                  <li>Child node 2</li>
+                </ul>
+              </li>
+              <li>Root node 2</li>
+            </ul>
+        </div>
+        <div class="list-group">
+            <div class="list-group">
+                <button>demo button</button>
+            </div>
+        </div>
+
+        <script>
+            $('#test_jstree1').jstree({
+                "core" : {
+                   "themes" : {
+                        //"variant" : "large"
+                        }
+                      },
+                  "checkbox" : {
+                         "keep_selected_style" : false},
+                        "plugins" : [ "wholerow", "checkbox" ]
+                });
+
+            $(function () {
+                // 6 create an instance when the DOM is ready
+                    $('#test_jstree1').jstree();
+                // 7 bind to events triggered on the tree
+                    $('#test_jstree1').on("changed.jstree", function (e, data) {
+                           console.log(data.selected);
+                                 });
+                // 8 interact with the tree - either way is OK
+                    $('button').on('click', function () {
+                    $('#test_jstree1').jstree(true).select_node('child_node_1');
+                    $('#test_jstree1').jstree('select_node', 'child_node_1');
+                    $.jstree.reference('#test_jstree1').select_node('child_node_1');
+                                });
+                    });
+        </script>
+
+        <div id="jstree2" class="list-group">
+           <ul>
+                {% recursetree categories %}
+                    <li>
+                        {{ node.name }}{{ node.amount }}
+                        {% if not node.is_leaf_node %}
+                            <ul>
+                                {{ children }}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endrecursetree %}
+            </ul>
+        </div>
+
+        <script>
+            $('#jstree2').jstree({
+                "core" : {
+                   "themes" : {
+                    "variant" : "large"
+                                    }
+                                        },
+                  "checkbox" : {
+                         "keep_selected_style" : false
+                            },
+                  plugins" : [ "wholerow", "checkbox" ]
+                });
+
+        </script>
+
+
+        <div id="mainTree" class="list-group">
+
+        </div>
+
+        <script>
+            $('#mainTree').jstree({
+                    'core': {
+
+                    'data': [
+                            { "id": "ajson1", "parent": "#", "text": "Simple root node" },
+                            { "id": "ajson2", "parent": "#", "text": "Root node 2" },
+                            { "id": "ajson3", "parent": "ajson2", "text": "Child 1" },
+                            { "id": "ajson4", "parent": "ajson2", "text": "Child 2" }
+                        ]
+                    }
+                });
+        </script>
+
+
+        <div id="using_json1">
+
+        </div>
+
+
+        <script>
+            var json1 =
+                {% recursetree categories %}
+                    {
+                        id: "{{ node.id }}",
+                        name: "{{ node.name }}",
+                        data: {{node.amount}},
+                        children: [{{ children }}]
+                    },
+                {% endrecursetree %} ]
+
+
+            $('#using_json1').jstree({
+                "core": {
+                "data" : [json1]
+                            }
+                    })
+        </script>
+
+        <div id="using_json2" class="list-group">
+                toto =
+                {% for genre,structure in categories|tree_info %}
+                    {% if structure.new_level %}
+                        [{
+                    {% else %}
+                        },{
+                    {% endif %}
+                        id: "{{ genre.id }}",
+                        children:
+                            {% if genre.is_leaf_node %}
+                                []
+                            {% endif %}
+                    {% for level in structure.closed_levels %}
+                            }]
+                    {% endfor %}
+                {% endfor %}
+        </div>
+
+        <script>
+
+            var json2 =
+            {% full_tree_for_model categories.Category as nodes %}
+
+
+                {% for genre,structure in nodes|tree_info %}
+                    {% if structure.new_level %}
+                        [{
+                    {% else %}
+                        },{
+                    {% endif %}
+                        id: "{{ genre.id }}",
+                        children:
+                            {% if genre.is_leaf_node %}
+                                []
+                            {% endif %}
+                    {% for level in structure.closed_levels %}
+                            }]
+                    {% endfor %}
+                {% endfor %}
+
+
+            $('#using_json2').jstree({ 'core' : {'data' :
+                [json2]
+                    }})
+        </script>
+
+        <!-- XLH -->
+
+ <!-- XLH -->
+    <div class="list-group">
     <ul class="list-unstyled">
         {% recursetree categories %}
             <li class="well well-sm">
-                {{ node.name }} {{ node.amount }}
+                <span>{{ node.name }}<span><span>{{ node.amount }}</span>
                 {% if not node.is_leaf_node %}
-                    <ul class="children">
+                    <ul>
                         {{ children }}
                     </ul>
                 {% endif %}
             </li>
         {% endrecursetree %}
     </ul>
+    </div>
 
+    <div class="list-group">
+    <ul class="list-group">
+        {% recursetree categories %}
+            <li class="list-group-item">
+                <div>{{ node.name }}</div><div>{{ node.amount }}</div>
+
+                {% if not node.is_leaf_node %}
+                    <ul class="list-group-item">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+
+        {% endrecursetree %}
+    </ul>
+    </div>
+
+    <div class="list-group">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>##</th>
+                <th>Category</th>
+                <th>Parent's category</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% recursetree categories %}
+            <tr>
+                <td></td>
+                <td>{{ node.name }}</td><td> {{ node.amount }}</td>
+                {% if not node.is_leaf_node %}
+                    <td></td>
+                    <td>
+                        {{ children }}
+                    </td>
+                {% endif %}
+            </tr>
+        {% endrecursetree %}
+        </tbody>
+    </table>
+    </div>
+
+    <div class="list-group">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -35,7 +256,7 @@
                     {% recursetree categories %}
                         <tr>
 
-                            <td>##</td> <td>{{ node.name }}</td> <td> Cat Parent</td> <td> {{ node.amount }}</td>
+                            <td>##</td> <td>{{ node.name }}</td> <td> {{node.parent}}</td> <td> {{ node.amount }}</td>
                             {% if not node.is_leaf_node %}
 
                                 <td class="children">
@@ -67,4 +288,6 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
 {% endblock %}
