@@ -1,4 +1,6 @@
 cmds.txt
 start_gunicorn.sh
 *.log
+*.csv
+
 

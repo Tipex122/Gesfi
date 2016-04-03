@@ -24,11 +24,6 @@
               <li>Root node 2</li>
             </ul>
         </div>
-        <div class="list-group">
-            <div class="list-group">
-                <button>demo button</button>
-            </div>
-        </div>
 
         <script>
             $('#test_jstree1').jstree({
@@ -42,24 +37,13 @@
                         "plugins" : [ "wholerow", "checkbox" ]
                 });
 
-            $(function () {
-                // 6 create an instance when the DOM is ready
-                    $('#test_jstree1').jstree();
-                // 7 bind to events triggered on the tree
-                    $('#test_jstree1').on("changed.jstree", function (e, data) {
-                           console.log(data.selected);
-                                 });
-                // 8 interact with the tree - either way is OK
-                    $('button').on('click', function () {
-                    $('#test_jstree1').jstree(true).select_node('child_node_1');
-                    $('#test_jstree1').jstree('select_node', 'child_node_1');
-                    $.jstree.reference('#test_jstree1').select_node('child_node_1');
-                                });
-                    });
+
         </script>
 
         <div id="jstree2" class="list-group">
-           <ul>
+
+            <!--
+            <ul>
                 {% recursetree categories %}
                     <li>
                         {{ node.name }}{{ node.amount }}
@@ -71,26 +55,189 @@
                     </li>
                 {% endrecursetree %}
             </ul>
+            -->
         </div>
 
         <script>
-            $('#jstree2').jstree({
-                "core" : {
-                   "themes" : {
-                    "variant" : "large"
-                                    }
-                                        },
-                  "checkbox" : {
-                         "keep_selected_style" : false
-                            },
-                  plugins" : [ "wholerow", "checkbox" ]
-                });
+
+        var nodedata = {
+            "data": {
+                {% recursetree categories %}
+                    "data": "{{ node.name }}",
+                    "id": "{{ node.id }}",
+                    "state":"open",
+                    "children": [{ {{ children }} }],
+                {% endrecursetree %}
+            }
+        };
+
+
+        $('#jstree2').jstree({
+            "data" :
+                {
+                  "model": "categories.category",
+                  "pk": 37,
+                  "fields": {
+                    "name": "D\u00e9penses",
+                    "description": "",
+                    "amount": "1750.00",
+                    "parent": null,
+                    "lft": 1,
+                    "rght": 8,
+                    "tree_id": 1,
+                    "level": 0
+                  }
+                },
+                {
+                  "model": "categories.category",
+                  "pk": 38,
+                  "fields": {
+                    "name": "Revenus",
+                    "description": "",
+                    "amount": "11300.00",
+                    "parent": null,
+                    "lft": 1,
+                    "rght": 14,
+                    "tree_id": 2,
+                    "level": 0
+                  }
+                },
+                {
+                  "model": "categories.category",
+                  "pk": 40,
+                  "fields": {
+                    "name": "Assurance",
+                    "description": "",
+                    "amount": "50.00",
+                    "parent": 37,
+                    "lft": 2,
+                    "rght": 3,
+                    "tree_id": 1,
+                    "level": 1
+                  }
+                },
+                {
+                  "model": "categories.category",
+                  "pk": 45,
+                  "fields": {
+                    "name": "V\u00e9hicules",
+                    "description": "",
+                    "amount": "500.00",
+                    "parent": 37,
+                    "lft": 6,
+                    "rght": 7,
+                    "tree_id": 1,
+                    "level": 1
+                  }
+                },
+                {
+                  "model": "categories.category",
+                  "pk": 46,
+                  "fields": {
+                    "name": "Salaires",
+                    "description": "",
+                    "amount": "10500.00",
+                    "parent": 38,
+                    "lft": 8,
+                    "rght": 13,
+                    "tree_id": 2,
+                    "level": 1
+                  }
+                },
+                {
+                  "model": "categories.category",
+                  "pk": 47,
+                  "fields": {
+                    "name": "Patricia",
+                    "description": "",
+                    "amount": "2500.00",
+                    "parent": 46,
+                    "lft": 9,
+                    "rght": 10,
+                    "tree_id": 2,
+                    "level": 2
+                  }
+                },
+                {
+                  "model": "categories.category",
+                  "pk": 48,
+                  "fields": {
+                    "name": "Xavier",
+                    "description": "",
+                    "amount": "8000.00",
+                    "parent": 46,
+                    "lft": 11,
+                    "rght": 12,
+                    "tree_id": 2,
+                    "level": 2
+                  }
+                },
+                {
+                  "model": "categories.category",
+                  "pk": 49,
+                  "fields": {
+                    "name": "Locations",
+                    "description": "",
+                    "amount": "800.00",
+                    "parent": 38,
+                    "lft": 2,
+                    "rght": 7,
+                    "tree_id": 2,
+                    "level": 1
+                  }
+                },
+                {
+                  "model": "categories.category",
+                  "pk": 50,
+                  "fields": {
+                    "name": "Appartementt N\u00b01",
+                    "description": "",
+                    "amount": "455.00",
+                    "parent": 49,
+                    "lft": 5,
+                    "rght": 6,
+                    "tree_id": 2,
+                    "level": 2
+                  }
+                },
+                {
+                  "model": "categories.category",
+                  "pk": 51,
+                  "fields": {
+                    "name": "Appartement N\u00b02",
+                    "description": "",
+                    "amount": "345.00",
+                    "parent": 49,
+                    "lft": 3,
+                    "rght": 4,
+                    "tree_id": 2,
+                    "level": 2
+                  }
+                },
+                {
+                  "model": "categories.category",
+                  "pk": 52,
+                  "fields": {
+                    "name": "Maison",
+                    "description": "",
+                    "amount": "1200.00",
+                    "parent": 37,
+                    "lft": 4,
+                    "rght": 5,
+                    "tree_id": 1,
+                    "level": 1
+                  }
+                }
+
+
+            });
 
         </script>
 
 
         <div id="mainTree" class="list-group">
-
+            <h2>Maintree</h2>
+            <hr>
         </div>
 
         <script>
@@ -109,12 +256,12 @@
 
 
         <div id="using_json1">
-
+            <h2>using_json1</h2>
         </div>
 
 
         <script>
-            var json1 =
+            var json1 = [
                 {% recursetree categories %}
                     {
                         id: "{{ node.id }}",
@@ -122,62 +269,232 @@
                         data: {{node.amount}},
                         children: [{{ children }}]
                     },
-                {% endrecursetree %} ]
+                {% endrecursetree %} ];
 
 
             $('#using_json1').jstree({
-                "core": {
-                "data" : [json1]
+               "core": {
+                "data" : json1
                             }
-                    })
+                    });
+
+//            $('#using_json1').jstree({
+//                    "data" : json1
+//             });
+
         </script>
 
         <div id="using_json2" class="list-group">
-                toto =
-                {% for genre,structure in categories|tree_info %}
-                    {% if structure.new_level %}
-                        [{
-                    {% else %}
-                        },{
-                    {% endif %}
-                        id: "{{ genre.id }}",
-                        children:
-                            {% if genre.is_leaf_node %}
-                                []
-                            {% endif %}
-                    {% for level in structure.closed_levels %}
-                            }]
-                    {% endfor %}
-                {% endfor %}
+
         </div>
 
         <script>
 
-            var json2 =
-            {% full_tree_for_model categories.Category as nodes %}
+            var data =
+            [
+                {
+                    "model": "categories.category",
+                    "pk": 37,
+                    "fields": {
+                        "name": "D\u00e9penses",
+                        "description": "",
+                        "amount": "1760.00",
+                        "parent": 53,
+                        "lft": 2,
+                        "rght": 9,
+                        "tree_id": 1,
+                        "level": 1
+                    }
+                },
+                {
+                    "model": "categories.category",
+                    "pk": 38,
+                    "fields": {
+                        "name": "Revenus",
+                        "description": "",
+                        "amount": "11351.00",
+                        "parent": 53,
+                        "lft": 10,
+                        "rght": 23,
+                        "tree_id": 1,
+                        "level": 1
+                    }
+                },
+                {
+                    "model": "categories.category",
+                    "pk": 40,
+                    "fields": {
+                        "name": "Assurance",
+                        "description": "",
+                        "amount": "50.00",
+                        "parent": 37,
+                        "lft": 3,
+                        "rght": 4,
+                        "tree_id": 1,
+                        "level": 2
+                    }
+                },
+                {
+                    "model": "categories.category",
+                    "pk": 45,
+                    "fields": {
+                        "name": "V\u00e9hicules",
+                        "description": "",
+                        "amount": "510.00",
+                        "parent": 37,
+                        "lft": 7,
+                        "rght": 8,
+                        "tree_id": 1,
+                        "level": 2
+                    }
+                },
+                {
+                    "model": "categories.category",
+                    "pk": 46,
+                    "fields": {
+                        "name": "Salaires",
+                        "description": "",
+                        "amount": "10550.00",
+                        "parent": 38,
+                        "lft": 17,
+                        "rght": 22,
+                        "tree_id": 1,
+                        "level": 2
+                    }
+                },
+                {
+                    "model": "categories.category",
+                    "pk": 47,
+                    "fields": {
+                        "name": "Patricia",
+                        "description": "",
+                        "amount": "2500.00",
+                        "parent": 46,
+                        "lft": 18,
+                        "rght": 19,
+                        "tree_id": 1,
+                        "level": 3
+                    }
+                },
+                {
+                    "model": "categories.category",
+                    "pk": 48,
+                    "fields": {
+                        "name": "Xavier",
+                        "description": "",
+                        "amount": "8050.00",
+                        "parent": 46,
+                        "lft": 20,
+                        "rght": 21,
+                        "tree_id": 1,
+                        "level": 3
+                    }
+                },
+                {
+                    "model": "categories.category",
+                    "pk": 49,
+                    "fields": {
+                        "name": "Locations",
+                        "description": "",
+                        "amount": "801.00",
+                        "parent": 38,
+                        "lft": 11,
+                        "rght": 16,
+                        "tree_id": 1,
+                        "level": 2
+                    }
+                },
+                {
+                    "model": "categories.category",
+                    "pk": 50,
+                    "fields": {
+                        "name": "Appartementt N\u00b01",
+                        "description": "",
+                        "amount": "456.00",
+                        "parent": 49,
+                        "lft": 14,
+                        "rght": 15,
+                        "tree_id": 1,
+                        "level": 3
+                    }
+                },
+                {
+                    "model": "categories.category",
+                    "pk": 51,
+                    "fields": {
+                        "name": "Appartement N\u00b02",
+                        "description": "",
+                        "amount": "345.00",
+                        "parent": 49,
+                        "lft": 12,
+                        "rght": 13,
+                        "tree_id": 1,
+                        "level": 3
+                    }
+                },
+                {
+                    "model": "categories.category",
+                    "pk": 52,
+                    "fields": {
+                        "name": "Maison",
+                        "description": "",
+                        "amount": "1200.00",
+                        "parent": 37,
+                        "lft": 5,
+                        "rght": 6,
+                        "tree_id": 1,
+                        "level": 2
+                    }
+                },
+                {
+                    "model": "categories.category",
+                    "pk": 53,
+                    "fields": {
+                        "name": "Budget",
+                        "description": "",
+                        "amount": "13111.00",
+                        "parent": null,
+                        "lft": 1,
+                        "rght": 24,
+                        "tree_id": 1,
+                        "level": 0
+                    }
+                }
+            ];
 
 
-                {% for genre,structure in nodes|tree_info %}
-                    {% if structure.new_level %}
-                        [{
-                    {% else %}
-                        },{
-                    {% endif %}
-                        id: "{{ genre.id }}",
-                        children:
-                            {% if genre.is_leaf_node %}
-                                []
-                            {% endif %}
-                    {% for level in structure.closed_levels %}
-                            }]
-                    {% endfor %}
-                {% endfor %}
-
-
-            $('#using_json2').jstree({ 'core' : {'data' :
-                [json2]
-                    }})
+            $('#using_json2').jstree({
+                plugins: ['themes', 'json_data', 'checkbox',"types"],
+                    json_data: {data: data},
+                    themes: {
+                            theme: 'default'
+                     },
+                    checkbox: {
+                            real_checkboxes: true,
+                            two_state: true
+                    },
+                    types:{
+                            "types":{
+                                "disabled" : {
+                                    "check_node" : false,
+                                    "uncheck_node" : false
+                                   } ,
+                            "directory" : {
+                                "check_node" : false,
+                                "uncheck_node" : false
+                            }
+                        }
+                }
+             });
         </script>
+
+
+        <div id="using_json3">
+            <h2>using_json2</h2>
+        </div>
+
+
+
 
         <!-- XLH -->
 
