@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load crispy_forms_tags %}
+
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -46,28 +48,39 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#">GesFi</a>
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">GesFi</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+
+
+                    <!-- Voir Marcador pour login vs logout -->
+                    {% if user.is_authenticated %}
+
+                        <p class="navbar-brand navbar-right">Hello {{ user.username }} <small>(<a href="{% url 'django.contrib.auth.views.logout' %}"> Log out </a>)</small></p>
+
+                    <!--
+                    <form class="navbar-form navbar-right" role="form">
+                        <div class="form-group">
+                            <input type="text" placeholder="Email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="Password" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-success">Sign in</button>
+                    </form>
+                    -->
+                    {%endif%}
+
+                </div><!--/.navbar-collapse -->
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-              <form class="navbar-form navbar-right" role="form">
-                <div class="form-group">
-                  <input type="text" placeholder="Email" class="form-control">
-                </div>
-                <div class="form-group">
-                  <input type="password" placeholder="Password" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-success">Sign in</button>
-              </form>
-            </div><!--/.navbar-collapse -->
-          </div>
         </nav>
 
         <!-- Main jumbotron for a primary marketing message or call to action
@@ -79,55 +92,25 @@
           </div>
         </div> -->
 
+    {% if user.is_authenticated %}
+
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
                     {% block heading %}{% endblock %}
-
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-9">
-
-                    {% block content %}{% endblock %}
-
+                    {% block content %}  {% endblock %}
                 </div>
-
 
                 <div class="col-md-3">
-                    {% block sidebar %}
-                    <div class="row">
-                        <div class="list-group">
-                                <a class="list-group-item active" href="#"> Banque N°1 </a>
-                                <a class="list-group-item" href="#">Compte N°1</a>
-                                <a class="list-group-item" href="#">Compte N°2</a>
-                                <a class="list-group-item" href="#">Compte N°3</a>
-                                <a class="list-group-item" href="#">Compte N°3</a>
-                        </div>
-                        <div class="list-group">
-                                <a class="list-group-item active" href="#"> Banque N°2 </a>
-                                <a class="list-group-item" href="#">Compte N°1</a>
-                                <a class="list-group-item" href="#">Compte N°2</a>
-                                <a class="list-group-item" href="#">Compte N°3</a>
-                                <a class="list-group-item" href="#">Compte N°3</a>
-                        </div>
-
-                        <div class="list-group">
-                                <a class="list-group-item active" href="#"> Banque N°3 </a>
-                                <a class="list-group-item" href="#">Compte N°1</a>
-                                <a class="list-group-item" href="#">Compte N°2</a>
-                                <a class="list-group-item" href="#">Compte N°3</a>
-                                <a class="list-group-item" href="#">Compte N°3</a>
-                        </div>
-                        <div class="list-group">
-                                <a class="list-group-item active" href="#"> Budget (Changer couleur) </a>
-                                <a class="list-group-item" href="#">Mettre autre boîte ici</a>
-                        </div>
-                    </div>
-                    {% endblock %}
+                    {% block sidebar %} {% endblock %}
                 </div>
             </div>
-        </div>
+        </div> <!-- /container -->
 
             <hr>
 
@@ -151,28 +134,86 @@
             </div>
           </div>
                     -->
+
           <hr>
 
-          <footer>
-            <p>&copy; Company 2015</p>
-          </footer>
-        </div> <!-- /container -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.11.2.min.js" %}"><\/script>')</script>
+        {% else %}
+            <div class="container">
+                <div class="jumbotron">
+                    <h1>Hello, world!</h1>
+                    <p>Pour accéder à vos comptes, vous devez d'abord vous connecter....</p>
 
-        <script src="{% static "js/vendor/bootstrap.min.js" %}"></script>
+                    <!-- <p><a class="btn btn-primary btn-lg" href="{% url 'gesfi_login' %}" role="button">Par ici &raquo;</a></p> -->
 
-        <script src="{% static "js/main.js" %}"></script>
+                    <div class="row">
+                        <div class="col-md-8">
 
+                            <form method="post" action="{% url "django.contrib.auth.views.login" %}">
+                                {% csrf_token %}
+            <!--
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">{{ form.username.label_tag }}</span>
+                                        <input type="text" class="form-control" placeholder="Toto" aria-describedby="basic-addon1">
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">{{ form.password.label_tag }}</span>
+                                        <input type="password" placeholder="Password" class="form-control">
+                                    </div>
+                                    <input class="btn btn-primary btn-lg" type="submit" value="Login" />
+                                    <input type="hidden" name="next" value="{{ next }}" />
+            -->
+                                <div class="panel panel-default">
+                                  <!-- Default panel contents -->
+                                    <!--<div class="panel-heading">{{ form.username.label_tag }}</div>-->
+                                        <table class="table">
+                                            <tr><td>{{ form.username.label_tag }}</td></tr>
+                                            <tr>
+                                                <!-- <td >{{ form.username.label_tag }} </td> -->
+                                                <td> {{ form.username }}</td>
+                                            </tr>
+                                            <tr><td>{{ form.password.label_tag }}</td></tr>
+                                            <tr>
+                                                <!--<td>{{ form.password.label_tag }} </td>-->
+                                                <td> {{ form.password }}</td>
+                                            </tr>
+                                        </table>
+                                </div>
+                                <input class="btn btn-primary btn-lg" type="submit" value="Login" />
+                                <input type="hidden" name="next" value="{{ next }}" />
+                            </form>
+                        </div>
+                     </div>
+                </div> <!-- /jumbotron -->
+            </div> <!-- /container -->
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
-        </script>
+        {% endif %}
+
     </body>
+
+
+    <hr>
+
+    <div class="container">
+        <footer>
+            <p>&copy; Company 2015</p>
+        </footer>
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.11.2.min.js" %}"><\/script>')</script>
+
+    <script src="{% static "js/vendor/bootstrap.min.js" %}"></script>
+
+    <script src="{% static "js/main.js" %}"></script>
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+    </script>
 </html>

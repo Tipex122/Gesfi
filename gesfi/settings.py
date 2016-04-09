@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'gunicorn',
     'mptt',
     'django_mptt_admin',
+    'crispy_forms',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -131,3 +132,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+#TODO: Voir login vs logout sur Marcador
+
+LOGIN_URL = 'gesfi_login'
+LOGOUT_URL = 'gesfi_logout'
+LOGIN_REDIRECT_URL = 'gesfi_login'
+#LOGIN_REDIRECT_URL = '/'
+
+#LOGIN_REDIRECT_URL = '/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

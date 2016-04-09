@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Transactions du compte : {{ transactions.account.name_of_account }}{% endblock %}
+
+{% block heading %}
+    <h2>Transactions du compte: {{ transactions.account.name_of_account }}</h2>
+{% endblock %}
+
+{% block content %}
+    <div class="list-group">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Currency</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{transaction.date_of_transaction}}</td>
+                    <td>{{transaction.type_of_transaction}}</td>
+                    <td>{{transaction.name_of_transaction}}</td>
+                    <td>{{transaction.amount_of_transaction}}</td>
+                    <td>{{transaction.currency_of_transaction}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block sidebar %}
+    <div class="row">
+        <div class="list-group">
+                <a class="list-group-item active" href="#"> Banque N°1 </a>
+                <a class="list-group-item" href="#">Compte N°1</a>
+                <a class="list-group-item" href="#">Compte N°2</a>
+                <a class="list-group-item" href="#">Compte N°3</a>
+                <a class="list-group-item" href="#">Compte N°3</a>
+        </div>
+        <div class="list-group">
+                <a class="list-group-item active" href="#"> Banque N°2 </a>
+                <a class="list-group-item" href="#">Compte N°1</a>
+                <a class="list-group-item" href="#">Compte N°2</a>
+                <a class="list-group-item" href="#">Compte N°3</a>
+                <a class="list-group-item" href="#">Compte N°3</a>
+        </div>
+
+        <div class="list-group">
+                <a class="list-group-item active" href="#"> Banque N°3 </a>
+                <a class="list-group-item" href="#">Compte N°1</a>
+                <a class="list-group-item" href="#">Compte N°2</a>
+                <a class="list-group-item" href="#">Compte N°3</a>
+                <a class="list-group-item" href="#">Compte N°3</a>
+        </div>
+        <div class="list-group">
+                <a class="list-group-item active" href="#"> Budget (Changer couleur) </a>
+                <a class="list-group-item" href="#">Mettre autre boîte ici</a>
+        </div>
+    </div>
+{% endblock %}
+
+

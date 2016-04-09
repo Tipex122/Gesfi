@@ -14,10 +14,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
+from django.contrib import admin, auth
+from django.core.urlresolvers import reverse_lazy
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('categories.urls')),
     url(r'^', include('banksandaccounts.urls')),
+#    url(r'^', include('managegesfi.urls')),
+
+    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}, name='gesfi_login'),
+#    url(r'^login/$', 'django.contrib.auth.views.login'),
+
+#    url(r'^logout/$', 'django.contrib.auth.views.logout',
+#        {'next_page': reverse_lazy('gesfi_login')}, name='gesfi_logout'),
+
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
+
 ]
