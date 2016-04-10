@@ -8,7 +8,7 @@ import csv
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # CSV_FILEPATHNAME = BASE_DIR + '/csv/compta.csv'
-CSV_FILEPATHNAME = BASE_DIR + '/csv/00056149140.csv'
+CSV_FILEPATHNAME = BASE_DIR + '/csv/00056149140-1.csv'
 
 # TODO: récupérer le nom du fichier qui est aussi le numéro du compte
 # COMPTE = os.path.basename(__file__)
@@ -29,9 +29,9 @@ print('**************************************')
 ###sys.path.append(your_djangoproject_home)
 sys.path.append(BASE_DIR)
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'gesfi.settings'
 
-from gesfi.models import Transactions, Accounts
+from banksandaccounts.models import Transactions, Accounts
 
 # from django.core.management import setup_environ
 # import settings

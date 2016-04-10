@@ -24,11 +24,12 @@ urlpatterns = [
 #    url(r'^', include('managegesfi.urls')),
 
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}, name='gesfi_login'),
+#    url(r'^login/$', {'template_name': 'login.html',}, name='login_view'),
 #    url(r'^login/$', 'django.contrib.auth.views.login'),
 
 #    url(r'^logout/$', 'django.contrib.auth.views.logout',
 #        {'next_page': reverse_lazy('gesfi_login')}, name='gesfi_logout'),
 
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-
+#    url(r'^logout/$', auth.logout, {'next_page': '/'}),
 ]

@@ -31,14 +31,17 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'banksandaccounts.apps.BanksandaccountsConfig',
+    'categories.apps.CategoriesConfig',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'categories',
-    'banksandaccounts',
+#    'categories',
+#    'banksandaccounts',
     'gunicorn',
     'mptt',
     'django_mptt_admin',
