@@ -4,4 +4,5 @@ start_gunicorn.sh
 *.csv
 *.sqlite3
 .idea/*
+*.sqlite3
 
