@@ -21,7 +21,7 @@
             <tbody>
                 {% for transaction in transactions %}
                 <tr>
-                    <td>{{transaction.date_of_transaction}}</td>
+                    <td>{{transaction.date_of_transaction|date:" Y/m/d"}}</td>
                     <td>{{transaction.type_of_transaction}}</td>
                     <td>{{transaction.name_of_transaction}}</td>
                     <td>{{transaction.amount_of_transaction}}</td>

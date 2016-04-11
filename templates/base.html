@@ -142,45 +142,16 @@
                 <div class="jumbotron">
                     <h1>Hello, world!</h1>
                     <p>Pour accéder à vos comptes, vous devez d'abord vous connecter....</p>
-
                     <!-- <p><a class="btn btn-primary btn-lg" href="{% url 'gesfi_login' %}" role="button">Par ici &raquo;</a></p> -->
-
                     <div class="row">
                         <div class="col-md-8">
-
-                            <form method="post" action="{% url "django.contrib.auth.views.login" %}">
+                            <form action="{% url "gesfi_login" %}" method="post" accept-charset="utf-8">
+                                {{ form|crispy }}
                                 {% csrf_token %}
-            <!--
-                                    <div class="input-group">
-                                        <span class="input-group-addon" id="basic-addon1">{{ form.username.label_tag }}</span>
-                                        <input type="text" class="form-control" placeholder="Toto" aria-describedby="basic-addon1">
-                                    </div>
-                                    <div class="input-group">
-                                        <span class="input-group-addon" id="basic-addon1">{{ form.password.label_tag }}</span>
-                                        <input type="password" placeholder="Password" class="form-control">
-                                    </div>
-                                    <input class="btn btn-primary btn-lg" type="submit" value="Login" />
-                                    <input type="hidden" name="next" value="{{ next }}" />
-            -->
-                                <div class="panel panel-default">
-                                  <!-- Default panel contents -->
-                                    <!--<div class="panel-heading">{{ form.username.label_tag }}</div>-->
-                                        <table class="table">
-                                            <tr><td>{{ form.username.label_tag }}</td></tr>
-                                            <tr>
-                                                <!-- <td >{{ form.username.label_tag }} </td> -->
-                                                <td> {{ form.username }}</td>
-                                            </tr>
-                                            <tr><td>{{ form.password.label_tag }}</td></tr>
-                                            <tr>
-                                                <!--<td>{{ form.password.label_tag }} </td>-->
-                                                <td> {{ form.password }}</td>
-                                            </tr>
-                                        </table>
-                                </div>
-                                <input class="btn btn-primary btn-lg" type="submit" value="Login" />
-                                <input type="hidden" name="next" value="{{ next }}" />
+                                <input type="hidden" name="next" value="{{ next }}">
+                                <input class="btn btn-default" type="submit" value="Login">
                             </form>
+
                         </div>
                      </div>
                 </div> <!-- /jumbotron -->
@@ -190,12 +161,11 @@
 
     </body>
 
-
     <hr>
 
     <div class="container">
         <footer>
-            <p>&copy; Company 2015</p>
+            <p>&copy; GesFi Company 2016</p>
         </footer>
     </div>
 

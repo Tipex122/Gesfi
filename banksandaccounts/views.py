@@ -13,5 +13,5 @@ def transactions_list(request):
     transactions = Transactions.objects.all()
     accounts = Accounts.objects.all()
     banks = Banks.objects.all()
-    context = {'transactions': transactions, 'accounts': accounts, 'banks': banks }
+    context = {'transactions': transactions, 'accounts': accounts, 'banks': banks}
     return render(request, 'BanksAndAccounts/transactions_list.html', context)

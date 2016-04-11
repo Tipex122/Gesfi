@@ -15,8 +15,8 @@ class Banks(models.Model):
         return "%s" %(self.name_of_bank)
 
     class Meta:
-        verbose_name = 'bank'
-        verbose_name_plural = 'banks'
+        verbose_name = 'banque'
+        verbose_name_plural = 'banques'
         ordering = ['name_of_bank']
 
 
@@ -29,6 +29,8 @@ class Accounts(models.Model):
         return "%s" %(self.name_of_account)
 
     class Meta:
+        verbose_name = 'compte banquaire'
+        verbose_name_plural = 'comptes bancaires'
         ordering = ['name_of_account']
 
 
@@ -46,4 +48,6 @@ class Transactions(models.Model):
         return "[%s] -- %s ===>  %s" % (self.date_of_transaction, self.name_of_transaction, self.amount_of_transaction, )
 
     class Meta:
+        verbose_name = 'transaction'
+        verbose_name_plural = 'transactions'
         ordering = ['date_of_transaction']

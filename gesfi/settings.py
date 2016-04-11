@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 #    'categories',
 #    'banksandaccounts',
+    'import_export',
     'gunicorn',
     'mptt',
     'django_mptt_admin',
@@ -129,6 +130,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static')
 
 STATIC_URL = '/static/'
 

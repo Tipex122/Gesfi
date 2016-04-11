@@ -16,20 +16,23 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin, auth
 from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('categories.urls')),
     url(r'^', include('banksandaccounts.urls')),
-#    url(r'^', include('managegesfi.urls')),
+    url(r'^', include('managegesfi.urls')),
 
-    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}, name='gesfi_login'),
-#    url(r'^login/$', {'template_name': 'login.html',}, name='login_view'),
-#    url(r'^login/$', 'django.contrib.auth.views.login'),
+    #Deprecated
+    #url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}, name='gesfi_login'),
 
-#    url(r'^logout/$', 'django.contrib.auth.views.logout',
-#        {'next_page': reverse_lazy('gesfi_login')}, name='gesfi_logout'),
+#Good sans pointer sur managegesfi.urls
+    #    url(r'^login/$', auth_views.login, name='gesfi_login'),
 
-    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-#    url(r'^logout/$', auth.logout, {'next_page': '/'}),
+    #Deprecated
+    #url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
+
+#Good sans pointer sur managegesfi.urls
+    # url(r'^logout/$', auth_views.logout, {'next_page': '/'}),
 ]

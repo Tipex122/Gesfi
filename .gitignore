@@ -2,5 +2,6 @@ cmds.txt
 start_gunicorn.sh
 *.log
 *.csv
+*.sqlite3
 .idea/*
 
