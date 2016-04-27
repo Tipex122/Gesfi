@@ -16,17 +16,19 @@
                     <th>Name</th>
                     <th>Amount</th>
                     <th>Currency</th>
+                    <th>N° Account</th>
                 </tr>
             </thead>
             <tbody>
                 {% for transaction in transactions %}
-                <tr>
-                    <td>{{transaction.date_of_transaction|date:" Y/m/d"}}</td>
-                    <td>{{transaction.type_of_transaction}}</td>
-                    <td>{{transaction.name_of_transaction}}</td>
-                    <td>{{transaction.amount_of_transaction}}</td>
-                    <td>{{transaction.currency_of_transaction}}</td>
-                </tr>
+                    <tr>
+                        <td>{{ transaction.date_of_transaction|date:" Y/m/d" }}</td>
+                        <td>{{ transaction.type_of_transaction }}</td>
+                        <td>{{ transaction.name_of_transaction }}</td>
+                        <td>{{ transaction.amount_of_transaction | rjust:"10" }}</td>
+                        <td>{{ transaction.currency_of_transaction }}</td>
+                        <td>{{ transaction.account.num_of_account }}</td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -34,28 +36,18 @@
 {% endblock %}
 {% block sidebar %}
     <div class="row">
-        <div class="list-group">
-                <a class="list-group-item active" href="#"> Banque N°1 </a>
-                <a class="list-group-item" href="#">Compte N°1</a>
-                <a class="list-group-item" href="#">Compte N°2</a>
-                <a class="list-group-item" href="#">Compte N°3</a>
-                <a class="list-group-item" href="#">Compte N°3</a>
-        </div>
-        <div class="list-group">
-                <a class="list-group-item active" href="#"> Banque N°2 </a>
-                <a class="list-group-item" href="#">Compte N°1</a>
-                <a class="list-group-item" href="#">Compte N°2</a>
-                <a class="list-group-item" href="#">Compte N°3</a>
-                <a class="list-group-item" href="#">Compte N°3</a>
-        </div>
+        {% for bank in banks %}
+            <div class="list-group">
+                <a class="list-group-item active" href="#"> {{bank}} </a>
+                {% for account in accounts %}
+                    {% if account.bank = bank %}
+                        <a class="list-group-item" href={% url 'transactions_list' %}>{{account}} <br> {{account.num_of_account}}</a>
+                        <a class="list-group-item" href="#">Test autre compte (PEL) <br> 0123456789 </a>
 
-        <div class="list-group">
-                <a class="list-group-item active" href="#"> Banque N°3 </a>
-                <a class="list-group-item" href="#">Compte N°1</a>
-                <a class="list-group-item" href="#">Compte N°2</a>
-                <a class="list-group-item" href="#">Compte N°3</a>
-                <a class="list-group-item" href="#">Compte N°3</a>
-        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
         <div class="list-group">
                 <a class="list-group-item active" href="#"> Budget (Changer couleur) </a>
                 <a class="list-group-item" href="#">Mettre autre boîte ici</a>

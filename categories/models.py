@@ -3,6 +3,7 @@ from decimal import Decimal
 from mptt.models import MPTTModel, TreeForeignKey
 
 
+
 # Create your models here.
 
 class Category(MPTTModel):

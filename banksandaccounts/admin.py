@@ -1,12 +1,20 @@
 from django.contrib import admin
 
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+
 from .models import Banks
 from .models import Accounts
 from .models import Transactions
 
 # Register your models here.
 
-class TransactionsAdmin(admin.ModelAdmin):
+class TransactionsResource(resources.ModelResource):
+    class Meta:
+        model = Transactions
+
+
+class TransactionsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 #    fields = ['name', 'parent_name', 'budget', 'date_of_budget']
     fieldsets = [
         (None, {'fields': ['date_of_transaction','name_of_transaction', 'type_of_transaction']}),

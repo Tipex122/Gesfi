@@ -257,35 +257,21 @@
 
         <div id="using_json1">
             <h2>using_json1</h2>
+            <!-- <h1>{{jsondata}}</h1> -->
         </div>
 
 
         <script>
-            var json1 = [
-                {% recursetree categories %}
-                    {
-                        id: "{{ node.id }}",
-                        name: "{{ node.name }}",
-                        data: {{node.amount}},
-                        children: [{{ children }}]
-                    },
-                {% endrecursetree %} ];
-
-
             $('#using_json1').jstree({
-               "core": {
-                "data" : json1
-                            }
-                    });
-
-//            $('#using_json1').jstree({
-//                    "data" : json1
-//             });
+                'core': {
+                    'data' : {{jsondata}}
+                }
+             });
 
         </script>
 
-        <div id="using_json2" class="list-group">
-
+        <div id="using_json2">
+             <h2>using_json2</h2>
         </div>
 
         <script>
@@ -490,7 +476,7 @@
 
 
         <div id="using_json3">
-            <h2>using_json2</h2>
+            <h2>using_json3</h2>
         </div>
 
 

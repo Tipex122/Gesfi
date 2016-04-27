@@ -10,7 +10,8 @@ from .models import Category
 
 def category_list(request):
     categories = Category.objects.all()
-    context = {'categories': categories}
+    jsondata = serializers.serialize('json', categories)
+    context = {'categories': categories, 'jsondata': jsondata}
     return render(request, 'Categories/categories_list.html', context)
 
 def category_json(request):
