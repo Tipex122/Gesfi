@@ -40,7 +40,7 @@
             <div class="list-group">
                 <a class="list-group-item active" href="#"> {{bank}} </a>
                 {% for account in accounts %}
-                    {% if account.bank = bank %}
+                    {% if account.bank == bank %}
                         <a class="list-group-item" href={% url 'transactions_list' %}>{{account}} <br> {{account.num_of_account}}</a>
                         <a class="list-group-item" href="#">Test autre compte (PEL) <br> 0123456789 </a>
 
