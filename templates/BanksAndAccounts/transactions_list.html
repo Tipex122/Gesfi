@@ -6,6 +6,7 @@
     <h2>Transactions du compte: {{ transactions.account.name_of_account }}</h2>
 {% endblock %}
 
+
 {% block content %}
     <div class="list-group">
         <table class="table table-striped">
@@ -33,17 +34,54 @@
             </tbody>
         </table>
     </div>
+
+    <!-- La pagination pourrait être mieux placée ... à creuser ultérieurement -->
+    <!-- Voir aussi site https://simpleisbetterthancomplex.com/tutorial/2016/08/03/how-to-paginate-with-django.html  pour tenir compte des ordres de tri -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if transactions.has_previous %}
+                <a href="?page={{ transactions.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ transactions.number }} sur {{ transactions.paginator.num_pages }}.
+            </span>
+
+            {% if transactions.has_next %}
+                <a href="?page={{ transactions.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+
 {% endblock %}
+
 {% block sidebar %}
+
+    <!-- La pagination pourrait être mieux placée ... à creuser ultérieurement -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if transactions.has_previous %}
+                <a href="?page={{ transactions.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ transactions.number }} sur {{ transactions.paginator.num_pages }}.
+            </span>
+
+            {% if transactions.has_next %}
+                <a href="?page={{ transactions.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+
     <div class="row">
         {% for bank in banks %}
             <div class="list-group">
                 <a class="list-group-item active" href="#"> {{bank}} </a>
                 {% for account in accounts %}
                     {% if account.bank == bank %}
-                        <a class="list-group-item" href={% url 'transactions_list' %}>{{account}} <br> {{account.num_of_account}}</a>
+                        <a class="list-group-item" href={% url "transactions_list" %}>{{account}} <br> {{account.num_of_account}}</a>
                         <a class="list-group-item" href="#">Test autre compte (PEL) <br> 0123456789 </a>
-
                     {% endif %}
                 {% endfor %}
             </div>
@@ -53,6 +91,7 @@
                 <a class="list-group-item" href="#">Mettre autre boîte ici</a>
         </div>
     </div>
+
 {% endblock %}
 
 
