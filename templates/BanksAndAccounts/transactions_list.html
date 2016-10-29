@@ -1,9 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}Transactions du compte : {{ transactions.account.name_of_account }}{% endblock %}
+{% block title %}
+    <!-- Ne fonctionne pas -->
+    Transactions du compte : {{account.id}}
+{% endblock %}
 
 {% block heading %}
-    <h2>Transactions du compte: {{ transactions.account.name_of_account }}</h2>
+<!-- A améliorer car à chaque fois cela liste l'ensemble des comptes -->
+    <h2>Transactions du compte:
+        {% for bank in banks %}
+            {% for account in accounts %}
+                {% if account.bank == bank %}
+                    <h3>{{account.bank}} -- {{account}} </h3>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        </h2>
 {% endblock %}
 
 
@@ -25,7 +37,7 @@
                     <tr>
                         <td>{{ transaction.date_of_transaction|date:" Y/m/d" }}</td>
                         <td>{{ transaction.type_of_transaction }}</td>
-                        <td>{{ transaction.name_of_transaction }}</td>
+                        <td><a href="{{transaction.id}}/"> {{ transaction.name_of_transaction }} </a> </td>
                         <td>{{ transaction.amount_of_transaction | rjust:"10" }}</td>
                         <td>{{ transaction.currency_of_transaction }}</td>
                         <td>{{ transaction.account.num_of_account }}</td>
@@ -103,7 +115,9 @@
                 <a class="list-group-item active" href="#"> {{bank}} </a>
                 {% for account in accounts %}
                     {% if account.bank == bank %}
-                        <a class="list-group-item" href={% url "transactions_list" %}>{{account}} <br> {{account.num_of_account}}</a>
+                        <!-- <a class="list-group-item" href={% url "transactions_list" %}>{{account}} <br> {{account.num_of_account}}</a> -->
+
+                        <a class="list-group-item" href="/results/{{account.id}}">{{account}} <br> {{account.num_of_account}}</a>
                         <a class="list-group-item" href="#">Test autre compte (PEL) <br> 0123456789 </a>
                     {% endif %}
                 {% endfor %}
