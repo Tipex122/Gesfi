@@ -63,7 +63,7 @@
 
                     <!-- Voir Marcador pour login vs logout -->
                     {% if user.is_authenticated %}
-
+                        <!-- Reversing by dotted path is deprecated (django.contrib.auth.views.logout). url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app) -->
                         <p class="navbar-brand navbar-right">Hello {{ user.username }} <small>(<a href="{% url 'django.contrib.auth.views.logout' %}"> Log out </a>)</small></p>
 
                     <!--
