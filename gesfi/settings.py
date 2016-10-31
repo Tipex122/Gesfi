@@ -23,9 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'yrl93b*+&)5o5eg41oir2@@#%2hisq=)$9gzet9u^xr@y4z9=0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+#DEBUG = True
 
-ALLOWED_HOSTS = []
+#XLH :TODO: verifier si c'est bien ca qu'il faut faire
+ALLOWED_HOSTS = ['127.0.0.1','gesfi', 'gesfi.com', '192.168.3.13']
 
 
 # Application definition
@@ -130,17 +132,29 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static/')
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static')
+##STATIC_ROOT = '/home/pi/Prog/django/gesfi/collect_static'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static')
 
-#STATIC_URL = '/collect_static/'
-STATIC_URL = os.path.join(BASE_DIR, 'collect_static/')
-#STATIC_URL = os.path.join(BASE_DIR, 'static/')
+##XLH STATIC_URL = '/collect_static/'
+STATIC_URL = '/static/'
+#STATIC_URL = os.path.join(BASE_DIR, 'collect_static/')
+#STATIC_URL = os.path.join(BASE_DIR, 'collect_static')
+
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'collect_static/'),
+#    '/var/www/static/',
+#]
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static/'),  #utilisé en mode "DEBUG"
-    '/var/www/html/static',
+	os.path.join(BASE_DIR, "static"),
+	"/var/www/static/",
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
+ 
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
 #TODO: Voir login vs logout sur Marcador
 
