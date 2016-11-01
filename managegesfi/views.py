@@ -36,7 +36,10 @@ def search(request):
                                                       Q(num_of_account__icontains=querystring))
 
         #results['transactions'] = Transactions.objects.filter(name_of_transaction__icontains=querystring, parent=None)
+        #TODO: chercher la différence entre une recherche "Q()" et la notion de parent
+        #TODO: chercher sur une date ... hé hé
         results['transactions'] = Transactions.objects.filter(Q(name_of_transaction__icontains=querystring) |
+                                                            Q(date_of_transaction__icontains=querystring) |
                                                             Q(type_of_transaction__icontains=querystring) |
                                                                 Q(amount_of_transaction__icontains=querystring) |
                                                               Q(type_of_transaction__icontains=querystring))
