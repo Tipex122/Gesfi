@@ -1,0 +1,33 @@
+{% load i18n %}
+
+<h2>{% trans 'Transactions' %}</h2>
+{% if results %}
+
+    <div class="list-group">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{% trans 'Parent name' %}</th>
+                    <th>{% trans 'Name' %}</th>
+                    <th>{% trans 'Description' %}</th>
+                    <th>{% trans 'Amount' %}</th>
+                    <th>{% trans 'Currency'%} </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categorie in results %}
+                    <tr>
+                        <td>{{ categorie.parent.name }}</td>
+                        <td>{{ categorie.name }}</td>
+                        <td>{{ categorie.description }}</td>
+                        <td>{{ categorie.amount }}</td>
+                        <td>{{ categorie.currency }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% else %}
+    <h4 class="no-result">{% trans 'No category found' %} :(</h4>
+{% endif %}
