@@ -33,10 +33,11 @@ def transactions_list(request):
 
 @login_required
 def transaction_detail(request, transaction_id):
-    transaction = Transactions.objects.filter(id=transaction_id)
+    transaction = Transactions.objects.get(id=transaction_id)
     #bank = transaction.account.bank
     #account = transaction.account
     #context = {'bank':bank, 'account':account, 'transaction': transaction}
+    #TODO: remonter la référence du compte (et son nom) ... voir la banque (via account_id)
     context = {'transaction': transaction}
     return render(request, 'BanksAndAccounts/transaction_detail.html', context)
     #return HttpResponse("You're looking at transaction: ==> %s." % transaction_id)

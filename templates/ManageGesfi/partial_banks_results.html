@@ -1,6 +1,5 @@
 {% load i18n %}
 
-<h2>{% trans 'Banks' %}</h2>
 
 {% if results %}
 <div class="list-group">
@@ -22,5 +21,5 @@
     </table>
 </div>
 {% else %}
-<h4 class="no-result">{% trans 'No bank found' %} :(</h4>
+    <h4 class="no-result">{% trans 'No bank found' %} :(</h4>
 {% endif %}
