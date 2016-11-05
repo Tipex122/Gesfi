@@ -21,6 +21,7 @@
 
 {% block content %}
     <div class="list-group">
+        <h3> {{banks.name_of_bank}} - {{name_of_account}} - Total amount of the account : {{account_total}}</h3>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -117,7 +118,7 @@
                     {% if account.bank == bank %}
                         <!-- <a class="list-group-item" href={% url "transactions_list" %}>{{account}} <br> {{account.num_of_account}}</a> -->
 
-                        <a class="list-group-item" href="/account/{{account.id}}">{{account}} <br> {{account.num_of_account}}</a>
+                        <a class="list-group-item" href="/account/{{account.id}}">{{account}} <br> {{account.num_of_account}} <br> Total (a revoir !): {{account_total}}</a>
                         <a class="list-group-item" href="#">Test autre compte (PEL) <br> 0123456789 </a>
                     {% endif %}
                 {% endfor %}

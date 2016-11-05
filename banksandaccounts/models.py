@@ -38,7 +38,7 @@ class Transactions(models.Model):
     date_of_transaction = models.DateField('Date de la transaction', default = datetime.datetime.now)
     type_of_transaction = models.CharField('Type de transaction', max_length=64)
     name_of_transaction = models.CharField('Fournisseur', max_length=256)
-    amount_of_transaction = models.DecimalField(max_digits = 12, decimal_places = 2, default = Decimal('0.00'), verbose_name = "Montant de la transaction ", blank=True, null=True)
+    amount_of_transaction = models.DecimalField(max_digits = 12, decimal_places = 2, default = 0, verbose_name = "Montant de la transaction ", blank=True, null=True)
     currency_of_transaction = models.CharField('Devise',max_length=3)
     creation_date = models.DateField('Date de saisie', default = datetime.datetime.now)
 

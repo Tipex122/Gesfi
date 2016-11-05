@@ -13,6 +13,11 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def transactions_list(request):
     transaction_list = Transactions.objects.all()
+    account_total = 0
+    for transac_account in transaction_list:
+        account_total += transac_account.amount_of_transaction
+
+    #account_total = Transactions.objects.all().aggregate(sum('amount_of_transaction'))
     #Page de 25 lignes
     paginator = Paginator(transaction_list,25)
     page = request.GET.get('page')
@@ -28,7 +33,7 @@ def transactions_list(request):
 
     accounts = Accounts.objects.all()
     banks = Banks.objects.all()
-    context = {'transactions': transactions, 'accounts': accounts, 'banks': banks}
+    context = {'transactions': transactions, 'account_total': account_total, 'accounts': accounts, 'banks': banks}
     return render(request, 'BanksAndAccounts/transactions_list.html', context)
 
 @login_required
@@ -46,7 +51,16 @@ def transaction_detail(request, transaction_id):
 @login_required
 def account_list(request, account_id):
     transaction_list = Transactions.objects.filter(account_id=account_id)
-    #Page de 25 lignes
+
+    #TODO: retrouver le nom du compte en fonction de la liste de transactions
+    # name_of_account = Transactions.objects.filter(account_id=account_id).name_of_account
+
+    account_total = 0
+    for transac_account in transaction_list:
+        #print('valeur de la transaction : ', transac_account.amount_of_transaction)
+        account_total += transac_account.amount_of_transaction
+
+    # Page de 25 lignes
     paginator = Paginator(transaction_list,25)
     page = request.GET.get('page')
 
@@ -60,6 +74,10 @@ def account_list(request, account_id):
         transactions = paginator.page(paginator.num_pages)
 
     accounts = Accounts.objects.all()
+    print('Objet "accounts" : ====> ', accounts)
+
     banks = Banks.objects.all()
-    context = {'transactions': transactions, 'accounts': accounts, 'banks': banks}
+    print('Objet "banks" : ====> ', banks)
+
+    context = {'transactions': transactions, 'account_total':account_total,'accounts': accounts, 'banks': banks}
     return render(request, 'BanksAndAccounts/transactions_list.html', context)
