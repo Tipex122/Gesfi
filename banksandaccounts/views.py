@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
+from django.db.models import Avg, Sum
 
 from django.contrib.auth.decorators import login_required
 
@@ -9,6 +10,25 @@ from django.contrib.auth.decorators import login_required
 
 #TODO: le nom du compte n'est pas remonté car il est inclus ds chaque transaction mais pas dans la liste de transaction
 #TODO: c'est le N° du compte qui doit générer le listing des transactions (?)
+
+@login_required
+def banks_and_accounts_list(request):
+    banks_list = Banks.objects.all()
+    accounts_list = Accounts.objects.all()
+    transactions_list = Transactions.objects.all()
+
+    account_total = 0
+
+    #for transac_account in transaction_list:
+    #    account_total += transac_account.amount_of_transaction
+
+    for account in accounts_list:
+        account_total = Transactions.objects.filter(account = account).aggregate(Sum('amount_of_transaction'))
+        print('Objet "account_total : ====> ', account_total)
+
+    context = {'transactions_list': transactions_list, 'account_total': account_total, 'accounts_list': accounts_list, 'banks_list': banks_list}
+    return render(request, 'BanksAndAccounts/banks_and_accounts_list.html', context)
+
 
 @login_required
 def transactions_list(request):

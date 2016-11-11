@@ -2,6 +2,7 @@
 
 body {
   padding-top: 70px;
+  background: #39e94ac;
 }
 
 header .navbar-brand {
@@ -12,7 +13,7 @@ header .navbar-brand {
 
 .jumbotron {
     position: relative;
-    background: #000 url("jumbotron-bg.jpg") center center;
+    background: #39e94ac url("jumbotron-bg.jpg") center center;
     width: 100%;
     height: 100%;
     background-size: cover;

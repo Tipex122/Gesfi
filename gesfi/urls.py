@@ -19,7 +19,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^', include('categories.urls')),
     url(r'^', include('banksandaccounts.urls')),
     url(r'^', include('managegesfi.urls')),
