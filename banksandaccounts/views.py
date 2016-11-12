@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
-from django.db.models import Avg, Sum
+from django.db.models import Avg, Sum, Min, Max, Count
 
 from django.contrib.auth.decorators import login_required
 
@@ -11,22 +11,41 @@ from django.contrib.auth.decorators import login_required
 #TODO: le nom du compte n'est pas remonté car il est inclus ds chaque transaction mais pas dans la liste de transaction
 #TODO: c'est le N° du compte qui doit générer le listing des transactions (?)
 
+def accounts_info():
+    accounts_info = Accounts.objects.annotate(total_amount_by_account = Sum('transactions__amount_of_transaction'),
+                                       avg_amount_by_account = Avg('transactions__amount_of_transaction'),
+                                       min_amount_by_account = Min('transactions__amount_of_transaction'),
+                                       max_amount_by_account = Max('transactions__amount_of_transaction'),
+                                       num_transac_by_account = Count('transactions'))
+    return accounts_info
+
+
 @login_required
 def banks_and_accounts_list(request):
     banks_list = Banks.objects.all()
     accounts_list = Accounts.objects.all()
-    transactions_list = Transactions.objects.all()
+    #transactions_list = Transactions.objects.all()
 
-    account_total = 0
+    #account_total = 0
 
     #for transac_account in transaction_list:
     #    account_total += transac_account.amount_of_transaction
+    #account_total = Transactions.objects.filter(account=account).aggregate(Sum('amount_of_transaction'))
+    account_total = Transactions.objects.aggregate(Sum('amount_of_transaction'))
 
-    for account in accounts_list:
-        account_total = Transactions.objects.filter(account = account).aggregate(Sum('amount_of_transaction'))
-        print('Objet "account_total : ====> ', account_total)
+    # account_info = accounts_info()
 
-    context = {'transactions_list': transactions_list, 'account_total': account_total, 'accounts_list': accounts_list, 'banks_list': banks_list}
+    #for i in accounts_info:
+    #    print('Amount by account: =+=+=+====>:', i.total_amount_by_account)
+    #    print('Avg by account: =+=+=+====>:', i.avg_amount_by_account)
+    #    print('Min by account: =+=+=+====>:', i.min_amount_by_account)
+    #    print('Max by account: =+=+=+====>:', i.max_amount_by_account)
+    #    print('Number of transaction by account: =+=+=+====>:', i.num_transac_by_account)
+
+    #for account in accounts_list:
+    #    print('Objet "account_total : ====> ', account_total)
+
+    context = {'accounts_list': accounts_list, 'banks_list': banks_list, 'account_total': account_total, 'accounts_info': accounts_info() }
     return render(request, 'BanksAndAccounts/banks_and_accounts_list.html', context)
 
 
@@ -53,7 +72,7 @@ def transactions_list(request):
 
     accounts = Accounts.objects.all()
     banks = Banks.objects.all()
-    context = {'transactions': transactions, 'account_total': account_total, 'accounts': accounts, 'banks': banks}
+    context = {'transactions': transactions, 'account_total': account_total, 'accounts': accounts, 'banks': banks,  'accounts_info': accounts_info()}
     return render(request, 'BanksAndAccounts/transactions_list.html', context)
 
 @login_required
