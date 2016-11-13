@@ -8,15 +8,19 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-#TODO: le nom du compte n'est pas remonté car il est inclus ds chaque transaction mais pas dans la liste de transaction
-#TODO: c'est le N° du compte qui doit générer le listing des transactions (?)
-
-def accounts_info():
-    accounts_info = Accounts.objects.annotate(total_amount_by_account = Sum('transactions__amount_of_transaction'),
-                                       avg_amount_by_account = Avg('transactions__amount_of_transaction'),
-                                       min_amount_by_account = Min('transactions__amount_of_transaction'),
-                                       max_amount_by_account = Max('transactions__amount_of_transaction'),
-                                       num_transac_by_account = Count('transactions'))
+def accounts_info(account_id=0):
+    if account_id == 0:
+        accounts_info = Accounts.objects.annotate(total_amount_by_account = Sum('transactions__amount_of_transaction'),
+                                           avg_amount_by_account = Avg('transactions__amount_of_transaction'),
+                                           min_amount_by_account = Min('transactions__amount_of_transaction'),
+                                           max_amount_by_account = Max('transactions__amount_of_transaction'),
+                                           num_transac_by_account = Count('transactions'))
+    elif account_id != 0:
+        accounts_info = Accounts.objects.filter(id=account_id).annotate(total_amount_by_account=Sum('transactions__amount_of_transaction'),
+                                                  avg_amount_by_account=Avg('transactions__amount_of_transaction'),
+                                                  min_amount_by_account=Min('transactions__amount_of_transaction'),
+                                                  max_amount_by_account=Max('transactions__amount_of_transaction'),
+                                                  num_transac_by_account=Count('transactions'))
     return accounts_info
 
 
@@ -36,7 +40,7 @@ def transactions_list(request):
     banks = Banks.objects.all()
     accounts = Accounts.objects.all()
     transaction_list = Transactions.objects.all()
-    account_total = Transactions.objects.all().aggregate(Sum('amount_of_transaction'))
+    account_total = Transactions.objects.aggregate(Sum('amount_of_transaction'))
 
     #Page de 25 lignes
     paginator = Paginator(transaction_list,25)
@@ -51,31 +55,21 @@ def transactions_list(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         transactions = paginator.page(paginator.num_pages)
     #TODO: vérifier si on a vraiment besoin de tout ce contexte
-    context = {'banks': banks, 'accounts': accounts, 'transactions': transactions, 'account_total': account_total, 'accounts_info': accounts_info()}
+    #all_accounts is used for sidebar - accounts_info is used for selection of one account
+    context = {'banks': banks,                      #used for dispatching accounts by bank in sidebar
+               #'accounts': accounts,                # ???
+               'transactions': transactions,        #used to list transactions related to account(s)
+               'account_total': account_total,      #sum of all transactions ==> not really used in fact
+               'accounts_info': accounts_info(0),   #general information related to all accounts (due to "0")
+               'all_accounts': accounts_info(0)     #general information related to alla accounts (due to "0") and used in sidebar
+               }
     return render(request, 'BanksAndAccounts/transactions_list.html', context)
-
-@login_required
-def transaction_detail(request, transaction_id):
-    transaction = Transactions.objects.get(id=transaction_id)
-    #bank = transaction.account.bank
-    #account = transaction.account
-    #context = {'bank':bank, 'account':account, 'transaction': transaction}
-    #TODO: remonter la référence du compte (et son nom) ... voir la banque (via account_id)
-    context = {'transaction': transaction}
-    return render(request, 'BanksAndAccounts/transaction_detail.html', context)
-
 
 @login_required
 def account_list(request, account_id):
     transaction_list = Transactions.objects.filter(account_id=account_id)
 
-    #TODO: retrouver le nom du compte en fonction de la liste de transactions
-    # name_of_account = Transactions.objects.filter(account_id=account_id).name_of_account
-
-    account_total = 0
-    for transac_account in transaction_list:
-        #print('valeur de la transaction : ', transac_account.amount_of_transaction)
-        account_total += transac_account.amount_of_transaction
+    account_total = Transactions.objects.filter(account_id=account_id).aggregate(Sum('amount_of_transaction'))
 
     # Page de 25 lignes
     paginator = Paginator(transaction_list,25)
@@ -91,11 +85,20 @@ def account_list(request, account_id):
         transactions = paginator.page(paginator.num_pages)
 
     accounts = Accounts.objects.all()
-    print('Objet "accounts" : ====> ', accounts)
-
     banks = Banks.objects.all()
-    print('Objet "banks" : ====> ', banks)
 
-    context = {'transactions': transactions, 'account_total':account_total,'accounts': accounts,
-               'banks': banks, 'accounts_info': accounts_info()}
+    context = {'banks': banks,                              #used for dispatching accounts by bank in sidebar
+               #'accounts': accounts,
+               'transactions': transactions,                #used to list transactions related to account(s)
+               'account_total':account_total,               #sum of all transactions ==> not really used in fact
+               'accounts_info': accounts_info(account_id),  #general information related to selectede account
+               'all_accounts': accounts_info(0)             #general information related to alla accounts (due to "0") and used in sidebar
+               }
+
     return render(request, 'BanksAndAccounts/transactions_list.html', context)
+
+@login_required
+def transaction_detail(request, transaction_id):
+    transaction = Transactions.objects.get(id=transaction_id)
+    context = {'transaction': transaction}
+    return render(request, 'BanksAndAccounts/transaction_detail.html', context)
