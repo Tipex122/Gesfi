@@ -4,17 +4,23 @@
 {% load humanize %}
 {% load crispy_forms_tags %}
 
-{% block title %} Search {% endblock %}
 
 {% block head %}
-<link href="{% static 'css/search.css' %}" rel="stylesheet">
-<script src="{% static 'js/search.js' %}"></script>
+    <link href="{% static 'css/search.css' %}" rel="stylesheet">
+    <script src="{% static 'js/search.js' %}"></script>
 {% endblock head %}
 
+{% block title %}
+    {{transaction.account.name_of_account}}
+{% endblock %}
+
+{% block heading %}
+    <h2>{% trans 'Transaction detail:' %}</h2>
+    <h4>{% trans 'Name of bank:' %} {{transaction.account.bank.name_of_bank}}</h4>
+    <h4>{% trans 'Name of account:' %} {{transaction.account.name_of_account}}</h4>
+{% endblock heading %}
+
 {% block content %}
-<div class="page-header">
-    <h2>{% trans 'Transaction detail' %}</h2>
-</div>
 
 <div class="list-group">
     <table class="table table-striped">

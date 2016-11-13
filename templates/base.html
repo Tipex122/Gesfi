@@ -16,19 +16,22 @@
 
 
         <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-        <link href="{% static 'css/gesfi.css' %}?v=1" rel="stylesheet">
+        <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 
+<!--
         <style>
             body {
                 padding-top: 50px;
                 padding-bottom: 20px;
             }
         </style>
+-->
 
-        <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        <!-- <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/main.css' %}"> -->
 
+        <link rel="stylesheet" href="{% static 'css/gesfi.css' %}?v=1">
 
         <script src="{% static 'js/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %}"></script>
 
@@ -49,19 +52,9 @@
     </head>
 
     <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-
-        <!-- Main jumbotron for a primary marketing message or call to action
-        <div class="jumbotron">
-          <div class="container">
-            <h1>Hello, world!</h1>
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-          </div>
-        </div> -->
-
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
     {% if user.is_authenticated %}
 
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -93,48 +86,29 @@
                         </form>
                     {% endif %}
 
-
-                    <!-- Voir Marcador pour login vs logout -->
-                    {% if user.is_authenticated %}
-                        <!-- Reversing by dotted path is deprecated (django.contrib.auth.views.logout). url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app) -->
-                        <p class="navbar-brand navbar-right">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}"> Log out </a>)</small></p>
-
-                    <!--
-                    <form class="navbar-form navbar-right" role="form">
-                        <div class="form-group">
-                            <input type="text" placeholder="Email" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" placeholder="Password" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-success">Sign in</button>
-                    </form>
-                    -->
-                    {%endif%}
+                    <p class="navbar-brand navbar-right">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}"> Log out </a>)</small></p>
 
                 </div><!--/.navbar-collapse -->
             </div>
         </nav>
 
 
-
-
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-header">
-                        {% block heading %} {% endblock %}
+                        {% block heading %} {% endblock heading %}
                     </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-9">
-                    {% block content %}  {% endblock %}
+                    {% block content %}  {% endblock content %}
                 </div>
 
                 <div class="col-md-3">
-                    {% block sidebar %}  {% endblock %}
+                    {% block sidebar %}  {% endblock sidebar %}
                 </div>
             </div>
         </div> <!-- /container -->
@@ -160,11 +134,6 @@
                     -->
 
     {% else %}
-        <!-- <div class="site-wrapper">
-        <div class="site-wrapper-inner">
-            <div class="cover-container"> -->
-
-
         <div class="container-fluid">
             <div class="jumbotron">
                 <h1>Welcome to GesFi!</h1>
@@ -184,17 +153,12 @@
                 <h5>*In case of difficulty: ask to your administrator</h5>
             </div> <!-- /jumbotron -->
         </div> <!-- /container -->
-
-        <!--  </div>
-         <!-- </div> <!-- /site-wrapper-inner
-         </div> <!-- /site-wrapper -->
-
     {% endif %}
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.11.2.min.js" %}"><\/script>')</script>
-        <script src="{% static "js/vendor/bootstrap.min.js" %}"></script>
-        <script src="{% static "js/main.js" %}"></script>
+        <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
 
     </body>
 
@@ -208,7 +172,7 @@
             {% if user.is_authenticated %}
             <div class="col-md-3">
                 <p class="text-right" >
-                    <a href=admin/>Admin</a>
+                    <a href="/admin/">Admin</a>
                 </p>
             </div>
             {% endif %}

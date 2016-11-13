@@ -6,18 +6,19 @@
 
 {% block title %} Search {% endblock %}
 
-{% block heading %}
+{% block head %}
   <link href="{% static 'css/search.css' %}" rel="stylesheet">
-{% endblock %}
+{% endblock head %}
+
+{% block heading %}
+    <h2>{% trans 'Search' %} </h2>
+{% endblock heading %}
 
 {% block content %}
-<div class="page-header">
-    <h2>{% trans 'Search' %} </h2>
-</div>
 
 <div class="row" style="padding-top: 4em; padding-bottom: 8em;">
     <div class="col-md-9 col-md-offset-2">
-        <h3>{% trans 'Search into: Banks, Accounts, Transactions and Categories' %}</h3>
+        <h3>{% trans 'Search into in: Banks, Accounts, Transactions and Categories' %}</h3>
             <form role="search" action="{% url 'search' %}" style="padding-top: 1em;">
                 <div class="input-group">
                     <input type="text" class="form-control input-lg" name="q" placeholder="{% trans 'Search' %}">

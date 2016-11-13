@@ -1,14 +1,34 @@
 @import url(https://fonts.googleapis.com/css?family=Audiowide);
 
 body {
-  padding-top: 70px;
-  background: #39e94ac;
+  padding-top: 50px;
+  padding-bottom: 20px;
 }
 
 header .navbar-brand {
   font-size: 1.4em;
   font-weight: 200;
   font-family: "Audiowide", cursive;
+}
+
+main .container {
+
+}
+
+.page-header {
+  margin: 0;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-weight: 100;
+  font-size: 2em;
+}
+
+body .page-header h1 {
+  margin: 0;
+  font-weight: 100;
+  font-size: 2em;
 }
 
 .jumbotron {
