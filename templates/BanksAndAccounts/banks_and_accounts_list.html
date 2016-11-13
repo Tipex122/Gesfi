@@ -3,8 +3,11 @@
 {% load i18n %}
 {% load humanize %}
 
-{% block content %}
+{% block heading %}
+    <h2>{% trans 'List of Banks and Accounts' %}</h2>
+{% endblock heading %}
 
+{% block content %}
     <div class="row">
         {% for bank in banks_list %}
             <div class="list-group">
@@ -35,5 +38,10 @@
             </div>
         {% endfor %}
     </div>
-
 {% endblock content %}
+
+{% block sidebar %}
+    <h2> Mettre ici une zone de recherche en fonction des dates</h2>
+    <h4> Objectif: avoir des info générales sur une période donnée</h4>
+{% endblock sidebar %}
+

@@ -92,16 +92,11 @@
             </div>
         </nav>
 
+        <div class="row-header">
+            {% block heading %} {% endblock heading %}
+        </div>
 
         <div class="container-fluid">
-            <div class="row-header">
-                <!-- <div class="col-md-12">
-                    <div class="page-header"> -->
-                        {% block heading %} {% endblock heading %}
-                    <!-- </div>
-                </div> -->
-            </div>
-
             <div class="row">
                 <div class="col-md-9">
                     {% block content %}  {% endblock content %}
