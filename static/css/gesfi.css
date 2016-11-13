@@ -15,8 +15,18 @@ main .container {
 
 }
 
-.page-header {
+body .row-header {
   margin: 0;
+  margin-left: 0px;
+  margin-right: 0px;
+
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+
+  background: #ecebf3;
+
 }
 
 .page-header h1 {
