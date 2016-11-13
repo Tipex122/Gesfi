@@ -24,7 +24,7 @@ def accounts_info():
 def banks_and_accounts_list(request):
     banks_list = Banks.objects.all()
     accounts_list = Accounts.objects.all()
-    account_total = Transactions.objects.aggregate(Sum('amount_of_transaction'))
+    account_total = Transactions.objects.aggregate(total = Sum('amount_of_transaction'))
 
     context = {'accounts_list': accounts_list, 'banks_list': banks_list,
                'account_total': account_total, 'accounts_info': accounts_info() }
