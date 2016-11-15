@@ -11,15 +11,22 @@ header .navbar-brand {
   font-family: "Audiowide", cursive;
 }
 
+header .navbar-right .navbar-brand {
+  font-size: 1.4em;
+  font-weight: 200;
+  font-family: "Audiowide", cursive;
+}
 
 main .container {
 
 }
 
 body .row-header {
-  margin: 0;
+  /* margin: 0; */
   margin-left: 0px;
   margin-right: 0px;
+  margin-top: 0px;
+  margin-bottom: 20px;
 
   padding-top: 5px;
   padding-bottom: 5px;

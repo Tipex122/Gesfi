@@ -22,11 +22,11 @@
             <!-- This "div" tag just to keep align form below and the results under research area -->
         </div>
         <div class="col-md-9">
-            <form role="search" action="{% url 'search' %}">
+            <form role="search" action="{% url 'search' %}" style="padding-top: 1em;">
                 <input type="hidden" name="type" value="{{ active }}">
                 <div class="input-group">
                     <input type="text" class="form-control" name="q"
-                           placeholder="{% trans 'Search into: Banks, Accounts, Transactions and Categories' %}"
+                           placeholder="{% trans 'Search into : Banks, Accounts, Transactions and Categories' %}"
                            value="{{ querystring }}">
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
@@ -35,20 +35,20 @@
             </form>
         </div>
     </div>
-<div class="row results">
-    <div class="col-md-3">
-        {% include 'ManageGesfi/partial_results_menu.html' with active=active count=count querystring=querystring %}
+    <div class="row results">
+        <div class="col-md-3">
+            {% include 'ManageGesfi/partial_results_menu.html' with active=active count=count querystring=querystring %}
+        </div>
+        <div class="col-md-9">
+            {% if active == 'banks' %}
+                {% include 'ManageGesfi/partial_banks_results.html' with results=results %}
+            {% elif active == 'accounts' %}
+                {% include 'ManageGesfi/partial_accounts_results.html' with results=results %}
+            {% elif active == 'transactions' %}
+                {% include 'ManageGesfi/partial_transactions_results.html' with results=results %}
+            {% elif active == 'categories' %}
+                {% include 'ManageGesfi/partial_categories_results.html' with results=results %}
+            {% endif %}
+        </div>
     </div>
-    <div class="col-md-9">
-        {% if active == 'banks' %}
-            {% include 'ManageGesfi/partial_banks_results.html' with results=results %}
-        {% elif active == 'accounts' %}
-            {% include 'ManageGesfi/partial_accounts_results.html' with results=results %}
-        {% elif active == 'transactions' %}
-            {% include 'ManageGesfi/partial_transactions_results.html' with results=results %}
-        {% elif active == 'categories' %}
-            {% include 'ManageGesfi/partial_categories_results.html' with results=results %}
-        {% endif %}
-    </div>
-</div>
 {% endblock content %}
