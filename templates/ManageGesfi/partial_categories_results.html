@@ -10,7 +10,6 @@
             <th>{% trans 'Name' %}</th>
             <th>{% trans 'Description' %}</th>
             <th>{% trans 'Amount' %}</th>
-            <th>{% trans 'Currency'%}</th>
         </tr>
         </thead>
         <tbody>
@@ -19,8 +18,11 @@
             <td>{{ categorie.parent.name }}</td>
             <td>{{ categorie.name }}</td>
             <td>{{ categorie.description }}</td>
-            <td>{{ categorie.amount }}</td>
-            <td>{{ categorie.currency }}</td>
+            {% if categorie.amount >= 0 %}
+                <td class="font-blue"> {{ categorie.amount }} </td>
+            {% else %}
+                <td class="font-red"> {{ categorie.amount }} </td>
+            {% endif %}
         </tr>
         {% endfor %}
         </tbody>
