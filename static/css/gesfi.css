@@ -11,6 +11,7 @@ header .navbar-brand {
   font-family: "Audiowide", cursive;
 }
 
+
 main .container {
 
 }
@@ -26,7 +27,16 @@ body .row-header {
   padding-right: 5px;
 
   background: #ecebf3;
+/*  font-family: "Audiowide", cursive; */
 
+}
+
+body .font-red {
+    color: #ff0000;
+}
+
+body .font-blue {
+    color: #0000ff;
 }
 
 .page-header h1 {

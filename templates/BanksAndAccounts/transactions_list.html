@@ -1,15 +1,17 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% load i18n %}
 
 {% block title %}
     {% trans 'Transactions de tous les comptes' %}
 {% endblock %}
 
+
 {% block heading %}
 <!-- A améliorer car à chaque fois cela liste l'ensemble des comptes -->
     <h2>{% trans 'Transactions of account(s):' %}</h2>
             {% for account in accounts_info %}
-                <h4>{{account.name_of_account}} - {{account.num_of_account}} <i>[total: {{account.total_amount_by_account}}]</i></h4>
+                <h4>{{account.name_of_account}} - {{account.num_of_account}} <i>[total: {{account.total_amount_by_account}}]</i>  </h4>
             {% endfor %}
 {% endblock heading %}
 
@@ -34,7 +36,12 @@
                         <td>{{ transaction.date_of_transaction|date:" Y/m/d" }}</td>
                         <td>{{ transaction.type_of_transaction }}</td>
                         <td><a href="/transaction_detail/{{transaction.id}}/"> {{ transaction.name_of_transaction }} </a> </td>
-                        <td>{{ transaction.amount_of_transaction | rjust:"10" }}</td>
+                        {% if transaction.amount_of_transaction >= 0 %}
+                            <td class="font-blue"> {{ transaction.amount_of_transaction | rjust:"10" }} </td>
+                        {% endif %}
+                        {% if transaction.amount_of_transaction < 0 %}
+                            <td class="font-red"> {{ transaction.amount_of_transaction | rjust:"10" }} </td>
+                        {% endif %}
                         <td>{{ transaction.currency_of_transaction }}</td>
                         <td>{{ transaction.account.num_of_account }}</td>
                     </tr>
