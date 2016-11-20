@@ -28,13 +28,25 @@ body .row-header {
   margin-top: 0px;
   margin-bottom: 20px;
 
+  padding: 5px;
+  /*
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
+  */
 
   background: #ecebf3;
 /*  font-family: "Audiowide", cursive; */
+
+}
+a.link, a.visited {
+    text-decoration: none;
+}
+
+a:hover, a:active {
+    text-decoration: none;
+    color: red;
 
 }
 

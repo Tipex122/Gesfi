@@ -72,8 +72,28 @@
 
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                         <li><a href="{% url 'banks_and_accounts_list' %}">{% trans 'Banks & Accounts' %}</a></li>
-                        <li><a href="{% url 'transactions_list' %}">{% trans 'Transactions' %}</a></li>
+                        <li><a href="{% url 'banks_and_accounts_list' %}">{% trans 'Banks & Accounts' %}</a></li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans 'Transactions' %} <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- <li role='separator'> {% trans 'All transactions' %}</li> -->
+                                <li><a href="{% url 'transactions_list' %}">{% trans 'All' %}</a></li>
+
+                                {% for bank in banks %}
+                                        <li role='separator'> {{bank}}</li>
+                                        {% for account in all_accounts %}
+                                            {% if account.bank == bank %}
+                                                <!-- <a class="list-group-item" href={% url "transactions_list" %}>{{account}} -->
+                                                <li><a href="/account/{{account.id}}">{{account}}</a></li>
+                                                <li><a href="#">Test autre compte (?)</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                {% endfor %}
+
+                            </ul>
+                        </li>
+
                         <li><a href="{% url 'budget' %}">{% trans 'Categories' %}</a></li>
                     </ul>
                     {% if not hide_search %}
