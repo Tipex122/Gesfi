@@ -1,6 +1,7 @@
 from django.db import models
 from decimal import Decimal
 from mptt.models import MPTTModel, TreeForeignKey
+from django.utils.translation import ugettext_lazy as _
 
 
 
@@ -21,8 +22,8 @@ class Category(MPTTModel):
 
     class Meta:
         # ordering = ['name']
-        verbose_name = u'Catégorie'
-        verbose_name_plural = u'Catégories'
+        verbose_name = _('Category')
+        verbose_name_plural = _('Categories')
 
     def __str__(self):  # __unicode__ on Python 2
         return self.name
@@ -40,3 +41,40 @@ class Category(MPTTModel):
                 for sibling in ancestor.get_siblings():
                     level_amount = level_amount + sibling.amount
         super(Category, self).save(*args, **kwargs)  # Call the "real" save() method.
+
+    def create_tags(self, tags):
+        tags = tags.strip()
+        tag_list = tags.split(' ')
+        for tag in tag_list:
+            if tag:
+                t, created = Tag.objects.get_or_create(tag=tag.lower(),
+                                                       category=self)
+    def get_tags(self):
+        return Tag.objects.filter(article=self)
+
+
+class Tag(models.Model):
+    tag = models.CharField(max_length=50)
+    category = models.ForeignKey(Category)
+
+    class Meta:
+        verbose_name = _('Tag')
+        verbose_name_plural = _('Tags')
+        unique_together = (('tag', 'category'),)
+        index_together = [['tag', 'category'], ]
+
+    def __str__(self):
+        return self.tag
+
+    @staticmethod
+    def get_popular_tags():
+        tags = Tag.objects.all()
+        count = {}
+        for tag in tags:
+            #if tag.categry.status == Article.PUBLISHED:
+                if tag.tag in count:
+                    count[tag.tag] = count[tag.tag] + 1
+                else:
+                    count[tag.tag] = 1
+        sorted_count = sorted(count.items(), key=lambda t: t[1], reverse=True)
+        return sorted_count[:20]

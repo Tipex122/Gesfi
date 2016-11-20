@@ -1,5 +1,8 @@
 from django.db import models
 from decimal import Decimal
+from categories.models import Category
+from django.utils.translation import ugettext_lazy as _
+
 
 # Create your models here.
 
@@ -15,8 +18,8 @@ class Banks(models.Model):
         return "%s" %(self.name_of_bank)
 
     class Meta:
-        verbose_name = 'banque'
-        verbose_name_plural = 'banques'
+        verbose_name = _('bank')
+        verbose_name_plural = _('banks')
         ordering = ['name_of_bank']
 
 
@@ -29,8 +32,8 @@ class Accounts(models.Model):
         return "%s" %(self.name_of_account)
 
     class Meta:
-        verbose_name = 'compte banquaire'
-        verbose_name_plural = 'comptes bancaires'
+        verbose_name = _('bank account')
+        verbose_name_plural = _('bank accounts')
         ordering = ['name_of_account']
 
 
@@ -44,10 +47,12 @@ class Transactions(models.Model):
 
     account = models.ForeignKey('Accounts', null=True, blank=True)
 
+    transcat = models.ForeignKey(Category, null=True, blank=True)
+
     def __str__(self):
         return "[%s] -- %s ===>  %s" % (self.date_of_transaction, self.name_of_transaction, self.amount_of_transaction, )
 
     class Meta:
-        verbose_name = 'transaction'
-        verbose_name_plural = 'transactions'
+        verbose_name = _('transaction')
+        verbose_name_plural = _('transactions')
         ordering = ['date_of_transaction']

@@ -19,10 +19,10 @@ class TransactionsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['date_of_transaction','name_of_transaction', 'type_of_transaction']}),
         # ('Info Genre', {'fields': ['amount_of_transaction','currency_of_transaction', 'bank_of_account','create_date','account']}),
-        ('Info Genre', {'fields': ['amount_of_transaction','currency_of_transaction', 'creation_date','account']}),
+        ('Info Genre', {'fields': ['amount_of_transaction','currency_of_transaction', 'creation_date','account', 'transcat']}),
         ]
 # TODO: Comment faire apparaître le nom de la banque associée à la transaction et au compte ? ==> A creuser
-    list_display = ('date_of_transaction', 'type_of_transaction', 'name_of_transaction', 'account', 'amount_of_transaction','currency_of_transaction')
+    list_display = ('date_of_transaction', 'type_of_transaction', 'name_of_transaction', 'account', 'amount_of_transaction', 'transcat')
 
     list_filter = ('date_of_transaction', 'account',)
 
