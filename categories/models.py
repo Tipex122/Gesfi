@@ -50,7 +50,7 @@ class Category(MPTTModel):
                 t, created = Tag.objects.get_or_create(tag=tag.lower(),
                                                        category=self)
     def get_tags(self):
-        return Tag.objects.filter(article=self)
+        return Tag.objects.filter(category=self)
 
 
 class Tag(models.Model):

@@ -13,7 +13,7 @@ class TagAdmin(admin.ModelAdmin):
     ]
     list_display = ('tag', 'category')
     search_fields = ['tag', 'category']
-    list_filter = ('category',)
+    list_filter = ('tag', 'category',)
 
 admin.site.register(Tag, TagAdmin)
 #admin.site.register(Tag)

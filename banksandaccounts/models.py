@@ -49,10 +49,25 @@ class Transactions(models.Model):
 
     transcat = models.ForeignKey(Category, null=True, blank=True)
 
+#    def get_tags(self):
+#        tags = str.split(self.name_of_transaction)
+#        for tag in tags:
+#            tag = tag.lower(tag)
+#            if len(tag) < 2 or tag.isdecimal():
+#                tags.remove(self, tag)
+#        return tags
+
     def __str__(self):
         return "[%s] -- %s ===>  %s" % (self.date_of_transaction, self.name_of_transaction, self.amount_of_transaction, )
+
+#    def __init__(self):
+#        tags = self.tags
+#        super(Transactions, self).__init__(self, *args, **kwargs)
+
+
 
     class Meta:
         verbose_name = _('transaction')
         verbose_name_plural = _('transactions')
         ordering = ['date_of_transaction']
+
