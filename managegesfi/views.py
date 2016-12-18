@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from banksandaccounts.models import *
 from categories.models import *
 
+import re
+
 # Create your views here.
 def site_login(request):
     pass
@@ -67,3 +69,28 @@ def search(request):
         })
     else:
         return render(request, 'ManageGesfi/search.html', {'hide_search': True})
+
+@login_required
+def search_keywords(request):
+    transaction_list = Transactions.objects.all()
+    list_of_tags = Tag.objects.all()
+    listoftags = []
+    if list_of_tags:
+        for t in list_of_tags:
+            listoftags = [].append(t)
+    #print(list_of_tags)
+    #TODO: faire une liste unique de Tags ...
+    for transaction in transaction_list:
+        tag = Tag()
+        keywords = re.findall(r'\b[a-z,A-Z,\']{3,15}\b',transaction.name_of_transaction)
+        for keyword in keywords:
+#            if not Tag.objects.get(keyword):
+            if listoftags==None or keyword not in listoftags:
+                tag.tag = keyword
+#            tag.Category.create_tag(keyword)
+                tag.save()
+                listoftags.append(keyword)
+#        list_of_tags = Tag.objects.all()
+            # print(keywords)
+    return render(request, 'ManageGesfi/keywords.html', {'keyword':keywords})
+

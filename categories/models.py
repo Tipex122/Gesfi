@@ -55,13 +55,13 @@ class Category(MPTTModel):
 
 class Tag(models.Model):
     tag = models.CharField(max_length=50)
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, null=True, blank=True)
 
     class Meta:
         verbose_name = _('Tag')
         verbose_name_plural = _('Tags')
-        unique_together = (('tag', 'category'),)
-        index_together = [['tag', 'category'], ]
+        #unique_together = (('tag', 'category'),)
+        #index_together = [['tag', 'category'], ]
 
     def __str__(self):
         return self.tag

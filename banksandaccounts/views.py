@@ -61,7 +61,7 @@ def transactions_list(request):
                'transactions': transactions,        #used to list transactions related to account(s)
                'account_total': account_total,      #sum of all transactions ==> not really used in fact
                'accounts_info': accounts_info(0),   #general information related to all accounts (due to "0")
-               'all_accounts': accounts_info(0)     #general information related to alla accounts (due to "0") and used in sidebar
+               'all_accounts': accounts_info(0)     #general information related to all accounts (due to "0") and used in sidebar
                }
     return render(request, 'BanksAndAccounts/transactions_list.html', context)
 
