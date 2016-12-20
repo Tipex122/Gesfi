@@ -54,7 +54,7 @@ class Category(MPTTModel):
 
 
 class Tag(models.Model):
-    tag = models.CharField(max_length=50)
+    tag = models.CharField(max_length=50, unique=True)
     category = models.ForeignKey(Category, null=True, blank=True)
 
     class Meta:

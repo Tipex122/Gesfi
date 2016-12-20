@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from banksandaccounts.models import *
 from categories.models import *
@@ -74,23 +75,63 @@ def search(request):
 def search_keywords(request):
     transaction_list = Transactions.objects.all()
     list_of_tags = Tag.objects.all()
-    listoftags = []
+
+    listoftags = list()
+    listoftags_found = list()
+
     if list_of_tags:
         for t in list_of_tags:
-            listoftags = [].append(t)
-    #print(list_of_tags)
-    #TODO: faire une liste unique de Tags ...
+            listoftags.append(t.tag)
+
     for transaction in transaction_list:
-        tag = Tag()
-        keywords = re.findall(r'\b[a-z,A-Z,\']{3,15}\b',transaction.name_of_transaction)
+        keywords = re.findall(r'\b[a-z,A-Z,\']{3,15}\b', transaction.name_of_transaction)
         for keyword in keywords:
-#            if not Tag.objects.get(keyword):
-            if listoftags==None or keyword not in listoftags:
-                tag.tag = keyword
-#            tag.Category.create_tag(keyword)
-                tag.save()
-                listoftags.append(keyword)
-#        list_of_tags = Tag.objects.all()
-            # print(keywords)
-    return render(request, 'ManageGesfi/keywords.html', {'keyword':keywords})
+            listoftags_found.append(keyword)
+
+    #To get a list unique
+    listoftags_found = set(listoftags_found)
+
+    #Back to a list
+    listoftags_found = list(listoftags_found)
+    listoftags_found.sort(key=str.lower)
+
+
+    tag_already_existing = list()
+    tag_new = list()
+
+    for l in listoftags_found:
+        if Tag.objects.filter(tag=l):
+            tag_already_existing.append(l)
+        else:
+            tag = Tag()
+            tag.tag=l
+            listoftags.append(l)
+            tag_new.append(l)
+            tag.save()
+
+    listoftags.sort(key=str.lower)
+    tag_already_existing.sort(key=str.lower)
+    tag_new.sort(key=str.lower)
+
+    listtag = Tag.objects.all()
+
+    '''
+    # NE FONCTIONNE PAS CAR en HTML LA PAGE SE RAFRAICHIT ET PERD la liste tag_new
+    #Page de 25 lignes
+    paginator = Paginator(tag_new,25)
+    page = request.GET.get('page')
+
+    try:
+        tag_new = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        tag_new = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        tag_new = paginator.page(paginator.num_pages)
+    '''
+
+    return render(request, 'ManageGesfi/keywords.html', {'tag_already_existing':tag_already_existing,
+                                                         'tag_new': tag_new,
+                                                         "listtag":listtag})
 
