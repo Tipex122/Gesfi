@@ -81,11 +81,16 @@ def search_keywords(request):
 
     if list_of_tags:
         for t in list_of_tags:
+            t.tag.upper()   #In case we forgot to upperize at the very first time
+            #t.is_new_tag = False   #Complicated to manage when updating/changing page
+            #TODO: to automize new/old Tag without searching each time "new Tags"
+            t.save()
             listoftags.append(t.tag)
 
     for transaction in transaction_list:
         keywords = re.findall(r'\b[a-z,A-Z,\']{3,15}\b', transaction.name_of_transaction)
         for keyword in keywords:
+            keyword = keyword.upper()
             listoftags_found.append(keyword)
 
     #To get a list unique
@@ -105,6 +110,8 @@ def search_keywords(request):
         else:
             tag = Tag()
             tag.tag=l
+            tag.is_new_tag = True
+            tag.will_be_used_as_tag = True
             listoftags.append(l)
             tag_new.append(l)
             tag.save()
@@ -114,24 +121,26 @@ def search_keywords(request):
     tag_new.sort(key=str.lower)
 
     listtag = Tag.objects.all()
+    listtagnew = Tag.objects.filter(is_new_tag = True)
 
     '''
-    # NE FONCTIONNE PAS CAR en HTML LA PAGE SE RAFRAICHIT ET PERD la liste tag_new
+    #TODO: to automize new/old Tag without searching each time "new Tags"
     #Page de 25 lignes
-    paginator = Paginator(tag_new,25)
+    paginator = Paginator(listtagnew,25)
     page = request.GET.get('page')
 
     try:
-        tag_new = paginator.page(page)
+        listtagnew = paginator.page(page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
-        tag_new = paginator.page(1)
+        listtagnew = paginator.page(1)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
-        tag_new = paginator.page(paginator.num_pages)
+        listtagnew = paginator.page(paginator.num_pages)
     '''
 
     return render(request, 'ManageGesfi/keywords.html', {'tag_already_existing':tag_already_existing,
                                                          'tag_new': tag_new,
-                                                         "listtag":listtag})
+                                                         "listtag":listtag,
+                                                         "listtagnew":listtagnew})
 

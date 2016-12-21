@@ -55,6 +55,8 @@ class Category(MPTTModel):
 
 class Tag(models.Model):
     tag = models.CharField(max_length=50, unique=True)
+    is_new_tag = models.BooleanField(default=True)
+    will_be_used_as_tag = models.BooleanField(default=True)
     category = models.ForeignKey(Category, null=True, blank=True)
 
     class Meta:
@@ -66,6 +68,7 @@ class Tag(models.Model):
     def __str__(self):
         return self.tag
 
+    #Not tested !!!!
     @staticmethod
     def get_popular_tags():
         tags = Tag.objects.all()

@@ -22,75 +22,63 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th><h3>Name</h3></th>
+                    <th>Name</th>
+                    <th>New Tag ?</th>
+                    <th>To be used as Tag ?</th>
+                    <th>Category</th>
                 </tr>
             </thead>
             <tbody>
-                {%if not tag_new %}
+                {%if not listtagnew %}
                     <tr>
                         <td>No new Tag</td>
                     </tr>
                 {% else %}
-                    {% for tag in tag_new %}
+                    {% for tag in listtagnew %}
                         <tr>
-                            <td>{{ tag }}</td>
+                            <td><a href="/kewords/{{tag.id}}/"> {{ tag }}</a></td>
+                            <td>{{ tag.is_new_tag }}</td>
+                            <td>{{ tag.will_be_used_as_tag }}</td>
+                            <td>{{ tag.category }}</td>
                         </tr>
                     {% endfor %}
                 {% endif %}
             </tbody>
         </table>
     </div>
-<!--
-    <div class="list-group">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th><h3>Name</h3></th>
-                    <th><h3>Category</h3></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for tag in listtag %}
-                    <tr>
-                        <td>{{ tag }}</td>
-                        <td>{{ tag.category }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
 
+<!--
     <div class="pagination">
         <span class="step-links">
-            {% if tag_new.has_previous %}
-                <a href="?page={{ tag_new.previous_page_number }}">previous</a>
+            {% if listtagnew.has_previous %}
+                <a href="?page={{ listtagnew.previous_page_number }}">previous</a>
             {% endif %}
 
             <span class="current">
-                Page {{ tag_new.number }} sur {{ tag_new.paginator.num_pages }}.
+                Page {{ listtagnew.number }} sur {{ listtagnew.paginator.num_pages }}.
             </span>
 
-            {% if tag_new.has_next %}
-                <a href="?page={{ tag_new.next_page_number }}">next</a>
+            {% if listtagnew.has_next %}
+                <a href="?page={{ listtagnew.next_page_number }}">next</a>
             {% endif %}
         </span>
     </div>
 
-    {% if tag_new.has_other_pages %}
+    {% if listtagnew.has_other_pages %}
       <ul class="pagination">
-        {% if tag_new.has_previous %}
-          <li><a href="?page={{ tag_new.previous_page_number }}">&laquo;</a></li>
+        {% if listtagnew.has_previous %}
+          <li><a href="?page={{ listtagnew.previous_page_number }}">&laquo;</a></li>
         {% else %}
           <li class="disabled"><span>&laquo;</span></li>
         {% endif %}
-        {% for i in tag_new.paginator.page_range %}
-          {% if tag_new.number == i %}
+        {% for i in listtagnew.paginator.page_range %}
+          {% if listtagnew.number == i %}
             <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
           {% else %}
             <li><a href="?page={{ i }}">{{ i }}</a></li>
           {% endif %}
         {% endfor %}
-        {% if tag_new.has_next %}
+        {% if listtagnew.has_next %}
           <li><a href="?page={{ transactions.next_page_number }}">&raquo;</a></li>
         {% else %}
           <li class="disabled"><span>&raquo;</span></li>

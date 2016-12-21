@@ -9,11 +9,11 @@ class TagAdmin(admin.ModelAdmin):
     fieldsets  = [
         (None, {'fields': ['tag',]}),
         ('Info Genre',
-         {'fields': ['category',]}),
+         {'fields': ['category','will_be_used_as_tag', 'is_new_tag',]}),
     ]
-    list_display = ('tag', 'category')
+    list_display = ('tag', 'is_new_tag', 'will_be_used_as_tag', 'category')
     search_fields = ['tag', 'category']
-    list_filter = ('tag', 'category',)
+    list_filter = ('category', 'will_be_used_as_tag', 'is_new_tag',)
 
 admin.site.register(Tag, TagAdmin)
 #admin.site.register(Tag)
