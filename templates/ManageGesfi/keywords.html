@@ -24,7 +24,7 @@
                 <tr>
                     <th>Name</th>
                     <th>New Tag ?</th>
-                    <th>To be used as Tag ?</th>
+                    <th>Used as Tag ?</th>
                     <th>Category</th>
                 </tr>
             </thead>
@@ -36,9 +36,28 @@
                 {% else %}
                     {% for tag in listtagnew %}
                         <tr>
-                            <td><a href="/kewords/{{tag.id}}/"> {{ tag }}</a></td>
-                            <td>{{ tag.is_new_tag }}</td>
-                            <td>{{ tag.will_be_used_as_tag }}</td>
+                            <td>
+                                <div>
+                                    <a href="/kewords/{{tag.tag}}/"> {{ tag.tag }}</a></td>
+                                </div>
+                            <td>
+                                <div class="checkbox">
+                                    {% if tag.is_new_tag == True %}
+                                        <label> <input type="checkbox" id="is_new_checkbox" value="" aria-label="..." checked></label>
+                                    {% else %}
+                                        <label> <input type="checkbox" id="is_new_checkbox" value="" aria-label="..." ></label>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="checkbox">
+                                    {% if tag.will_be_used_as_tag == True %}
+                                        <label> <input type="checkbox" id="will_be_used_checkbox" value="" aria-label="..." checked></label>
+                                    {% else %}
+                                        <label> <input type="checkbox" id="will_be_used_checkbox" value="" aria-label="..." ></label>
+                                    {% endif %}
+                                </div>
+                            </td>
                             <td>{{ tag.category }}</td>
                         </tr>
                     {% endfor %}

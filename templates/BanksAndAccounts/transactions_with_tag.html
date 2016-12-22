@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block title %}
+    {% trans 'Transactions containing the tag:' %} {{tag_name}}
+{% endblock %}
+
+
+{% block heading %}
+    <h2>{% trans 'Transactions with tag:' %} {{tag_name}} </h2>
+        <h4><i>Number of transaction(s) containing tag {{tag_name}}: {{transactions.count}}</i>  </h4>
+{% endblock heading %}
+
+
+{% block content %}
+    <div class="list-group">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Currency</th>
+                    <th>N° Account</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction.date_of_transaction|date:" Y/m/d" }}</td>
+                        <td>{{ transaction.type_of_transaction }}</td>
+                        <td><a href="/transaction_detail/{{transaction.id}}/"> {{ transaction.name_of_transaction }} </a> </td>
+                        {% if transaction.amount_of_transaction >= 0 %}
+                            <td class="font-blue"> {{ transaction.amount_of_transaction | rjust:"10" }} </td>
+                        {% else %}
+                            <td class="font-red"> {{ transaction.amount_of_transaction | rjust:"10" }} </td>
+                        {% endif %}
+                        <td>{{ transaction.currency_of_transaction }}</td>
+                        <td>{{ transaction.account.num_of_account }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="row">
+        <div class="list-group">
+            <a class="list-group-item active" href="#"> Tags </a>
+            {% for tag in tags_list %}
+                <a class="list-group-item" href="/kewords/{{tag.tag}}/">{{tag.tag}}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+

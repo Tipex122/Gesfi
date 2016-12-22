@@ -4,6 +4,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.db.models import Avg, Sum, Min, Max, Count
 
+from categories.models import Tag
+
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -102,3 +104,10 @@ def transaction_detail(request, transaction_id):
     transaction = Transactions.objects.get(id=transaction_id)
     context = {'transaction': transaction}
     return render(request, 'BanksAndAccounts/transaction_detail.html', context)
+
+@login_required
+def transactions_with_tag(request, tag_name):
+    transactions = Transactions.objects.filter(name_of_transaction__icontains = tag_name)
+    tags_list = Tag.objects.filter(will_be_used_as_tag = True)
+    context = {'tag_name':tag_name, 'transactions': transactions, 'tags_list':tags_list}
+    return render(request, 'BanksAndAccounts/transactions_with_tag.html', context)
