@@ -16,8 +16,8 @@
         <h2>{% trans 'Transactions with "No Tag selected"' %} </h2>
         <h4><i>Number of transaction(s) with "No Tag selected": {{transactions.count}}</i>  </h4>
     {% else %}
-        <h2>{% trans 'Transactions with tag:' %} "{{tag_name}}" </h2>
-        <h4><i>Number of transaction(s) containing tag: "{{tag_name}}": {{transactions.count}}</i>  </h4>
+            <h2>{% trans 'Transactions with tag:' %} "{{tag_name}}" </h2>
+            <h4><i>Number of transaction(s) containing tag: "{{tag_name}}": {{transactions.count}}</i>  </h4>
     {% endif %}
 {% endblock heading %}
 
