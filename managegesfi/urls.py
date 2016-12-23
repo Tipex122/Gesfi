@@ -13,6 +13,6 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
 
     url(r'^search/$', search_views, name='search'),
-    url(r'^keywords/$', search_keywords, name='search_keywords'),
+    url(r'^keywords/search_keyword/$', search_keywords, name='search_keywords'),
 
 ]

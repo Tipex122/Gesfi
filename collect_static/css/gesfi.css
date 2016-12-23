@@ -1,0 +1,81 @@
+@import url(https://fonts.googleapis.com/css?family=Audiowide);
+
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+header .navbar-brand {
+  font-size: 1.4em;
+  font-weight: 200;
+  font-family: "Audiowide", cursive;
+}
+
+header .navbar-right .navbar-brand {
+  font-size: 1.4em;
+  font-weight: 200;
+  font-family: "Audiowide", cursive;
+}
+
+main .container {
+
+}
+
+body .row-header {
+  /* margin: 0; */
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+
+  padding: 5px;
+  /*
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  */
+
+  background: #ecebf3;
+/*  font-family: "Audiowide", cursive; */
+
+}
+a.link, a.visited {
+    text-decoration: none;
+}
+
+a:hover, a:active {
+    text-decoration: none;
+    color: green;
+
+}
+
+body .font-red {
+    color: #ff0000;
+}
+
+body .font-blue {
+    color: #0000ff;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-weight: 100;
+  font-size: 2em;
+}
+
+body .page-header h1 {
+  margin: 0;
+  font-weight: 100;
+  font-size: 2em;
+}
+
+.jumbotron {
+    position: relative;
+    background: #000 url("jumbotron-bg.jpg") center center;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    overflow: hidden;
+    color: #fcfff8
+}

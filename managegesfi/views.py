@@ -122,6 +122,7 @@ def search_keywords(request):
 
     listtag = Tag.objects.all()
     listtagnew = Tag.objects.filter(is_new_tag = True)
+    list_of_categories = Category.objects.all()
 
     '''
     #TODO: to automize new/old Tag without searching each time "new Tags"
@@ -142,5 +143,6 @@ def search_keywords(request):
     return render(request, 'ManageGesfi/keywords.html', {'tag_already_existing':tag_already_existing,
                                                          'tag_new': tag_new,
                                                          "listtag":listtag,
-                                                         "listtagnew":listtagnew})
+                                                         "listtagnew":listtagnew,
+                                                         'list_of_categories':list_of_categories})
 

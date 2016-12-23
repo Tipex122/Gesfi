@@ -58,7 +58,17 @@
                                     {% endif %}
                                 </div>
                             </td>
-                            <td>{{ tag.category }}</td>
+                            <td>
+                                <select class="selectpicker" data-show-subtext="true" data-live-search="true"">
+                                    {% for category in list_of_categories %}
+                                        {% if category.name == tag.category.name %}
+                                            <option selected>{{category.name}}</option>
+                                        {% else %}
+                                            <option>{{category.name}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
                         </tr>
                     {% endfor %}
                 {% endif %}

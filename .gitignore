@@ -9,4 +9,3 @@ db.sqlite3
 *.xmi
 *.pyc
 __pycache__
-*.css.map
