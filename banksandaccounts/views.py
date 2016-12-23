@@ -107,7 +107,11 @@ def transaction_detail(request, transaction_id):
 
 @login_required
 def transactions_with_tag(request, tag_name):
-    transactions = Transactions.objects.filter(name_of_transaction__icontains = tag_name)
+    if tag_name == "*ALL*":
+        transactions = Transactions.objects.all()
+    else:
+        transactions = Transactions.objects.filter(name_of_transaction__icontains = tag_name)
+
     tags_list = Tag.objects.filter(will_be_used_as_tag = True)
     context = {'tag_name':tag_name, 'transactions': transactions, 'tags_list':tags_list}
     return render(request, 'BanksAndAccounts/transactions_with_tag.html', context)
