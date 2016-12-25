@@ -64,9 +64,9 @@
                             <td>
                                 <!-- {{tag.category.name}} -->
 
-                                <select class="selectpicker" data-show-subtext="true" data-live-search="true"">
-                                <!--
-                                <select class="form-control"> -->
+                                <!-- <select class="selectpicker" data-show-subtext="true" data-live-search="true""> -->
+
+                                <select class="form-control">
                                     {% for category in list_of_categories %}
                                         {% if category.name == tag.category.name %}
                                             <option selected>{{category.name}}</option>
