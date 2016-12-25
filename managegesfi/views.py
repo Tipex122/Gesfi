@@ -129,7 +129,7 @@ def search_keywords(request):
 
 #    listtag = Tag.objects.all()
     listtagnew = Tag.objects.filter(is_new_tag = True)
-    list_of_categories = Category.objects.all()
+#    list_of_categories = Category.objects.all()
 
 
     return render(request, 'ManageGesfi/keywords.html', {
@@ -137,6 +137,6 @@ def search_keywords(request):
                                                          #'tag_new': tag_new,
                                                          #"listtag":listtag,
                                                          "listtagnew":listtagnew,
-                                                         "list_of_categories":list_of_categories
+                                                         #"list_of_categories":list_of_categories
                                                          })
 

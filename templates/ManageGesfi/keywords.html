@@ -62,7 +62,11 @@
                                 </div>
                             </td>
                             <td>
-                                {{tag.category.name}}
+                                {% if tag.category.name != None %}
+                                    {{tag.category.name}}
+                                {% else %}
+                                <p>No associated category</p>
+                                {% endif %}
 
                                 <!-- <select class="selectpicker" data-show-subtext="true" data-live-search="true""> -->
 <!--
