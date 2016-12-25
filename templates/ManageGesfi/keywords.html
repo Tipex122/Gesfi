@@ -12,8 +12,8 @@
 {% endblock head %}
 
 {% block heading %}
-    <h2>{% trans 'New Tags identified' %} </h2>
-    <p><i>{% trans "New tags are identified by searching words in all transactions' name stored in database" %}</i></p>
+    <h2>{% trans 'New Tags identified:' %} {{listtagnew.count}} </h2>
+    <p><i>{% trans "New tags are identified by searching words in all transactions' name stored in database. To edit tags, plesae click" %} <a href="{% url 'transactions_with_tag' tag_name='*ALL*' %}"> <u>here</u> </a></i></p>
 {% endblock heading %}
 
 
@@ -40,34 +40,41 @@
                         <tr>
                             <td>
                                 <div>
-                                    <a href="/keywords/{{tag.tag}}/"> {{ tag.tag }}</a>
+                                    <!-- <a href="/keywords/{{tag.tag}}/"> {{ tag.tag }}</a> -->
+                                    <!-- <a href="{% url 'transactions_with_tag' tag_name=tag.tag %}"> {{ tag.tag }}</a> -->
+                                    <label>{{tag.tag}}</label>
                                 </div>
                             </td>
                             <td>
-                                <div class="checkbox">
+                                <div>
                                     {% if tag.is_new_tag == True %}
-                                        <label> <input type="checkbox" id="is_new_checkbox" value="" aria-label="..." checked></label>
+                                        <label><span class="glyphicon glyphicon-ok"></span></label>
+                                        <!-- <label> <input type="checkbox" id="is_new_checkbox" value="" aria-label="..." checked></label> -->
                                     {% else %}
-                                        <label> <input type="checkbox" id="is_new_checkbox" value="" aria-label="..." ></label>
+                                        <label><span class="glyphicon glyphicon-star-remove"></span></label>
+                                        <!-- <label> <input type="checkbox" id="is_new_checkbox" value="" aria-label="..." ></label> -->
                                     {% endif %}
                                 </div>
                             </td>
                             <td>
-                                <div class="checkbox">
+                                <div>
                                     {% if tag.will_be_used_as_tag == True %}
-                                        <label> <input type="checkbox" id="will_be_used_checkbox" value="" aria-label="..." checked></label>
+                                        <label><span class="glyphicon glyphicon-ok"></span></label>
+                                        <!-- <label> <input type="checkbox" id="will_be_used_checkbox" value="" aria-label="..." checked></label> -->
                                     {% else %}
-                                        <label> <input type="checkbox" id="will_be_used_checkbox" value="" aria-label="..." ></label>
+                                        <label><span class="glyphicon glyphicon-star-remove"></span></label>
+                                        <!-- <label> <input type="checkbox" id="will_be_used_checkbox" value="" aria-label="..." ></label> -->
                                     {% endif %}
                                 </div>
                             </td>
                             <td>
-                                {% if tag.category.name != None %}
-                                    {{tag.category.name}}
-                                {% else %}
-                                    No associated category
-                                {% endif %}
-
+                                <div>
+                                    {% if tag.category.name != None %}
+                                        {{tag.category.name}}
+                                    {% else %}
+                                        No associated category
+                                    {% endif %}
+                                </div>
                                 <!-- <select class="selectpicker" data-show-subtext="true" data-live-search="true""> -->
 <!--
                                 <select class="form-control">
