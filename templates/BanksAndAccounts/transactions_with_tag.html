@@ -59,9 +59,9 @@
 {% block sidebar %}
     <div class="row">
         <div class="list-group">
-            <a class="list-group-item active" href="/kewords/*ALL*/"> Tags </a>
+            <a class="list-group-item active" href="/keywords/*ALL*/"> Tags </a>
             {% for tag in tags_list %}
-                <a class="list-group-item" href="/kewords/{{tag.tag}}/">{{tag.tag}}</a>
+                <a class="list-group-item" href="/keywords/{{tag.tag}}/">{{tag.tag}}</a>
             {% endfor %}
         </div>
     </div>

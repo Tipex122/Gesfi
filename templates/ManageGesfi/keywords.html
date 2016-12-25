@@ -40,7 +40,7 @@
                         <tr>
                             <td>
                                 <div>
-                                    <a href="/kewords/{{tag.tag}}/"> {{ tag.tag }}</a>
+                                    <a href="/keywords/{{tag.tag}}/"> {{ tag.tag }}</a>
                                 </div>
                             </td>
 <!--
@@ -86,45 +86,5 @@
             </tbody>
         </table>
     </div>
-
-<!--
-    <div class="pagination">
-        <span class="step-links">
-            {% if listtagnew.has_previous %}
-                <a href="?page={{ listtagnew.previous_page_number }}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                Page {{ listtagnew.number }} sur {{ listtagnew.paginator.num_pages }}.
-            </span>
-
-            {% if listtagnew.has_next %}
-                <a href="?page={{ listtagnew.next_page_number }}">next</a>
-            {% endif %}
-        </span>
-    </div>
-
-    {% if listtagnew.has_other_pages %}
-      <ul class="pagination">
-        {% if listtagnew.has_previous %}
-          <li><a href="?page={{ listtagnew.previous_page_number }}">&laquo;</a></li>
-        {% else %}
-          <li class="disabled"><span>&laquo;</span></li>
-        {% endif %}
-        {% for i in listtagnew.paginator.page_range %}
-          {% if listtagnew.number == i %}
-            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-          {% else %}
-            <li><a href="?page={{ i }}">{{ i }}</a></li>
-          {% endif %}
-        {% endfor %}
-        {% if listtagnew.has_next %}
-          <li><a href="?page={{ transactions.next_page_number }}">&raquo;</a></li>
-        {% else %}
-          <li class="disabled"><span>&raquo;</span></li>
-        {% endif %}
-      </ul>
-    {% endif %}
--->
 
 {% endblock content %}

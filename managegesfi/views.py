@@ -98,51 +98,45 @@ def search_keywords(request):
 
     #Back to a list
     listoftags_found = list(listoftags_found)
-    listoftags_found.sort(key=str.lower)
+#    listoftags_found.sort(key=str.lower)
+#    listoftags_found.sort()
 
 
-    tag_already_existing = list()
-    tag_new = list()
+#    tag_already_existing = list()
+#    tag_new = list()
 
     for l in listoftags_found:
-        if Tag.objects.filter(tag=l):
-            tag_already_existing.append(l)
-        else:
+        #if Tag.objects.filter(tag=l):
+        #if l in listoftags:
+        #    tag_already_existing.append(l)
+        #else:
+        if l not in listoftags:
             tag = Tag()
             tag.tag=l
             tag.is_new_tag = True
             tag.will_be_used_as_tag = True
             listoftags.append(l)
-            tag_new.append(l)
+#            tag_new.append(l)
             tag.save()
 
-    listoftags.sort(key=str.lower)
-    tag_already_existing.sort(key=str.lower)
-    tag_new.sort(key=str.lower)
+#    listoftags.sort(key=str.lower)
+#    tag_already_existing.sort(key=str.lower)
+#    tag_new.sort(key=str.lower)
 
-    listtag = Tag.objects.all()
+    listoftags.sort()
+#    tag_already_existing.sort()
+#    tag_new.sort()
+
+#    listtag = Tag.objects.all()
     listtagnew = Tag.objects.filter(is_new_tag = True)
-    list_of_categories = Category.objects.all()
+#    list_of_categories = Category.objects.all()
 
-    '''
-    #TODO: to automize new/old Tag without searching each time "new Tags"
-    #Page de 25 lignes
-    paginator = Paginator(listtagnew,25)
-    page = request.GET.get('page')
 
-    try:
-        listtagnew = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        listtagnew = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        listtagnew = paginator.page(paginator.num_pages)
-    '''
-
-    return render(request, 'ManageGesfi/keywords.html', {'tag_already_existing':tag_already_existing,
-                                                         'tag_new': tag_new,
-                                                         "listtag":listtag,
+    return render(request, 'ManageGesfi/keywords.html', {
+                                                         #'tag_already_existing':tag_already_existing,
+                                                         #'tag_new': tag_new,
+                                                         #"listtag":listtag,
                                                          "listtagnew":listtagnew,
-                                                         'list_of_categories':list_of_categories})
+                                                         #'list_of_categories':list_of_categories
+                                                         })
 
