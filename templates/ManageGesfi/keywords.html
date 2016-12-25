@@ -23,11 +23,11 @@
             <thead>
                 <tr>
                     <th>Name</th>
-<!--
+
                     <th>New Tag ?</th>
                     <th>Used as Tag ?</th>
                     <th>Category</th>
--->
+
                 </tr>
             </thead>
             <tbody>
@@ -43,7 +43,6 @@
                                     <a href="/keywords/{{tag.tag}}/"> {{ tag.tag }}</a>
                                 </div>
                             </td>
-<!--
                             <td>
                                 <div class="checkbox">
                                     {% if tag.is_new_tag == True %}
@@ -64,7 +63,7 @@
                             </td>
                             <td>
                                 {{tag.category.name}}
--->
+
                                 <!-- <select class="selectpicker" data-show-subtext="true" data-live-search="true""> -->
                                 <!--
                                 <select class="form-control">
@@ -77,9 +76,9 @@
                                     {% endfor %}
                                 </select>
                                 -->
-<!--
+
                             </td>
--->
+
                         </tr>
                     {% endfor %}
                 {% endif %}
