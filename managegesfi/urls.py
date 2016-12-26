@@ -14,6 +14,9 @@ urlpatterns = [
 
     url(r'^search/$', search_views, name='search'),
     url(r'^keywords/search_keyword/$', search_keywords, name='search_keywords'),
-    url(r'^tag_edit/(?P<pk>[0-9]+)$', tag_edit, name = 'tag_edit'),
+    url(r'^tag_edit/(?P<pk>[0-9]+)/$', tag_edit, name = 'tag_edit'),
+    url(r'^tag_edit/(?P<pk>)/$', tag_edit, name='tag_edit'),
+
+    #    url(r'^tag_edit/(?P<pk>(\d+))/$', tag_edit, name='tag_edit'),
 
 ]

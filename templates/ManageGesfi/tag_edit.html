@@ -3,21 +3,21 @@
 {% load i18n %}
 
 {% block title %}
-    {% if tag_name == '*ALL*' %}
+    {% if tag == None %}
         {% trans 'Transactions containing the tag:' %} "No Tag selected"
     {% else %}
-        {% trans 'Transactions containing the tag:' %} "{{tag_name}}"
+        {% trans 'Transactions containing the tag:' %} "{{tag.tag}}"
     {% endif %}
 {% endblock %}
 
 
 {% block heading %}
-    {% if tag_name == '*ALL*' %}
+    {% if tag == None %}
         <h2>{% trans 'Transactions with "No Tag selected"' %} </h2>
         <p><i>Number of transaction(s) with "No Tag selected": {{transactions.count}}. To Edit a tag, please select one on the right side of the screen here below</i>  </p>
     {% else %}
-        <h2>{% trans 'Transactions with tag:' %} "{{tag_name}}" </h2>
-        <p><i>Number of transaction(s) containing tag: "{{tag_name}}": {{transactions.count}}</i>  </p>
+        <h2>{% trans 'Transactions with tag:' %} "{{tag.tag}}" </h2>
+        <p><i>Number of transaction(s) containing tag: "{{tag.tag}}": {{transactions.count}}</i>  </p>
     {% endif %}
 {% endblock heading %}
 
@@ -66,10 +66,8 @@
 {% block sidebar %}
     <div class="row">
         <div class="list-group">
-            <!-- <a class="list-group-item active" href="/keywords/*ALL*/"> Tags </a> -->
-            <a class="list-group-item active" href="{% url 'transactions_with_tag' tag_name='*ALL*' %}"> Tags</a>
+            <a class="list-group-item active" href="{% url 'tag_edit' pk=Null %}"> Tags</a>
             {% for tag in tags_list %}
-                <!-- <a class="list-group-item" href="/keywords/{{tag.tag}}/">{{tag.tag}}</a> -->
                 <a class="list-group-item" href="{% url 'tag_edit' pk=tag.pk %}"> {{tag.tag}}</a>
             {% endfor %}
         </div>

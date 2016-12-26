@@ -118,11 +118,13 @@ def search_keywords(request):
 
 @login_required
 def tag_edit(request,pk):
-    tag = get_object_or_404(Tag, pk=pk)
+    #tag = get_object_or_404(Tag, pk=pk)
 
-    if pk == '0':
+    if pk == '':
         transactions = Transactions.objects.all()
+        tag = None
     else:
+        tag = get_object_or_404(Tag, pk=pk)
         transactions = Transactions.objects.filter(name_of_transaction__icontains = tag.tag)
 
     tags_list = Tag.objects.filter(will_be_used_as_tag = True)
@@ -141,6 +143,6 @@ def tag_edit(request,pk):
     else:
         form = TagForm(instance=tag)
 
-    context = {'transactions': transactions, 'tags_list': tags_list, 'form': form}
+    context = {'transactions': transactions, 'tags_list': tags_list, 'tag':tag, 'form': form}
     return render(request, 'ManageGesfi/tag_edit.html', context)
 

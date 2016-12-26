@@ -13,7 +13,7 @@
 
 {% block heading %}
     <h2>{% trans 'New Tags identified:' %} {{listtagnew.count}} </h2>
-    <p><i>{% trans "New tags are identified by searching words in all transactions' name stored in database. To edit tags, plesae click" %} <a href="{% url 'transactions_with_tag' tag_name='*ALL*' %}"> <u>here</u> </a></i></p>
+    <p><i>{% trans "New tags are identified by searching words in all transactions name stored in database. To edit tags, plesae click" %} <a href="{% url 'tag_edit' pk=Null %}"> <u>here</u> </a></i></p>
 {% endblock heading %}
 
 
@@ -40,8 +40,6 @@
                         <tr>
                             <td>
                                 <div>
-                                    <!-- <a href="/keywords/{{tag.tag}}/"> {{ tag.tag }}</a> -->
-                                    <!-- <a href="{% url 'transactions_with_tag' tag_name=tag.tag %}"> {{ tag.tag }}</a> -->
                                     <label>{{tag.tag}}</label>
                                 </div>
                             </td>
