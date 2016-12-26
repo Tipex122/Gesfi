@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
 from .views import search as search_views
-from .views import search_keywords
+from .views import search_keywords, tag_edit
 
 urlpatterns = [
 #    url(r'^login/$', views.site_login),
@@ -14,5 +14,6 @@ urlpatterns = [
 
     url(r'^search/$', search_views, name='search'),
     url(r'^keywords/search_keyword/$', search_keywords, name='search_keywords'),
+    url(r'^tag_edit/(?P<pk>[0-9]+)$', tag_edit, name = 'tag_edit'),
 
 ]

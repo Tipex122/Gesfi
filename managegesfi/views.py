@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.contrib.auth.models import User
 
@@ -7,6 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from banksandaccounts.models import *
 from categories.models import *
+from categories.forms import TagForm
 
 import re
 
@@ -114,4 +115,32 @@ def search_keywords(request):
     listtagnew = Tag.objects.filter(is_new_tag = True)
 
     return render(request, 'ManageGesfi/keywords.html', {"listtagnew":listtagnew,})
+
+@login_required
+def tag_edit(request,pk):
+    tag = get_object_or_404(Tag, pk=pk)
+
+    if pk == '0':
+        transactions = Transactions.objects.all()
+    else:
+        transactions = Transactions.objects.filter(name_of_transaction__icontains = tag.tag)
+
+    tags_list = Tag.objects.filter(will_be_used_as_tag = True)
+
+    if request.method == "POST":
+        form = TagForm(request.POST, instance=tag)
+
+        if form.is_valid():
+            tag = form.save(commit = False)
+            #tag.tag = tag_name
+            tag.is_new_tag=False
+            tag.will_be_used_as_tag = True
+            tag.save()
+            #context = {'tag_name': tag_name, 'transactions': transactions, 'tags_list': tags_list, 'form': form}
+            return redirect('tag_edit', pk=tag.pk)
+    else:
+        form = TagForm(instance=tag)
+
+    context = {'transactions': transactions, 'tags_list': tags_list, 'form': form}
+    return render(request, 'ManageGesfi/tag_edit.html', context)
 

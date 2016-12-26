@@ -23,6 +23,13 @@
 
 
 {% block content %}
+    <div class="list-inline">
+        <form method="POST" class="tag-form">
+            {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit" class="save btn btn-default">Save</button>
+        </form>
+    </div>
     <!-- <div class="list-group"> -->
         <table class="table table-striped">
             <thead>
@@ -63,7 +70,6 @@
             <a class="list-group-item active" href="{% url 'transactions_with_tag' tag_name='*ALL*' %}"> Tags</a>
             {% for tag in tags_list %}
                 <!-- <a class="list-group-item" href="/keywords/{{tag.tag}}/">{{tag.tag}}</a> -->
-                <!-- <a class="list-group-item" href="{% url 'transactions_with_tag' tag_name=tag.tag %}"> {{tag.tag}}</a> -->
                 <a class="list-group-item" href="{% url 'tag_edit' pk=tag.pk %}"> {{tag.tag}}</a>
             {% endfor %}
         </div>
