@@ -23,13 +23,15 @@
 
 
 {% block content %}
-    <div class="list-inline">
-        <form method="POST" class="tag-form">
-            {% csrf_token %}
-                {{form.as_p}}
-                <button type="submit" class="save btn btn-default">Save</button>
-        </form>
-    </div>
+    {% if tag != None %}
+        <div class="list-inline">
+            <form method="POST" class="tag-form">
+                {% csrf_token %}
+                    {{form.as_table}}
+                    <button type="submit" class="save btn btn-primary">Save</button>
+            </form>
+        </div>
+    {% endif %}
     <!-- <div class="list-group"> -->
         <table class="table table-striped">
             <thead>
