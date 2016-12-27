@@ -28,20 +28,17 @@
             <form method="POST" class="tag-form">
                 {% csrf_token %}
                 <table class="table">
+                    <tr>
                     {% for field in form %}
-                    <span>{{field.label_tag}} </span>
-                    <!--
-                        {% if field.type == select_field %}
-                            <select class="selectpicker" data-live-search="true">
-                                {{field}}
-                            </select>
-                        {% else %}
-                            <span>{{field}}</span>
-                        {% endif %}
-                        -->
+                        <td>
+                        <span>{{field.label_tag}} </span>
                         <span>{{field}}</span>
+                        <span>    </span>
+                        </td>
                     {% endfor %}
-                    <span> <button type="submit" class="save btn btn-primary">Save</button> </span>
+
+                    <td><span> <button type="submit" class="save btn btn-primary">Save</button> </span></td>
+                    </tr>
                 </table>
             </form>
         </div>
