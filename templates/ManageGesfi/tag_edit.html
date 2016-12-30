@@ -31,13 +31,11 @@
                     <tr>
                     {% for field in form %}
                         <td>
-                        <span>{{field.label_tag}} </span>
-                        <span>{{field}}</span>
-                        <span>    </span>
+                            {{field.label_tag}}
+                            {{field}}
                         </td>
                     {% endfor %}
-
-                    <td><span> <button type="submit" class="save btn btn-primary">Save</button> </span></td>
+                        <td><span> <button type="submit" class="save btn btn-primary">Save</button> </span></td>
                     </tr>
                 </table>
             </form>
@@ -51,8 +49,6 @@
                     <th>Type</th>
                     <th>Name</th>
                     <th>Amount</th>
-                    <th>Currency</th>
-                    <th>N° Account</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,14 +56,8 @@
                     <tr>
                         <td>{{ transaction.date_of_transaction|date:" Y/m/d" }}</td>
                         <td>{{ transaction.type_of_transaction }}</td>
-                        <td><a href="/transaction_detail/{{transaction.id}}/"> {{ transaction.name_of_transaction }} </a> </td>
-                        {% if transaction.amount_of_transaction >= 0 %}
-                            <td class="font-blue"> {{ transaction.amount_of_transaction | rjust:"10" }} </td>
-                        {% else %}
-                            <td class="font-red"> {{ transaction.amount_of_transaction | rjust:"10" }} </td>
-                        {% endif %}
-                        <td>{{ transaction.currency_of_transaction }}</td>
-                        <td>{{ transaction.account.num_of_account }}</td>
+                        <td>{{ transaction.name_of_transaction }}</td>
+                        <td>{{ transaction.amount_of_transaction | rjust:"10" }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -81,7 +71,11 @@
         <div class="list-group">
             <a class="list-group-item active" href="{% url 'tag_edit' pk=Null %}"> Tags</a>
             {% for tag in tags_list %}
-                <a class="list-group-item" href="{% url 'tag_edit' pk=tag.pk %}"> {{tag.tag}}</a>
+                {% if tag.is_new_tag == False %}
+                    <a class="list-group-item font-red" href="{% url 'tag_edit' pk=tag.pk %}"> {{tag.tag}}</a>
+                {% else %}
+                    <a class="list-group-item" href="{% url 'tag_edit' pk=tag.pk %}"> {{tag.tag}}</a>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

@@ -24,6 +24,7 @@ class CategoryAdmin(DjangoMpttAdmin ):
     fieldsets = [
         (None, {'fields': ['name']}),
         ('Info Catégorie', {'fields': ['parent', 'description', 'amount']}),
+#        ('Tags associés', {'fields': ['tag',]})
     ]
     list_display = ('name', 'amount', 'parent',)
     search_fields = ['name', 'amount', ]

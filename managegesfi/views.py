@@ -118,7 +118,7 @@ def search_keywords(request):
 
 @login_required
 def tag_edit(request,pk):
-    #tag = get_object_or_404(Tag, pk=pk)
+    tags_list = Tag.objects.filter(will_be_used_as_tag = True)
 
     if pk == '':
         transactions = Transactions.objects.all()
@@ -127,18 +127,15 @@ def tag_edit(request,pk):
         tag = get_object_or_404(Tag, pk=pk)
         transactions = Transactions.objects.filter(name_of_transaction__icontains = tag.tag)
 
-    tags_list = Tag.objects.filter(will_be_used_as_tag = True)
 
     if request.method == "POST":
         form = TagForm(request.POST, instance=tag)
 
         if form.is_valid():
             tag = form.save(commit = False)
-            #tag.tag = tag_name
             tag.is_new_tag=False
             tag.will_be_used_as_tag = True
             tag.save()
-            #context = {'tag_name': tag_name, 'transactions': transactions, 'tags_list': tags_list, 'form': form}
             return redirect('tag_edit', pk=tag.pk)
     else:
         form = TagForm(instance=tag)
