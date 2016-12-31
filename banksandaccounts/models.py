@@ -46,8 +46,8 @@ class Transactions(models.Model):
     creation_date = models.DateField('Date de saisie', default = datetime.datetime.now)
 
     account = models.ForeignKey('Accounts', null=True, blank=True)
-
-    transcat = models.ForeignKey(Category, null=True, blank=True)
+    category_of_transaction = models.ForeignKey(Category, null=True, blank=True)
+    #transcat = models.ForeignKey(Category, null=True, blank=True) #to be used in case of transversal categorization need
 
 #    def get_tags(self):
 #        tags = str.split(self.name_of_transaction)

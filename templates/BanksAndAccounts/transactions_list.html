@@ -11,7 +11,8 @@
 <!-- A améliorer car à chaque fois cela liste l'ensemble des comptes -->
     <h2>{% trans 'Transactions of account(s):' %}</h2>
             {% for account in accounts_info %}
-                <h4>{{account.name_of_account}} - {{account.num_of_account}} <i>[total: {{account.total_amount_by_account}}]</i>  </h4>
+<!-- #TODO: indiquer le nombre de transactions par compte -->
+                <p><i>{{account.name_of_account}} - {{account.num_of_account}} <i>[total: {{account.total_amount_by_account}} - Number of transaction(s): {{account.num_transac_by_account}}]</i></p>
             {% endfor %}
 {% endblock heading %}
 
@@ -27,8 +28,8 @@
                     <th>Type</th>
                     <th>Name</th>
                     <th>Amount</th>
-                    <th>Currency</th>
-                    <th>N° Account</th>
+                    <!-- <th>Currency</th>
+                    <th>N° Account</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -42,8 +43,8 @@
                         {% else %}
                             <td class="font-red"> {{ transaction.amount_of_transaction | rjust:"10" }} </td>
                         {% endif %}
-                        <td>{{ transaction.currency_of_transaction }}</td>
-                        <td>{{ transaction.account.num_of_account }}</td>
+                        <!-- <td>{{ transaction.currency_of_transaction }}</td>
+                        <td>{{ transaction.account.num_of_account }}</td> -->
                     </tr>
                 {% endfor %}
             </tbody>

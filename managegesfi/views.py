@@ -89,25 +89,35 @@ def search_keywords(request):
             listoftags.append(t.tag)
 
     for transaction in transaction_list:
-        keywords = re.findall(r'\b[a-z,A-Z,\']{3,15}\b', transaction.name_of_transaction)
-        for keyword in keywords:
-            keyword = keyword.upper()
-            listoftags_found.append(keyword)
+        key_tags = transaction.name_of_transaction.split()
+        for key_tag in key_tags:
+            if len(key_tag) > 2 and key_tag.isalpha():
+                #print ('=====> ', key_tag)
+                key_tag = key_tag.upper()
+                if key_tag not in listoftags_found:
+                    key_tag.strip(',')
+                    listoftags_found.append(key_tag)
+
+        #keywords = re.findall(r'\b[a-z,A-Z,\']{3,15}\b', transaction.name_of_transaction)
+        #for keyword in keywords:
+        #    keyword = keyword.upper()
+        #    listoftags_found.append(keyword)
+
 
     #To get a list unique
-    listoftags_found = set(listoftags_found)
+    ##listoftags_found = set(listoftags_found)
 
     #Back to a list
-    listoftags_found = list(listoftags_found)
+    ##listoftags_found = list(listoftags_found)
 
 
-    for l in listoftags_found:
-        if l not in listoftags:
+    for tag_found in listoftags_found:
+        if tag_found not in listoftags:
             tag = Tag()
-            tag.tag=l
+            tag.tag=tag_found
             tag.is_new_tag = True
             tag.will_be_used_as_tag = True
-            listoftags.append(l)
+            listoftags.append(tag_found)
             tag.save()
 
     listoftags.sort()
@@ -143,3 +153,29 @@ def tag_edit(request,pk):
     context = {'transactions': transactions, 'tags_list': tags_list, 'tag':tag, 'form': form}
     return render(request, 'ManageGesfi/tag_edit.html', context)
 
+@login_required
+def tag_category_edit(request):
+    #transactions_list = Transactions.objects.all()
+    categories_list = Category.objects.all()
+    transactions_with_category = list()
+    tags_list = Tag.objects.filter(will_be_used_as_tag=True)
+    for tag in tags_list:
+        transactions_with_tag = Transactions.objects.filter(name_of_transaction__icontains = tag.tag)
+        #print(transactions_with_tag)
+        if transactions_with_tag != None:
+            for transaction in transactions_with_tag:
+                if tag.category != None:
+                    transaction.category_of_transaction=tag.category
+                    #if tag.category != None:
+                        #print('=+= {}  ===> {} - {}  =====> {} ------- Montant: {}'.format(tag.tag, transaction.category_of_transaction.id,
+                        #                                        tag.category.name,
+                        #                                        transaction.name_of_transaction,
+                        #                                        transaction.amount_of_transaction))
+                    transactions_with_category.append(transaction.name_of_transaction)
+                    transaction.save()
+
+
+    transactions = Transactions.objects.all()
+    #transactions_with_category = Transactions.obects.filter(category_of_transaction__isnotnull)
+    context = {'transactions':transactions, 'categories_list':categories_list}
+    return render(request, 'ManageGesfi/tag_category.html', context)
