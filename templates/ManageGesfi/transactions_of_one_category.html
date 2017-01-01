@@ -3,12 +3,12 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans 'Transactions with categories' %}
+    {% trans 'Transactions of one selected category' %}
 {% endblock %}
 
 {% block heading %}
-    <h2>{% trans 'Transactions with categories' %} </h2>
-    <p><i>List of transactions by category</i>  </p>
+    <h2>{% trans 'Transactions of one selected category' %} </h2>
+    <p><i>List of transaction(s) for the selected category</i>  </p>
 {% endblock heading %}
 
 {% block content %}
@@ -50,7 +50,7 @@
     <div class="row">
         <div class="list-group">
             <a class="list-group-item active" href="{% url 'transactions_by_category' %}"> Categories</a>
-            {% for category in categories|dictsort:"name"  %}
+            {% for category in categories|dictsort:"name" %}
                 <a class="list-group-item" href="{% url 'transactions_of_one_category' pk=category.pk %}"> {{category.name}}</a>
             {% endfor %}
         </div>
