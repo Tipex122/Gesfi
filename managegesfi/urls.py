@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
 from .views import search as search_views
-from .views import search_keywords, tag_edit, tag_category_edit
+from .views import search_keywords, tag_edit, tag_category_edit, transactions_by_category
 
 urlpatterns = [
     url(r'^login/$', auth_views.login, name='gesfi_login'),
@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^tag_edit/(?P<pk>)$', tag_edit, name='tag_edit'),
     url(r'^tag_edit/(?P<pk>[0-9]+)/$', tag_edit, name = 'tag_edit'),
     url(r'^transaction_by_category/search_categories/$', tag_category_edit, name='tag_category'),
+    url(r'^transactions_by_category/$', transactions_by_category, name = 'transactions_by_category')
 ]

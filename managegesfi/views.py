@@ -153,6 +153,16 @@ def tag_edit(request,pk):
     context = {'transactions': transactions, 'tags_list': tags_list, 'tag':tag, 'form': form}
     return render(request, 'ManageGesfi/tag_edit.html', context)
 
+
+from django import template
+
+register = template.Library()
+#Doesn't work - To analyze
+@register.filter
+def getTransactionsCategory(transactions, id_category):
+    return transactions.filter(category=id_category)
+
+
 @login_required
 def tag_category_edit(request):
     #transactions_list = Transactions.objects.all()
@@ -179,3 +189,10 @@ def tag_category_edit(request):
     #transactions_with_category = Transactions.obects.filter(category_of_transaction__isnotnull)
     context = {'transactions':transactions, 'categories_list':categories_list}
     return render(request, 'ManageGesfi/tag_category.html', context)
+
+@login_required
+def transactions_by_category(request):
+    transactions = Transactions.objects.all().order_by('category_of_transaction__name')
+    categories = Category.objects.all()
+    context = {'transactions':transactions, 'categories':categories}
+    return render (request, 'ManageGesfi/transactions_by_category.html', context)
