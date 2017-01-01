@@ -137,7 +137,6 @@ def tag_edit(request,pk):
         tag = get_object_or_404(Tag, pk=pk)
         transactions = Transactions.objects.filter(name_of_transaction__icontains = tag.tag)
 
-
     if request.method == "POST":
         form = TagForm(request.POST, instance=tag)
 
@@ -154,39 +153,22 @@ def tag_edit(request,pk):
     return render(request, 'ManageGesfi/tag_edit.html', context)
 
 
-from django import template
-
-register = template.Library()
-#Doesn't work - To analyze
-@register.filter
-def getTransactionsCategory(transactions, id_category):
-    return transactions.filter(category=id_category)
-
-
 @login_required
 def tag_category_edit(request):
-    #transactions_list = Transactions.objects.all()
+    """Allocate a category to each transaction containing an identified Tag"""
     categories_list = Category.objects.all()
     transactions_with_category = list()
     tags_list = Tag.objects.filter(will_be_used_as_tag=True)
     for tag in tags_list:
         transactions_with_tag = Transactions.objects.filter(name_of_transaction__icontains = tag.tag)
-        #print(transactions_with_tag)
         if transactions_with_tag != None:
             for transaction in transactions_with_tag:
                 if tag.category != None:
                     transaction.category_of_transaction=tag.category
-                    #if tag.category != None:
-                        #print('=+= {}  ===> {} - {}  =====> {} ------- Montant: {}'.format(tag.tag, transaction.category_of_transaction.id,
-                        #                                        tag.category.name,
-                        #                                        transaction.name_of_transaction,
-                        #                                        transaction.amount_of_transaction))
                     transactions_with_category.append(transaction.name_of_transaction)
                     transaction.save()
 
-
     transactions = Transactions.objects.all()
-    #transactions_with_category = Transactions.obects.filter(category_of_transaction__isnotnull)
     context = {'transactions':transactions, 'categories_list':categories_list}
     return render(request, 'ManageGesfi/tag_category.html', context)
 
