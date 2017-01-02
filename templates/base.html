@@ -103,7 +103,7 @@
                             <a href='#' class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {% trans 'Categories & Tags' %} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="{% url 'budget' %}">{% trans 'Categories' %}</a></li>
-                                <li><a href="{% url 'transactions_by_category' %}">{% trans 'Transactions by category' %}</a></li>
+                                <li><a href="{% url 'transactions_by_category' pk=Null %}">{% trans 'Transactions by category' %}</a></li>
                             </ul>
                         </li>
 
@@ -112,7 +112,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="{% url 'search_keywords' %}">{% trans 'Inspect keywords' %}</a></li>
                                 <li><a href="{% url 'tag_edit' pk=Null %}">{% trans 'Edit tags' %}</a></li>
-                                <li><a href="{% url 'tag_category' %}">{% trans 'Category allocation to Transactions' %}</a></li>
+                                <li><a href="{% url 'tag_category_edit' %}">{% trans 'Category allocation to Transactions' %}</a></li>
                             </ul>
                         </li>
 

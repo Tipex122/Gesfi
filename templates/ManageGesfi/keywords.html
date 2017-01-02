@@ -23,7 +23,6 @@
             <thead>
                 <tr>
                     <th>Name</th>
-
                     <th>New Tag ?</th>
                     <th>Used as Tag ?</th>
                     <th>Category</th>
@@ -47,10 +46,8 @@
                                 <div>
                                     {% if tag.is_new_tag == True %}
                                         <label><span class="glyphicon glyphicon-ok"></span></label>
-                                        <!-- <label> <input type="checkbox" id="is_new_checkbox" value="" aria-label="..." checked></label> -->
                                     {% else %}
                                         <label><span class="glyphicon glyphicon-star-remove"></span></label>
-                                        <!-- <label> <input type="checkbox" id="is_new_checkbox" value="" aria-label="..." ></label> -->
                                     {% endif %}
                                 </div>
                             </td>
@@ -58,10 +55,8 @@
                                 <div>
                                     {% if tag.will_be_used_as_tag == True %}
                                         <label><span class="glyphicon glyphicon-ok"></span></label>
-                                        <!-- <label> <input type="checkbox" id="will_be_used_checkbox" value="" aria-label="..." checked></label> -->
                                     {% else %}
                                         <label><span class="glyphicon glyphicon-star-remove"></span></label>
-                                        <!-- <label> <input type="checkbox" id="will_be_used_checkbox" value="" aria-label="..." ></label> -->
                                     {% endif %}
                                 </div>
                             </td>
@@ -73,18 +68,6 @@
                                         No associated category
                                     {% endif %}
                                 </div>
-                                <!-- <select class="selectpicker" data-show-subtext="true" data-live-search="true""> -->
-<!--
-                                <select class="form-control">
-                                    {% for category in list_of_categories %}
-                                        {% if category.name == tag.category.name %}
-                                            <option selected>{{category.name}}</option>
-                                        {% else %}
-                                            <option>{{category.name}}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select>
--->
                             </td>
 
                         </tr>
@@ -95,3 +78,18 @@
     </div>
 
 {% endblock content %}
+
+{% block sidebar %}
+    <div class="row">
+        <div class="list-group">
+            <a class="list-group-item active" href="{% url 'tag_edit' pk=Null %}"> Tags</a>
+            {% for tag in listtagnew %}
+                {% if tag.is_new_tag == False %}
+                    <a class="list-group-item font-blue" href="{% url 'tag_edit' pk=tag.pk %}"> {{tag.tag}}</a>
+                {% else %}
+                    <a class="list-group-item" href="{% url 'tag_edit' pk=tag.pk %}"> {{tag.tag}}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

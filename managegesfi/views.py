@@ -172,24 +172,17 @@ def tag_category_edit(request):
     context = {'transactions':transactions, 'categories_list':categories_list}
     return render(request, 'ManageGesfi/tag_category.html', context)
 
-#TODO: See possibility to use only one function for 'transactions_by_category' & 'transactions_of_one_category'
-
 @login_required
-def transactions_by_category(request):
-    transactions = Transactions.objects.all().order_by('category_of_transaction__name')
-    categories = Category.objects.all()
-    context = {'transactions':transactions, 'categories':categories}
-    return render (request, 'ManageGesfi/transactions_by_category.html', context)
-
-@login_required
-def transactions_of_one_category(request, pk):
+def transactions_by_category(request, pk):
+    """
+    List of transactions by category.
+    For all categories or category by category selected
+    """
     if pk == '':
         transactions = Transactions.objects.all().order_by('category_of_transaction__name')
     else:
         category_selected = get_object_or_404(Category, pk=pk)
         transactions = Transactions.objects.filter(category_of_transaction=category_selected)
     categories = Category.objects.all()
-    context = {'transactions': transactions, 'categories':categories}
-    return render(request, 'ManageGesfi/transactions_of_one_category.html', context)
-#    return render(request, 'ManageGesfi/transactions_by_category.html', context)
-
+    context = {'transactions':transactions, 'categories':categories}
+    return render (request, 'ManageGesfi/transactions_by_category.html', context)

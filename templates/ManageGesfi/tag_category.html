@@ -50,9 +50,9 @@
 {% block sidebar %}
     <div class="row">
         <div class="list-group">
-            <a class="list-group-item active" href="#{% url 'transactions_by_category' %}"> Categories</a>
+            <a class="list-group-item active" href="{% url 'transactions_by_category' pk=Null %}"> Categories</a>
             {% for category in categories_list %}
-                <a class="list-group-item" href="{% url 'transactions_of_one_category' pk=category.pk %}"> {{category.name}}</a>
+                <a class="list-group-item" href="{% url 'transactions_by_category' pk=category.pk %}"> {{category.name}}</a>
             {% endfor %}
         </div>
     </div>
