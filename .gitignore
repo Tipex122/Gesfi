@@ -1,4 +1,4 @@
-cmds.txt
+cmds.*
 start_gunicorn.sh
 *.log
 *.csv
@@ -9,3 +9,4 @@ start_gunicorn.sh
 *.pyc
 __pycache__
 .env
+strt_gun.sh
