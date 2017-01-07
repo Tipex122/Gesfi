@@ -11,31 +11,29 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+from unipath import Path
+from decouple import config, Csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#UNIPATH# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+BASE_DIR = Path(__file__).parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'yrl93b*+&)5o5eg41oir2@@#%2hisq=)$9gzet9u^xr@y4z9=0'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = False
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-#XLH :TODO: verifier si c'est bien ca qu'il faut faire
-ALLOWED_HOSTS = ['127.0.0.1','gesfi', 'gesfi.com', '192.168.3.13']
-
+#ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Application definition
 
 INSTALLED_APPS = [
-    'banksandaccounts.apps.BanksandaccountsConfig',
-    'categories.apps.CategoriesConfig',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-#    'categories',
+
+    'banksandaccounts.apps.BanksandaccountsConfig',
+    'categories.apps.CategoriesConfig',
+    #    'categories',
 #    'banksandaccounts',
     'import_export',
     'gunicorn',

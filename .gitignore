@@ -4,8 +4,8 @@ start_gunicorn.sh
 *.csv
 *.sqlite3
 .idea/*
-db.sqlite3
 .directory
 *.xmi
 *.pyc
 __pycache__
+.env
