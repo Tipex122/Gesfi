@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load i18n %}
+{% load sort_headers %}
+
 
 {% block title %}
     {% if tag == None %}
@@ -45,10 +47,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th>Amount</th>
+                    {% table_header headers %}
                 </tr>
             </thead>
             <tbody>

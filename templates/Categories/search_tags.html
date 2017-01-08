@@ -3,8 +3,10 @@
 {% load i18n %}
 {% load humanize %}
 {% load crispy_forms_tags %}
+{% load sort_headers %}
 
-{% block title %} {% trans 'Keywords' %} {% endblock %}
+
+{% block title %} {% trans 'Tags' %} {% endblock %}
 
 {% block head %}
     <link href="{% static 'css/search.css' %}" rel="stylesheet">
@@ -22,11 +24,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>New Tag ?</th>
-                    <th>Used as Tag ?</th>
-                    <th>Category</th>
-
+                    {% table_header headers %}
                 </tr>
             </thead>
             <tbody>
@@ -69,7 +67,6 @@
                                     {% endif %}
                                 </div>
                             </td>
-
                         </tr>
                     {% endfor %}
                 {% endif %}
