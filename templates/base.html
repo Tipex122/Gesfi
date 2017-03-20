@@ -150,6 +150,13 @@
                 </div>
 
                 <div class="col-md-3">
+                    {% block sidesearch %}
+                        <hr>
+                        <p> Mettre en place </p>
+                        <p>une zone de recherche ici</p>
+                        <hr>
+                    {% endblock sidesearch %}
+                    <br>
                     {% block sidebar %}  {% endblock sidebar %}
                 </div>
             </div>
@@ -183,7 +190,7 @@
                                     <!-- <p><a class="btn btn-primary btn-lg" href="{% url 'gesfi_login' %}" role="button">Par ici &raquo;</a></p> -->
                     <div class="row">
                         <div class="col-md-8">
-                            <form action="{% url "gesfi_login" %}" method="post" accept-charset="utf-8">
+                            <form action="{% url 'gesfi_login' %}" method="post" accept-charset="utf-8">
                                 {{ form|crispy }}
                                 {% csrf_token %}
                                 <input type="hidden" name="next" value="{{ next }}">

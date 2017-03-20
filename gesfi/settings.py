@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'mptt',
     'django_mptt_admin',
     'crispy_forms',
+    'django_extensions'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -168,3 +169,8 @@ LOGIN_REDIRECT_URL = 'gesfi_login'
 #LOGIN_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+GRAPH_MODELS = {
+    'all_applications': True,
+    'group_models':True,
+}

@@ -96,7 +96,10 @@ class Transactions(models.Model):
 #        return tags
 
     def __str__(self):
-        return "[%s] -- %s ===>  %s" % (self.date_of_transaction, self.name_of_transaction, self.amount_of_transaction,)
+        return "[%s] -- %s ===>  %s" % (
+            self.date_of_transaction,
+            self.name_of_transaction,
+            self.amount_of_transaction,)
 
 #    def __init__(self):
 #        tags = self.tags
