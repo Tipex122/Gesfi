@@ -1,19 +1,21 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+# from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from banksandaccounts.models import *
 from categories.models import *
-from categories.forms import TagForm
+# from categories.forms import TagForm
 
-import re
+# import re
+
 
 # Create your views here.
 def site_login(request):
     pass
+
 
 @login_required
 def search(request):
@@ -31,32 +33,28 @@ def search(request):
             search_type = 'banks'
 
         count = {}
-        results = {}
+        results = {'banks': Banks.objects.filter(Q(name_of_bank__icontains=querystring) |
+                                                 Q(num_of_bank__icontains=querystring)),
+                   'accounts': Accounts.objects.filter(Q(name_of_account__icontains=querystring) |
+                                                       Q(num_of_account__icontains=querystring)),
+                   'transactions': Transactions.objects.filter(
+                       Q(name_of_transaction__icontains=querystring) |
+                       Q(date_of_transaction__icontains=querystring) |
+                       Q(type_of_transaction__icontains=querystring) |
+                       Q(amount_of_transaction__icontains=querystring) |
+                       Q(type_of_transaction__icontains=querystring)),
+                   'categories': Category.objects.filter(Q(name__icontains=querystring) |
+                                                         Q(description__icontains=querystring) |
+                                                         Q(amount__icontains=querystring))}
 
-        results['banks'] = Banks.objects.filter(Q(name_of_bank__icontains=querystring) |
-                                                Q(num_of_bank__icontains=querystring))
-
-        results['accounts'] = Accounts.objects.filter(Q(name_of_account__icontains=querystring) |
-                                                      Q(num_of_account__icontains=querystring))
-
-        #results['transactions'] = Transactions.objects.filter(name_of_transaction__icontains=querystring, parent=None)
-        #TODO: chercher la différence entre une recherche "Q()" et la notion de parent
-        #TODO: chercher sur une date ... hé hé
-        results['transactions'] = Transactions.objects.filter(Q(name_of_transaction__icontains=querystring) |
-                                                            Q(date_of_transaction__icontains=querystring) |
-                                                            Q(type_of_transaction__icontains=querystring) |
-                                                                Q(amount_of_transaction__icontains=querystring) |
-                                                              Q(type_of_transaction__icontains=querystring))
-
-        results['categories'] = Category.objects.filter(Q(name__icontains=querystring) |
-                                                        Q(description__icontains=querystring) |
-                                                        Q(amount__icontains=querystring))
+        # results['transactions'] = Transactions.objects.filter(name_of_transaction__icontains=querystring, parent=None)
+        # TODO: chercher la différence entre une recherche "Q()" et la notion de parent
+        # TODO: chercher sur une date ... hé hé
 
         count['banks'] = results['banks'].count()
         count['accounts'] = results['accounts'].count()
         count['transactions'] = results['transactions'].count()
         count['categories'] = results['categories'].count()
-
 
         return render(request, 'ManageGesfi/results.html', {
             'hide_search': True,
@@ -71,22 +69,25 @@ def search(request):
 
 @login_required
 def tag_category_edit(request):
-    """Allocate a category to each transaction containing an identified Tag"""
+    """
+    Allocate a category to each transaction containing an identified Tag
+    """
     categories_list = Category.objects.all()
     transactions_with_category = list()
     tags_list = Tag.objects.filter(will_be_used_as_tag=True)
     for tag in tags_list:
-        transactions_with_tag = Transactions.objects.filter(name_of_transaction__icontains = tag.tag)
-        if transactions_with_tag != None:
+        transactions_with_tag = Transactions.objects.filter(name_of_transaction__icontains=tag.tag)
+        if transactions_with_tag is not None:
             for transaction in transactions_with_tag:
-                if tag.category != None:
-                    transaction.category_of_transaction=tag.category
+                if tag.category is not None:
+                    transaction.category_of_transaction = tag.category
                     transactions_with_category.append(transaction.name_of_transaction)
                     transaction.save()
 
     transactions = Transactions.objects.all()
-    context = {'transactions':transactions, 'categories_list':categories_list}
+    context = {'transactions': transactions, 'categories_list': categories_list}
     return render(request, 'ManageGesfi/tag_category.html', context)
+
 
 @login_required
 def transactions_by_category(request, pk):
@@ -100,5 +101,5 @@ def transactions_by_category(request, pk):
         category_selected = get_object_or_404(Category, pk=pk)
         transactions = Transactions.objects.filter(category_of_transaction=category_selected)
     categories = Category.objects.all()
-    context = {'transactions':transactions, 'categories':categories}
-    return render (request, 'ManageGesfi/transactions_by_category.html', context)
+    context = {'transactions': transactions, 'categories': categories}
+    return render(request, 'ManageGesfi/transactions_by_category.html', context)

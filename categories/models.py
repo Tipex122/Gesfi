@@ -57,7 +57,8 @@ class SortHeaders:
                     default_order_field = i
                     break
         if default_order_field is None:
-            raise AttributeError('No default_order_field was specified and none of the header definitions given were sortable.')
+            raise AttributeError('No default_order_field was specified \
+            and none of the header definitions given were sortable.')
         if default_order_type not in ('asc', 'desc'):
             raise AttributeError('If given, default_order_type must be one of \'asc\' or \'desc\'.')
         if additional_params is None: additional_params = {}
@@ -118,14 +119,21 @@ class SortHeaders:
         )
 
 
-
 class Category(MPTTModel):
+    """
+    Handles categories used to classify transactions.
+    Categories are stored in a hierarchical structure which can be as deep as needed thanks to MPTT method. (Modified
+    Preorder Tree Traversal)
+    At this stage, one can manage categories hierarchy only through admin interface
+    """
     name = models.CharField(max_length=100, blank=False, unique=True)
     description = models.TextField(blank=True, null=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'),
                                  verbose_name="Estimated budget", blank=True, null=True)
 
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
+    # TODO: remplacement de null=True par models.CASCADE pour compatibilité Django 2.0 (à vérifier)
+    # parent = TreeForeignKey('self', models.CASCADE, blank=True, related_name='children', db_index=True)
 
     # objects = models.Manager()
 
@@ -141,6 +149,12 @@ class Category(MPTTModel):
         return self.name
 
     def save(self, *args, **kwargs):
+        """
+        Used to manage total amount (budget) of a category associated with its sub-categories when modified
+        :param args:
+        :param kwargs:
+        :return: Nothing
+        """
         if not self.is_root_node():
             super(Category, self).save(*args, **kwargs)  # Call the "real" save() method.
             ancestors = self.get_ancestors(True)
@@ -155,6 +169,11 @@ class Category(MPTTModel):
         super(Category, self).save(*args, **kwargs)  # Call the "real" save() method.
 
     def create_tags(self, tags):
+        # TODO: what for ? ==> to be explained
+        """
+        :param tags:
+        :return:
+        """
         tags = tags.strip()
         tag_list = tags.split(' ')
         for tag in tag_list:
@@ -169,18 +188,21 @@ class Tag(models.Model):
     tag = models.CharField(max_length=50, unique=True)
     is_new_tag = models.BooleanField(default=True)
     will_be_used_as_tag = models.BooleanField(default=True)
+
+    # TODO: remplacement de null=True par models.CASCADE pour compatibilité Django 2.0 (à vérifier)
     category = models.ForeignKey(Category, null=True, blank=True)
+    # category = models.ForeignKey(Category, models.CASCADE, blank=True)
 
     class Meta:
         verbose_name = _('Tag')
         verbose_name_plural = _('Tags')
-        #unique_together = (('tag', 'category'),)
-        #index_together = [['tag', 'category'], ]
+        # unique_together = (('tag', 'category'),)
+        # index_together = [['tag', 'category'], ]
 
     def __str__(self):
         return self.tag
 
-    #Not tested !!!!
+    # Not tested !!!!
     @staticmethod
     def get_popular_tags():
         tags = Tag.objects.all()
