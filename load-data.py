@@ -14,7 +14,7 @@ from banksandaccounts.models import *
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # CSV_FILEPATHNAME = BASE_DIR + '/csv/compta.csv'
-CSV_FILEPATHNAME = BASE_DIR + '/csv/00056149140-1.csv'
+CSV_FILEPATHNAME = BASE_DIR + '/csv/00056149140-total-clean.csv'
 
 # COMPTE = os.path.basename(__file__)
 COMPTE = os.path.basename(CSV_FILEPATHNAME).split('.')[0]
@@ -58,8 +58,8 @@ with open(CSV_FILEPATHNAME, mode='r', buffering=-1, encoding='UTF-8') as gesfi_a
     print('************************************** ==> 3')
 
 
-    if Accounts.objects.filter(num_of_account='456'):
-        compte = Accounts.objects.get(num_of_account = '456' )
+    if Accounts.objects.filter(num_of_account='00056149140'):
+        compte = Accounts.objects.get(num_of_account = '00056149140' )
 
 #    if Accounts.objects.filter(num_of_account=COMPTE):
 #        compte = Accounts.objects.get(num_of_account=COMPTE)

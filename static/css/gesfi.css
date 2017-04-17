@@ -51,6 +51,14 @@ a:hover, a:active {
 
 }
 
+
+body {
+    margin-top: 0px;
+    /*uniquement dans le cas d'une navbar-fixed-bottom */
+    /* margin-bottom: 50px; */
+}
+
+
 body .font-red {
     color: #ff0000;
 }

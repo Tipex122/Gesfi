@@ -51,8 +51,14 @@ INSTALLED_APPS = [
     'mptt',
     'django_mptt_admin',
     'crispy_forms',
-    'django_extensions'
+    'django_extensions',
+    'controlcenter'
 ]
+
+CONTROLCENTER_DASHBOARDS = (
+    'managegesfi.dashboards.MyDashboard',
+    # 'managegesfi.models.MyDashboard',
+)
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
