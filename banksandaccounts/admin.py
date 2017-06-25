@@ -14,10 +14,29 @@ from .models import Transactions
 class TransactionsResource(resources.ModelResource):
     class Meta:
         model = Transactions
+        #exclude = ('id', 'creation_date','account','category_of_transaction',)
+        exclude = ('id',)
+        #import_id_fields = ('name_of_transaction',)
+        skip_unchanged = True
+
+        fields = (
+            'id',
+            'date_of_transaction','type_of_transaction','name_of_transaction','amount_of_transaction','currency_of_transaction',
+            'creation_date',
+            'account',
+            'category_of_transaction'
+        )
+
+        #widgets = {
+        #    'date_of_transaction': {'format': '%d/%m/%Y'},
+        #    'creation_date': {'format': '%d/%m/%Y'},
+        #}
 
 
-class TransactionsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    # fields = ['name', 'parent_name', 'budget', 'date_of_budget']
+#class TransactionsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+class TransactionsAdmin(ImportExportModelAdmin):
+    resource_class = TransactionsResource
+
     fieldsets = [
         (None,
          {'fields':
@@ -44,6 +63,7 @@ class TransactionsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
                     'type_of_transaction',
                     'name_of_transaction',
                     'account',
+                    # 'account.bank',
                     'amount_of_transaction',
                     'category_of_transaction',
                     )

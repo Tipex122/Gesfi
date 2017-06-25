@@ -101,13 +101,13 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans 'Transactions' %} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- <li role='separator'> {% trans 'All transactions' %}</li> -->
-                                <li><a href="{% url 'transactions_list' %}">{% trans 'All' %}</a></li>
+                                <li><a href="{% url 'transactions_list2' %}">{% trans 'All' %}</a></li>
 
                                 {% for bank in banks %}
                                     <li role='separator'> {{bank}}</li>
                                     {% for account in all_accounts %}
                                         {% if account.bank == bank %}
-                                            <!-- <a class="list-group-item" href={% url "transactions_list" %}>{{account}} -->
+                                            <!-- <a class="list-group-item" href={% url "transactions_list2" %}>{{account}} -->
                                             <li><a href="/account/{{account.id}}">{{account}}</a></li>
                                             <li><a href="#">Test autre compte (?)</a></li>
                                         {% endif %}
@@ -161,6 +161,8 @@
             </div>
         </div>
 
+
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-9">
@@ -168,6 +170,8 @@
                 </div>
 
                 <div class="col-md-3">
+                    {% block sidebar %}  {% endblock sidebar %}
+                    <br>
                     {% block sidesearch %}
                         <hr>
                         <p> Mettre en place </p>
@@ -175,7 +179,7 @@
                         <hr>
                     {% endblock sidesearch %}
                     <br>
-                    {% block sidebar %}  {% endblock sidebar %}
+
                 </div>
             </div>
         </div> <!-- /container -->
@@ -225,6 +229,28 @@
         <!-- Latest compiled and minified JavaScript
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
         -->
+
+    {% block pagination %}
+      {% if is_paginated %}
+          <div class="pagination">
+              <span class="page-links">
+                  {% if page_obj.has_previous %}
+                      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                  {% endif %}
+                  <span class="page-current">
+                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                  </span>
+                  {% if page_obj.has_next %}
+                      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                  {% endif %}
+              </span>
+          </div>
+      {% endif %}
+    {% endblock %}
+
+
+
+
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.11.2.min.js" %}"><\/script>')</script>

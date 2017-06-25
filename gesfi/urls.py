@@ -15,24 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin, auth
-from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth import views as auth_views
+#from django.core.urlresolvers import reverse_lazy
+#from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^', include('categories.urls')),
     url(r'^', include('banksandaccounts.urls')),
     url(r'^', include('managegesfi.urls')),
-
-    #Deprecated
-    #url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}, name='gesfi_login'),
-
-#Good sans pointer sur managegesfi.urls
-    #    url(r'^login/$', auth_views.login, name='gesfi_login'),
-
-    #Deprecated
-    #url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-
-#Good sans pointer sur managegesfi.urls
-    # url(r'^logout/$', auth_views.logout, {'next_page': '/'}),
 ]

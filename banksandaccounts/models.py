@@ -41,8 +41,8 @@ class Accounts(models.Model):
         default='Identifiant',
         max_length=256)
     # TODO: remplacement de null=True par models.CASCADE pour compatibilité Django 2.0 (à vérifier)
-    # bank = models.ForeignKey('Banks', null=True, blank=True)
-    bank = models.ForeignKey('Banks', models.CASCADE, blank=True)
+    bank = models.ForeignKey('Banks', null=True, blank=True)
+    # bank = models.ForeignKey('Banks', models.CASCADE, blank=True)
 
     def __str__(self):
         return "%s" % self.name_of_account
@@ -80,14 +80,14 @@ class Transactions(models.Model):
         default=datetime.datetime.now)
 
     # TODO: remplacement de null=True par models.CASCADE pour compatibilité Django 2.0 (à vérifier)
-    # account = models.ForeignKey('Accounts', null=True, blank=True)
-    account = models.ForeignKey('Accounts', models.CASCADE, blank=True)
+    account = models.ForeignKey('Accounts', null=True, blank=True)
+    # account = models.ForeignKey('Accounts', models.CASCADE, blank=True)
 
     # TODO: remplacement de null=True par models.CASCADE pour compatibilité Django 2.0 (à vérifier)
     category_of_transaction = models.ForeignKey(
         Category,
-        # null=True,
-        models.CASCADE,
+        null=True,
+        # models.CASCADE,
         blank=True)
     # transcat = models.ForeignKey(Category, null=True,
     # blank=True) #to be used in case of transversal categorization need

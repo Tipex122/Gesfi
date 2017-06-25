@@ -8,6 +8,8 @@ from categories.models import Tag
 
 from django.contrib.auth.decorators import login_required
 
+from django.views import generic
+
 # Create your views here.
 
 
@@ -52,12 +54,11 @@ def banks_and_accounts_list(request):
 
 
 @login_required
-def transactions_list(request):
+def transactions_list2(request):
     banks = Banks.objects.all()
     # accounts = Accounts.objects.all()
     transaction_list = Transactions.objects.all()
-    account_total =\
-        Transactions.objects.aggregate(Sum('amount_of_transaction'))
+    account_total = Transactions.objects.aggregate(Sum('amount_of_transaction'))
 
     # Page de 25 lignes
     paginator = Paginator(transaction_list, 25)
@@ -87,15 +88,34 @@ def transactions_list(request):
         # general information related
         # to all accounts (due to "0") and used in sidebar
     }
-    return render(request, 'BanksAndAccounts/transactions_list.html', context)
+    return render(request, 'BanksAndAccounts/transactions_list2.html', context)
+
+
+class TransactionsListView(generic.ListView):
+    model = Transactions
+    paginate_by = 13
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(TransactionsListView, self).get_context_data(**kwargs)
+        # Get the blog from id and add it to the context
+        context['account_total'] = Transactions.objects.aggregate(Sum('amount_of_transaction'))
+        context['banks'] = Banks.objects.all()
+        context['accounts_info'] = accounts_info(0)
+        context['all_accounts'] = accounts_info(0)
+
+        return context
+
+    context_object_name = 'transactions_list'  # your own name for the list as a template variable
+    queryset = Transactions.objects.all() #[:55] Get 55 transactions
+    template_name = 'BanksAndAccounts/transactions_list3.html'  # Specify your own template name/location
 
 
 @login_required
 def account_list(request, account_id):
     transaction_list = Transactions.objects.filter(account_id=account_id)
 
-    account_total =\
-        Transactions.objects.filter(
+    account_total = Transactions.objects.filter(
             account_id=account_id).aggregate(Sum('amount_of_transaction'))
 
     # Page de 25 lignes
@@ -128,7 +148,7 @@ def account_list(request, account_id):
         # to alla accounts (due to "0") and used in sidebar
     }
 
-    return render(request, 'BanksAndAccounts/transactions_list.html', context)
+    return render(request, 'BanksAndAccounts/transactions_list2.html', context)
 
 
 @login_required
