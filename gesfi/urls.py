@@ -20,6 +20,9 @@ from django.contrib import admin, auth
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name='admin'),
+
+    url(r'^accounts/', include('django.contrib.auth.urls')),
+
     url(r'^', include('categories.urls')),
     url(r'^', include('banksandaccounts.urls')),
     url(r'^', include('managegesfi.urls')),

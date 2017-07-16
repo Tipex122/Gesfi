@@ -9,6 +9,8 @@ from categories.models import Tag
 from django.contrib.auth.decorators import login_required
 
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
 
@@ -57,7 +59,7 @@ def banks_and_accounts_list(request):
 def transactions_list2(request):
     banks = Banks.objects.all()
     # accounts = Accounts.objects.all()
-    transaction_list = Transactions.objects.all()
+    transaction_list = Transactions.objects.all() # TODO: to sort by reversed date
     account_total = Transactions.objects.aggregate(Sum('amount_of_transaction'))
 
     # Page de 25 lignes
@@ -91,7 +93,7 @@ def transactions_list2(request):
     return render(request, 'BanksAndAccounts/transactions_list2.html', context)
 
 
-class TransactionsListView(generic.ListView):
+class TransactionsListView(LoginRequiredMixin, generic.ListView):
     model = Transactions
     paginate_by = 13
 
@@ -105,6 +107,9 @@ class TransactionsListView(generic.ListView):
         context['all_accounts'] = accounts_info(0)
 
         return context
+
+    def get_queryset(self):
+        return Transactions.objects.filter(account__owner_of_account=self.request.user)
 
     context_object_name = 'transactions_list'  # your own name for the list as a template variable
     queryset = Transactions.objects.all() #[:55] Get 55 transactions

@@ -2,6 +2,7 @@ from django.db import models
 # from decimal import Decimal
 from categories.models import Category
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -43,6 +44,7 @@ class Accounts(models.Model):
     # TODO: remplacement de null=True par models.CASCADE pour compatibilité Django 2.0 (à vérifier)
     bank = models.ForeignKey('Banks', null=True, blank=True)
     # bank = models.ForeignKey('Banks', models.CASCADE, blank=True)
+    owner_of_account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return "%s" % self.name_of_account
@@ -113,4 +115,4 @@ class Transactions(models.Model):
     class Meta:
         verbose_name = _('transaction')
         verbose_name_plural = _('transactions')
-        ordering = ['date_of_transaction']
+        ordering = ['-date_of_transaction']
