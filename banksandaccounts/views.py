@@ -92,7 +92,7 @@ def transactions_list2(request):
     }
     return render(request, 'BanksAndAccounts/transactions_list2.html', context)
 
-
+# TODO: Access management ==> to be improved
 class TransactionsListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     model = Transactions
     paginate_by = 13
