@@ -84,7 +84,8 @@ admin.site.register(Transactions, TransactionsAdmin)
 class AccountsAdmin(admin.ModelAdmin):
     list_display = ('num_of_account',
                     'name_of_account',
-                    'owner_of_account',
+                    #'owner_of_account',
+                    'get_users',
                     'bank')
 
     list_filter = ('bank','owner_of_account',)

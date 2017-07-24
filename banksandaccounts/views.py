@@ -9,7 +9,7 @@ from categories.models import Tag
 from django.contrib.auth.decorators import login_required
 
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 # Create your views here.
@@ -93,7 +93,7 @@ def transactions_list2(request):
     return render(request, 'BanksAndAccounts/transactions_list2.html', context)
 
 
-class TransactionsListView(LoginRequiredMixin, generic.ListView):
+class TransactionsListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     model = Transactions
     paginate_by = 13
 
