@@ -11,14 +11,12 @@
 <!-- A améliorer car à chaque fois cela liste l'ensemble des comptes -->
     <h2>{% trans 'Transactions of account(s):' %}</h2>
             {% for account in accounts_info %}
-<!-- #TODO: indiquer le nombre de transactions par compte -->
-                <p><i>{{account.name_of_account}} - {{account.num_of_account}} <i>[total: {{account.total_amount_by_account}} - Number of transaction(s): {{account.num_transac_by_account}}]</i></p>
+                <p>{{account.name_of_account}} - {{account.num_of_account}} <i>[total: {{account.total_amount_by_account}} - Number of transaction(s): {{account.num_transac_by_account}}]</i></p>
             {% endfor %}
 {% endblock heading %}
 
 
 {% block content %}
-
     {% if transactions_list %}
         <table class="table table-striped ">
             <thead>
@@ -49,7 +47,7 @@
             </tbody>
         </table>
     {% else %}
-      <p>There are no transaction in the database.</p>
+        <p>There are no transaction in the database.</p>
     {% endif %}
 
 {% endblock %}
@@ -57,28 +55,28 @@
 {% block sidebar %}
     <div class="row">
 
-    {% if is_paginated %}
-        <div class="pagination">
-            <span class="page-links">
-              {% if page_obj.has_previous %}
-                  <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-              {% endif %}
-              <span class="page-current">
-                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-              </span>
-              {% if page_obj.has_next %}
-                  <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-              {% endif %}
-            </span>
-        </div>
-    {% endif %}
+        {% if is_paginated %}
+            <div class="pagination">
+                <span class="page-links">
+                  {% if page_obj.has_previous %}
+                      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                  {% endif %}
+                  <span class="page-current">
+                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                  </span>
+                  {% if page_obj.has_next %}
+                      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                  {% endif %}
+                </span>
+            </div>
+        {% endif %}
 
         {% for bank in banks %}
             <div class="list-group">
                 <a class="list-group-item active" href="#"> {{bank}} </a>
                 {% for account in all_accounts %}
                     {% if account.bank == bank %}
-                        <!-- <a class="list-group-item" href={% url "transactions_list" %}>{{account}} -->
+                        {# <a class="list-group-item" href={% url "transactions_list" %}>{{account}} #}
                         <a class="list-group-item" href="/account/{{account.id}}">{{account}}
                             <br> Account id: {{account.num_of_account}}
                             <i>
@@ -98,6 +96,8 @@
     </div>
 {% endblock %}
 
+<!-- La pagination pourrait être mieux placée ... à creuser ultérieurement -->
+<!-- Voir aussi site https://simpleisbetterthancomplex.com/tutorial/2016/08/03/how-to-paginate-with-django.html  pour tenir compte des ordres de tri -->
 {% block pagination %}
   {% if is_paginated %}
       <div class="pagination">

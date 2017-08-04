@@ -13,8 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 
 # Create your views here.
-
-
+'''
 def accounts_info(account_id=0):
     if account_id == 0:
         account_info = Accounts.objects.annotate(
@@ -35,18 +34,48 @@ def accounts_info(account_id=0):
     return account_info
 
 
+def accounts_info2(request, account_id=0):
+    account_info = Accounts.objects.filter(owner_of_account=request.user).annotate(
+    total_amount_by_account=Sum('transactions__amount_of_transaction'),
+    avg_amount_by_account=Avg('transactions__amount_of_transaction'),
+    min_amount_by_account=Min('transactions__amount_of_transaction'),
+    max_amount_by_account=Max('transactions__amount_of_transaction'),
+    num_transac_by_account=Count('transactions'))
+
+    return account_info
+'''
+
+def accounts_info2(request, account_id=0):
+    if account_id == 0:
+        account_info = Accounts.objects.filter(owner_of_account=request.user).annotate(
+            total_amount_by_account=Sum('transactions__amount_of_transaction'),
+            avg_amount_by_account=Avg('transactions__amount_of_transaction'),
+            min_amount_by_account=Min('transactions__amount_of_transaction'),
+            max_amount_by_account=Max('transactions__amount_of_transaction'),
+            num_transac_by_account=Count('transactions'))
+
+    elif account_id != 0:
+        account_info = Accounts.objects.filter(owner_of_account=request.user).filter(id=account_id).annotate(
+            total_amount_by_account=Sum('transactions__amount_of_transaction'),
+            avg_amount_by_account=Avg('transactions__amount_of_transaction'),
+            min_amount_by_account=Min('transactions__amount_of_transaction'),
+            max_amount_by_account=Max('transactions__amount_of_transaction'),
+            num_transac_by_account=Count('transactions'))
+
+    return account_info
+
 @login_required
 def banks_and_accounts_list(request):
-    banks_list = Banks.objects.all()
-    accounts_list = Accounts.objects.all()
+    banks_list = Banks.objects.all().filter(accounts__owner_of_account=request.user)
+    accounts_list = Accounts.objects.all().filter(owner_of_account=request.user)
     account_total =\
-        Transactions.objects.aggregate(total=Sum('amount_of_transaction'))
+        Transactions.objects.filter(account__owner_of_account=request.user).aggregate(total=Sum('amount_of_transaction'))
 
     context = {
-        'accounts_list': accounts_list,
         'banks_list': banks_list,
+        'accounts_list': accounts_list,
         'account_total': account_total,
-        'accounts_info': accounts_info()
+        'accounts_info': accounts_info2(request)
     }
     return render(
         request,
@@ -54,13 +83,16 @@ def banks_and_accounts_list(request):
         context
     )
 
-
 @login_required
 def transactions_list2(request):
-    banks = Banks.objects.all()
+    # banks = Banks.objects.all()
+    banks = Banks.objects.all().filter(accounts__owner_of_account=request.user)
     # accounts = Accounts.objects.all()
-    transaction_list = Transactions.objects.all() # TODO: to sort by reversed date
-    account_total = Transactions.objects.aggregate(Sum('amount_of_transaction'))
+    # transaction_list = Transactions.objects.all()
+    transaction_list = Transactions.objects.filter(account__owner_of_account=request.user)
+
+    # account_total = Transactions.objects.aggregate(Sum('amount_of_transaction'))
+    account_total = transaction_list.aggregate(Sum('amount_of_transaction'))
 
     # Page de 25 lignes
     paginator = Paginator(transaction_list, 25)
@@ -84,27 +116,31 @@ def transactions_list2(request):
         # used to list transactions related to account(s)
         'account_total': account_total,
         # sum of all transactions ==> not really used in fact
-        'accounts_info': accounts_info(0),
+        'accounts_info': accounts_info2(request, 0),
         # general information related to all accounts (due to "0")
-        'all_accounts': accounts_info(0)
+        'all_accounts': accounts_info2(request, 0)
         # general information related
         # to all accounts (due to "0") and used in sidebar
     }
     return render(request, 'BanksAndAccounts/transactions_list2.html', context)
 
 # TODO: Access management ==> to be improved
-class TransactionsListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+#class TransactionsListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+class TransactionsListView(LoginRequiredMixin, generic.ListView):
     model = Transactions
-    paginate_by = 13
+    paginate_by = 25
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(TransactionsListView, self).get_context_data(**kwargs)
         # Get the blog from id and add it to the context
         context['account_total'] = Transactions.objects.aggregate(Sum('amount_of_transaction'))
-        context['banks'] = Banks.objects.all()
-        context['accounts_info'] = accounts_info(0)
-        context['all_accounts'] = accounts_info(0)
+        # context['banks'] = Banks.objects.all()
+        context['banks'] = Banks.objects.all().filter(accounts__owner_of_account=self.request.user)
+        # context['accounts_info'] = accounts_info(0)
+        context['accounts_info'] = accounts_info2(self.request, 0)
+        # context['all_accounts'] = accounts_info(0)
+        context['all_accounts'] = accounts_info2(self.request,0)
 
         return context
 
@@ -118,13 +154,15 @@ class TransactionsListView(LoginRequiredMixin, PermissionRequiredMixin, generic.
 
 @login_required
 def account_list(request, account_id):
-    transaction_list = Transactions.objects.filter(account_id=account_id)
+    transactions_list = Transactions.objects.filter(account_id=account_id)
+    # transactions_list = Transactions.objects.get(id=account_id)
+
 
     account_total = Transactions.objects.filter(
             account_id=account_id).aggregate(Sum('amount_of_transaction'))
 
     # Page de 25 lignes
-    paginator = Paginator(transaction_list, 25)
+    paginator = Paginator(transactions_list, 25)
     page = request.GET.get('page')
 
     try:
@@ -137,18 +175,23 @@ def account_list(request, account_id):
         transactions = paginator.page(paginator.num_pages)
 
     # accounts = Accounts.objects.all()
-    banks = Banks.objects.all()
+    # banks = Banks.objects.all()
+    banks = Banks.objects.all().filter(accounts__owner_of_account=request.user)
 
     context = {
-        'banks': banks,  # used for dispatching accounts by bank in sidebar
-        # 'accounts': accounts,
-        'transactions': transactions,
+        'banks': banks,
+        # used for dispatching accounts by bank in sidebar
+        'transactions': transactions, # pour utilisation avec transactions_list2.html
+        # 'transactions_list': transactions_list, # pour utilisation avec transactions_list3.html
+
         # used to list transactions related to account(s)
         'account_total': account_total,
         # sum of all transactions ==> not really used in fact
-        'accounts_info': accounts_info(account_id),
+        # 'accounts_info': accounts_info(account_id),
+        'accounts_info': accounts_info2(request, account_id),
         # general information related to selectede account
-        'all_accounts': accounts_info(0)
+        # 'all_accounts': accounts_info(0)
+        'all_accounts': accounts_info2(request, 0)
         # general information related
         # to alla accounts (due to "0") and used in sidebar
     }

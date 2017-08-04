@@ -119,7 +119,7 @@
                 {% for account in all_accounts %}
                     {% if account.bank == bank %}
                         {# <a class="list-group-item" href={% url "transactions_list2" %}>{{account}} #}
-                        <a class="list-group-item" href="/account/{{account.id}}">{{account}}
+                        <a class="list-group-item" href="/account/{{account.id}}/">{{account}}
                             <br> Account id: {{account.num_of_account}}
                             <i>
                                 <br> Total : {{account.total_amount_by_account}}
