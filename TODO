@@ -1,0 +1,25 @@
+List of "Todos":
+
+RESEARCH AREA:
+==============
+1- To add criteria to research a transaction
+   Example: transaction between 2017-01-01 AND 2017-01-25
+
+
+MAIN PAGE:
+==========
+1- To add research criteria in sidebar?
+
+
+CATEGORIES:
+===========
+1- to be able to manage different budgets by user
+2- to only manage budget of the logged user
+
+
+TRANSACTIONS DATA IMPORTATION:
+==============================
+1- To improve CSV importation of transactions
+   a- to automatize importation from admin page if possible (bug unsolved till now due to ID)
+   b- to solve problem of letter with accent (example: "é") which are replaced by mysterious characters
+2- to automatize the affectation of the transactions by categories
