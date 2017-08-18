@@ -15,7 +15,7 @@ from banksandaccounts.models import *
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # CSV_FILEPATHNAME = BASE_DIR + '/csv/compta.csv'
 #CSV_FILEPATHNAME = BASE_DIR + '/csv/00056149140-total-clean.csv'
-CSV_FILEPATHNAME = BASE_DIR + '/csv/2017-04-14 - 2017-06-09 - Extraction SG/00056149140 - 2017-06-09 - clean.csv'
+CSV_FILEPATHNAME = BASE_DIR + '/csv/2017-06-10 - 2017-07-28 - Extraction SG/00056149140 - 2017-07-28 - clean.csv'
 
 # COMPTE = os.path.basename(__file__)
 COMPTE = os.path.basename(CSV_FILEPATHNAME).split('.')[0]

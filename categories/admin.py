@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django_mptt_admin.admin import DjangoMpttAdmin
+from mptt.admin import DraggableMPTTAdmin
 from .models import Category, Tag
 
 
@@ -19,18 +20,25 @@ admin.site.register(Tag, TagAdmin)
 #admin.site.register(Tag)
 
 
-class CategoryAdmin(DjangoMpttAdmin ):
+# class CategoryAdmin(DjangoMpttAdmin ):
+class CategoryAdmin(DraggableMPTTAdmin):
+
     #    fields = ['name', 'description', 'amount', 'parent']
+    '''
     fieldsets = [
-        (None, {'fields': ['name']}),
+        (None, {'fields': ['indented_title']}),
         ('Info Catégorie', {'fields': ['parent', 'description', 'amount']}),
-#        ('Tags associés', {'fields': ['tag',]})
+    #   ('Tags associés', {'fields': ['tag',]})
     ]
-    list_display = ('name', 'amount', 'parent',)
+    '''
+    #list_display = ('indented_title', 'amount', 'parent',)
+
     search_fields = ['name', 'amount', ]
-    list_filter = ('parent',)
+    # list_filter = ('parent',)
 
 
 # mptt_level_indent = 20
 
+# admin.site.register(Category, CategoryAdmin)
 admin.site.register(Category, CategoryAdmin)
+

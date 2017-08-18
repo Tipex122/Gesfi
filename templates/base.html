@@ -122,6 +122,8 @@
                             <ul class="dropdown-menu">
                                 <li><a href="{% url 'budget' %}">{% trans 'Categories' %}</a></li>
                                 <li><a href="{% url 'transactions_by_category' pk=Null %}">{% trans 'Transactions by category' %}</a></li>
+                                <li><a href="{% url 'show_category' hierarchy=None %}">{% trans 'Budget' %}</a></li>
+                                <li><a href="{% url 'show_category2' node=None %}">{% trans 'Budget 2' %}</a></li>
                             </ul>
                         </li>
 
@@ -146,7 +148,7 @@
                         </form>
                     {% endif %}
 
-                    <p class="navbar-right navbar-brand">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}"> Log out </a>)</small></p>
+                    <p class="navbar-right navbar-brand">Hello {{ user.username }} <small>(<a href="{% url 'gesfi_logout' %}"> Log out </a>)</small></p>
 
                 </div><!--/.navbar-collapse -->
 

@@ -94,6 +94,9 @@ def transactions_list2(request):
     # account_total = Transactions.objects.aggregate(Sum('amount_of_transaction'))
     account_total = transaction_list.aggregate(Sum('amount_of_transaction'))
 
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+
     # Page de 25 lignes
     paginator = Paginator(transaction_list, 25)
     page = request.GET.get('page')
@@ -118,14 +121,18 @@ def transactions_list2(request):
         # sum of all transactions ==> not really used in fact
         'accounts_info': accounts_info2(request, 0),
         # general information related to all accounts (due to "0")
-        'all_accounts': accounts_info2(request, 0)
+        'all_accounts': accounts_info2(request, 0),
         # general information related
         # to all accounts (due to "0") and used in sidebar
+        'num_visits': num_visits,
+        # to count the number of visit on the main page (transactions_list2.html only)
+        # just for test to use django.sessions middleware
     }
     return render(request, 'BanksAndAccounts/transactions_list2.html', context)
 
-# TODO: Access management ==> to be improved
-#class TransactionsListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+
+# TODO: Access management ==> to be improved with ListView
+# class TransactionsListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
 class TransactionsListView(LoginRequiredMixin, generic.ListView):
     model = Transactions
     paginate_by = 25
@@ -205,7 +212,7 @@ def transaction_detail(request, transaction_id):
     context = {'transaction': transaction}
     return render(request, 'BanksAndAccounts/transaction_detail.html', context)
 
-
+# TODO: to verify if this function is used (transactions_with_tag ?: not sure)
 @login_required
 def transactions_with_tag(request, tag_name):
     if tag_name == "*ALL*":

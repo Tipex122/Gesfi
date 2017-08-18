@@ -13,9 +13,6 @@ from categories.models import *
 
 
 # Create your views here.
-def site_login(request):
-    pass
-
 
 @login_required
 def search(request):

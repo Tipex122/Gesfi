@@ -134,6 +134,7 @@ class Category(MPTTModel):
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
     # TODO: remplacement de null=True par models.CASCADE pour compatibilité Django 2.0 (à vérifier)
     # parent = TreeForeignKey('self', models.CASCADE, blank=True, related_name='children', db_index=True)
+    slug = models.SlugField()
 
     # objects = models.Manager()
 

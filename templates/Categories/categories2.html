@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load mptt_tags %}
+
+{% block head_title %}  {% endblock %}
+
+{% block content %}
+
+<ul class="breadcrumb">
+    {% for i in ancestors %}
+        <li><a href="{{ i.slug }}"> {{ i.name }} </a></li>
+    {% endfor %}
+
+</ul>
+
+{% if  children %}
+    <h4>Sub Categories</h4>
+    {% for i in children %}
+        <a href="{{ i.name }}"> {{ i.name }} </a><br>
+    {% endfor %}
+
+    <br><hr>
+{% endif %}
+
+<div class="text-center"><h2>{{ancestors.name}}</h2></div>
+
+
+{% endblock %}

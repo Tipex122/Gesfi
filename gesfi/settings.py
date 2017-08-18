@@ -170,7 +170,7 @@ MEDIA_URL = '/media/'
 LOGIN_URL = 'gesfi_login'
 LOGOUT_URL = 'gesfi_logout'
 LOGIN_REDIRECT_URL = 'gesfi_login'
-#LOGIN_REDIRECT_URL = '/'
+# LOGIN_REDIRECT_URL = '/'
 
 #LOGIN_REDIRECT_URL = '/'
 
@@ -180,3 +180,6 @@ GRAPH_MODELS = {
     'all_applications': True,
     'group_models':True,
 }
+
+# La ligne ci-dessous ne semble pas avoir d'impact sur l'interface MPTT Admin (?)
+MPTT_ADMIN_LEVEL_INDENT = 20

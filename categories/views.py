@@ -137,3 +137,76 @@ def tag_edit(request, pk):
         'headers': list_of_headers,
     }
     return render(request, 'Categories/tag_edit.html', context)
+
+
+@login_required
+def show_category(request, hierarchy=None):
+    # Attention: à mettre à jour par la parent de la hierarchy (voir comment le trouver avec MPTT
+
+    nodes = Category.objects.all()
+
+    print(hierarchy)
+
+    if hierarchy == 'None':
+        hierarchy = "Budget"
+    print("Hierarchy après affectation de Budget: {}".format(hierarchy))
+
+    category_slug = hierarchy.split('/')
+    print(category_slug)
+
+    parent = None
+    root = Category.objects.all()
+    print("***************** 1 ****************")
+    print(root)
+    print("***************** 1 ****************")
+
+
+    for slug in category_slug[:-1]:
+        parent = root.get(parent=parent, slug=slug)
+        print("================== 1 =======================")
+        print(parent)
+        print("================== 1 =======================")
+
+
+    try:
+        instance = Category.objects.get(parent=parent,slug=category_slug[-1])
+        print(parent)
+        # print(slug)
+    except:
+        # instance = get_object_or_404(Post, slug = category_slug[-1])
+        instance = get_object_or_404(Category, slug = category_slug[-1])
+        return render(request, "Categories/categoryDetail.html", {'instance': instance,})
+    else:
+        return render(request, 'Categories/categories.html', {'instance': instance, 'nodes': nodes})
+
+@login_required
+def show_category2(request, node=None):
+
+    #cat=Category.objects.all()
+    #print("Categories -----------------: \n {}".format(cat))
+
+    print("Node -----------------: \n {}".format(node))
+
+    node = node.split('/')
+
+    print("Node après split ++++++++++++++++++++: \n {}".format(node))
+    print("Node[-1]         ++++++++++++++++++++: \n {}".format(node[-1]))
+
+
+    nodes = Category.objects.filter(name=node)
+    print("Nodes -----------------: \n {}".format(nodes))
+
+    if node[-1] == 'None' : #'Budget':
+        # ancestors = nodes
+        ancestors = Category.objects.filter(parent=None)
+
+        # children = Category.objects.filter(parent=None)
+        children = Category.objects.filter(parent=ancestors)
+    else:
+        children = Category.objects.filter(parent__name=node[-1])
+        print("Children -----------------: \n {}".format(children))
+
+        ancestors = Category.objects.filter(children__namenode[-1])
+        print("Ancestors -----------------: \n {}".format(ancestors))
+
+    return render(request, 'Categories/categories2.html', {'ancestors': ancestors, 'children': children})
