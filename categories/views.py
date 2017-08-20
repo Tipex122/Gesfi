@@ -182,31 +182,66 @@ def show_category(request, hierarchy=None):
 @login_required
 def show_category2(request, node=None):
 
-    #cat=Category.objects.all()
+    cats = Category.objects.all()
+    # used for template recursetree in sidebar block
+
     #print("Categories -----------------: \n {}".format(cat))
 
     print("Node -----------------: \n {}".format(node))
 
     node = node.split('/')
 
+
     print("Node après split ++++++++++++++++++++: \n {}".format(node))
     print("Node[-1]         ++++++++++++++++++++: \n {}".format(node[-1]))
 
-
-    nodes = Category.objects.filter(name=node)
-    print("Nodes -----------------: \n {}".format(nodes))
+    #nodes = Category.objects.filter(parent=None)
+    #print("Nodes -----------------: \n {}".format(nodes))
 
     if node[-1] == 'None' : #'Budget':
         # ancestors = nodes
-        ancestors = Category.objects.filter(parent=None)
 
+        current = Category.objects.filter(parent=None)
+        print("Current -----------------: \n {}".format(current))
+
+        ancestors = Category.objects.filter(parent=None)
+        print("Ancestors pour node ========================: \n {}".format(ancestors))
+        node = ancestors
         # children = Category.objects.filter(parent=None)
         children = Category.objects.filter(parent=ancestors)
+        print("Children pour node[-1] ========================: \n {}".format(children))
+
+        toto = Category.objects.filter(parent=None)
+        # toto = Category.objects.get(pk=1)
+        print("Toto :::::::::::::::::: \n {}".format(toto))
+
     else:
-        children = Category.objects.filter(parent__name=node[-1])
+        #if node[-1] in node[:-1]:
+        #    node = node[:-1]
+        # node = set(node)
+        print("Node +++         ++++++++++++++++++++: \n {}".format(node))
+        print("Node[-1] +++         ====================: \n {}".format(node[-1]))
+        print("Node[:-1] +++         ++++++++++++++++++++: \n {}".format(node[:-1]))
+
+        current = Category.objects.filter(name = node[-1])
+        print("Current -----------------: \n {}".format(current))
+
+        children = Category.objects.filter(parent__name=node[-1]) # mettre un get avec un contrôle d'existence
         print("Children -----------------: \n {}".format(children))
 
-        ancestors = Category.objects.filter(children__namenode[-1])
+        ancestors = Category.objects.filter(children__name=node[-1])
         print("Ancestors -----------------: \n {}".format(ancestors))
+        #print("GET_ANCESTORS ------+++++--------: \n".format(children[0].get_ancestors()))
 
-    return render(request, 'Categories/categories2.html', {'ancestors': ancestors, 'children': children})
+        toto = Category.objects.filter(name=node[-1])
+        print(toto)
+
+
+    return render(request, 'Categories/categories2.html',
+                  {'cats': cats,
+                   'ancestors': ancestors,
+                   'children': children,
+                   'node': node,
+                   'toto': toto,
+                   'current': current,
+                   })

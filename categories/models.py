@@ -184,6 +184,10 @@ class Category(MPTTModel):
     def get_tags(self):
         return Tag.objects.filter(category=self)
 
+    #TODO: not sure it works or it's necessary
+    def get_ancestors(self, ascending=False, include_self=False):
+        return super(Category, self).get_ancestors(ascending=False, include_self=True)
+
 
 class Tag(models.Model):
     tag = models.CharField(max_length=50, unique=True)
