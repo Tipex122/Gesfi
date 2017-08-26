@@ -6,31 +6,15 @@
 {% block content %}
 
 <ul class="breadcrumb">
-    {% for i in toto.get_ancestors %}
+    {% for i in ancestors %}
         <li><a href="{% url 'show_category2' node=i.name %}"> {{ i.name }} </a></li>
     {% endfor %}
 
 </ul>
 
-<!--
-<ul class="breadcrumb">
-    {% for i in children.get_ancestors %}
-        <li><a href="{% url 'show_category2' node=i.name %}"> {{ i.name }} </a></li>
-    {% endfor %}
-
-</ul>
-
-
-<ul class="breadcrumb">
-    {% for i in node %}
-        <li><a href="{% url 'show_category2' node=i %}"> {{ i }} </a></li>
-    {% endfor %}
-
-</ul>
--->
 
 {% if  children %}
-<h4>Sub Categories of category: {% for c in current %} {{c.name}} <br>Amount of this category : <b>{{c.amount}}</b> Euros {% endfor %} </h4>
+<h4>Sub Categories of category: {% for c in current %} <b>{{c.name}}</b> <i>[ {{c.amount}} Euros ]</i> {% endfor %} </h4>
     {% for i in children %}
         {% if i.is_leaf_node %}
             {{ i.name }} {{i.amount}}<br>
