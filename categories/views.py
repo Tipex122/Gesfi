@@ -138,47 +138,6 @@ def tag_edit(request, pk):
     }
     return render(request, 'Categories/tag_edit.html', context)
 
-'''
-@login_required
-def show_category(request, hierarchy=None):
-    # Attention: à mettre à jour par la parent de la hierarchy (voir comment le trouver avec MPTT
-
-    nodes = Category.objects.all()
-
-    print(hierarchy)
-
-    if hierarchy == 'None':
-        hierarchy = "Budget"
-    print("Hierarchy après affectation de Budget: {}".format(hierarchy))
-
-    category_slug = hierarchy.split('/')
-    print(category_slug)
-
-    parent = None
-    root = Category.objects.all()
-    print("***************** 1 ****************")
-    print(root)
-    print("***************** 1 ****************")
-
-
-    for slug in category_slug[:-1]:
-        parent = root.get(parent=parent, slug=slug)
-        print("================== 1 =======================")
-        print(parent)
-        print("================== 1 =======================")
-
-
-    try:
-        instance = Category.objects.get(parent=parent,slug=category_slug[-1])
-        print(parent)
-        # print(slug)
-    except:
-        # instance = get_object_or_404(Post, slug = category_slug[-1])
-        instance = get_object_or_404(Category, slug = category_slug[-1])
-        return render(request, "Categories/categoryDetail.html", {'instance': instance,})
-    else:
-        return render(request, 'Categories/categories.html', {'instance': instance, 'nodes': nodes})
-'''
 
 @login_required
 def show_category(request, node=None):
@@ -197,6 +156,7 @@ def show_category(request, node=None):
     #print("Node[-1]         ++++++++++++++++++++: \n {}".format(node[-1]))
 
     current = Category.objects.filter(name=node[-1])
+
     #print("Current 000000 -----------------: \n {}".format(current))
     #print("Current 000000 Ancestors -----------------: \n {}".format(current.get_ancestors(include_self=True)))
 

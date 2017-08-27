@@ -82,21 +82,27 @@ def tag_category_edit(request):
                     transaction.save()
 
     transactions = Transactions.objects.all()
-    context = {'transactions': transactions, 'categories_list': categories_list}
+    ancestors = Category.objects.filter(parent=None)
+    context = {'transactions': transactions, 'categories_list': categories_list, 'ancestors':ancestors}
     return render(request, 'ManageGesfi/tag_category.html', context)
 
 
 @login_required
-def transactions_by_category(request, pk):
+def transactions_by_category(request, pk=None):
     """
     List of transactions by category.
     For all categories or category by category selected
     """
-    if pk == '':
+    # TODO: In transactions_by_category.html to list transactions of the catagory selected AND descendant of the category
+    if pk == '' or get_object_or_404(Category, pk=pk).is_root_node():
         transactions = Transactions.objects.all().order_by('category_of_transaction__name')
+        ancestors = Category.objects.filter(parent=None)
     else:
         category_selected = get_object_or_404(Category, pk=pk)
+        ancestors = category_selected.get_ancestors(include_self=True)
         transactions = Transactions.objects.filter(category_of_transaction=category_selected)
+
     categories = Category.objects.all()
-    context = {'transactions': transactions, 'categories': categories}
+
+    context = {'transactions': transactions, 'ancestors':ancestors, 'categories': categories,}
     return render(request, 'ManageGesfi/transactions_by_category.html', context)
