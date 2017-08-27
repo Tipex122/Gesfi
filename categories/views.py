@@ -138,7 +138,7 @@ def tag_edit(request, pk):
     }
     return render(request, 'Categories/tag_edit.html', context)
 
-
+'''
 @login_required
 def show_category(request, hierarchy=None):
     # Attention: à mettre à jour par la parent de la hierarchy (voir comment le trouver avec MPTT
@@ -178,9 +178,10 @@ def show_category(request, hierarchy=None):
         return render(request, "Categories/categoryDetail.html", {'instance': instance,})
     else:
         return render(request, 'Categories/categories.html', {'instance': instance, 'nodes': nodes})
+'''
 
 @login_required
-def show_category2(request, node=None):
+def show_category(request, node=None):
 
     cats = Category.objects.all()
     # used for template recursetree in sidebar block
