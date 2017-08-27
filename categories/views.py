@@ -250,7 +250,7 @@ def show_category(request, node=None):
         #print("TOTOTOTOTOTOTOTOTOTO: \n {}".format(toto))
 
 
-    return render(request, 'Categories/categories2.html',
+    return render(request, 'Categories/categories.html',
                   {'cats': cats,
                    'ancestors': ancestors,
                    'children': children,

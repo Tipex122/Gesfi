@@ -1,21 +1,55 @@
 {% extends 'base.html' %}
 {% load mptt_tags %}
 
-{% block head_title %} {{ instance.name }} {% endblock %}
+{% block head_title %}  {% endblock %}
 
 {% block content %}
 
 <ul class="breadcrumb">
-    {% for i in instance.children.all %}
-        <li><a href="{{ i.slug }}"> {{ i.name }} </a></li>
+    {% for i in ancestors %}
+        <li><a href="{% url 'show_category' node=i.name %}"> {{ i.name }} </a></li>
     {% endfor %}
 
 </ul>
 
-<ul>
-    {% recursetree nodes %}
+
+
+{% if  children %}
+<div class="list-group">
+    <h4 class="list-group-item active">
+        Sub Categories of:
+        {% for c in current %}
+            <span><b>{{c.name}}</b></span>
+            <span class="badge">{{c.amount}}</span>
+        {% endfor %}
+    </h4>
+    {% for i in children %}
+        {% if i.is_leaf_node %}
+            <a href="" class="list-group-item">
+                <span>{{ i.name }}</span>
+                <span class="badge">{{i.amount}}</span>
+            </a>
+        {% else %}
+            <!-- <a href="{{ i.name }}" class="list-group-item"> -->
+            <a href="{% url 'show_category' node=i.name %}" class="list-group-item">
+                <span>{{ i.name }}</span>
+                <span class="badge">{{i.amount}}</span>
+            </a>
+        {% endif %}
+    {% endfor %}
+
+    <br><hr>
+</div>
+{% endif %}
+
+
+{% endblock %}
+
+{% block sidebar %}
+    <ul>
+    {% recursetree cats %}
         <li>
-            {{ node.name }}
+            <a href="{{ node.name }}">{{ node.name }}</a>
             {% if not node.is_leaf_node %}
                 <ul class="children">
                     {{ children }}
@@ -25,39 +59,4 @@
     {% endrecursetree %}
 </ul>
 
-<div class="text-center"><h2>{{instance.name}}</h2></div>
-
-{% if  instance.children.all %}
-    <h4>Sub Categories</h4>
-    {% for i in instance.children.all %}
-        <a href="{{ i.slug }}"> {{ i.name }} </a><br>
-    {% endfor %}
-
-    <br><hr>
-{% endif %}
-
-{# REMPLACER POST PAR LES DESCRIPTIONS OU AUTRES CHILDREN #}
-{% if  instance.post_set.all %}
- {% for i in instance.post_set.all %}
-  <h4>Posts</h4>
-  <div class="row small-up-1 medium-up-3" >
-
-   <div class="column">
-    <a href="{{ i.slug }}">
-      <div class="card" style="width: 300px; border-color: black">
-         <div class="card-divider">
-           <strong>{{ i.title | truncatechars:30}}</strong>
-         </div>
-
-         <div class="card-section">
-          <small>{{ i.publish}} </small>
-          <p>{{ i.content | safe | truncatechars_html:120 }}</p>
-         </div>
-      </div>
-    </a>
-   </div>
-{% endfor %}
-
-{% endif %}
-</div>
-{% endblock %}
+{% endblock sidebar %}

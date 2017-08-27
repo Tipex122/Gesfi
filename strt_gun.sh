@@ -13,7 +13,7 @@
 
  # Activate the virtual environment
  cd $DJANGODIR
- source ../venv_gesfi/bin/activate
+ source ./venv3/bin/activate
  export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
  export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
@@ -23,7 +23,7 @@
 
  # Start your Django Unicorn
  # Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
-  exec ../venv_gesfi/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+  exec ./venv3/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
        --name $NAME \
        --workers $NUM_WORKERS \
        --timeout=150 \

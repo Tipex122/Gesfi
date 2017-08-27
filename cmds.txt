@@ -4,4 +4,9 @@ sudo supervisorctl status gesfi
 voir site:
 http://apprendre-python.com/page-django-deploiement-python-mise-en-production-linux-gunicorn-supervisor-nginx-installer-configurer-serveur-http-web
 
+Graphes:
+./manage.py graph_models -a -g -o my_project_visualized.png
+https://django-extensions.readthedocs.io/
+https://django-extensions.readthedocs.io/en/latest/graph_models.html#templates
+
 

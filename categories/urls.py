@@ -4,7 +4,7 @@ from .views import *
 
 urlpatterns = [
 #    url(r'^$', 'categories.views.category_list', name='category_list'),
-    url(r'^category/(?P<node>.+)/$', show_category, name='show_category2'),
+    url(r'^category/(?P<node>.+)/$', show_category, name='show_category'),
     # url(r'^category/(?P<hierarchy>.+)/$', show_category, name='show_category'),
 
     #    url(r'^category/(?P<hierarchy>)/$', show_category, name='category'),
