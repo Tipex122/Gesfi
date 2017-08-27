@@ -16,7 +16,7 @@
 {% if  children %}
 <div class="list-group">
     <h4 class="list-group-item active">
-        Sub Categories of category:
+        Sub Categories of:
         {% for c in current %}
             <span><b>{{c.name}}</b></span>
             <span class="badge">{{c.amount}}</span>
@@ -31,7 +31,7 @@
         {% else %}
             <a href="{{ i.name }}" class="list-group-item">
                 <span>{{ i.name }}</span>
-                <span class="badge>{{i.amount}}"</span>
+                <span class="badge">{{i.amount}}"</span>
             </a>
         {% endif %}
     {% endfor %}
@@ -39,8 +39,6 @@
     <br><hr>
 </div>
 {% endif %}
-
-<div class="text-center"><h2>{{ancestors.name}}</h2></div>
 
 
 {% endblock %}
