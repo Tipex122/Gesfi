@@ -143,78 +143,28 @@ def tag_edit(request, pk):
 def show_category(request, node=None):
 
     cats = Category.objects.all()
-    # used for template recursetree in sidebar block
-
-    #print("Categories -----------------: \n {}".format(cat))
-
-    #print("Node -----------------: \n {}".format(node))
-
     node = node.split('/')
+    # current = Category.objects.filter(name=node[-1])
 
-
-    #print("Node après split ++++++++++++++++++++: \n {}".format(node))
-    #print("Node[-1]         ++++++++++++++++++++: \n {}".format(node[-1]))
-
-    current = Category.objects.filter(name=node[-1])
-
-    #print("Current 000000 -----------------: \n {}".format(current))
-    #print("Current 000000 Ancestors -----------------: \n {}".format(current.get_ancestors(include_self=True)))
-
-    #nodes = Category.objects.filter(parent=None)
-    #print("Nodes -----------------: \n {}".format(nodes))
-
-    if node[-1] == 'None' : #'Budget':
-        # ancestors = nodes
-
+    if node[-1] == 'None':
         current = Category.objects.filter(parent=None)
-        #print("Current -----------------: \n {}".format(current))
-
         ancestors = Category.objects.filter(parent=None)
-        #print("Ancestors pour node ========================: \n {}".format(ancestors))
-        # node = ancestors
-        # children = Category.objects.filter(parent=None)
         children = Category.objects.filter(parent=ancestors)
-        #print("Children pour node[-1] ========================: \n {}".format(children))
-
-        # toto = Category.objects.filter(parent=None)
-        #toto = current.get_ancestors(include_self=True)
-        # toto = Category.objects.get(pk=1)
-        #print("Toto :::::::::::::::::: \n {}".format(toto))
 
     else:
-        #if node[-1] in node[:-1]:
-        #    node = node[:-1]
-        # node = set(node)
-        #print("Node +++         ++++++++++++++++++++: \n {}".format(node))
-        #print("Node[-1] +++         ====================: \n {}".format(node[-1]))
-        #print("Node[:-1] +++         ++++++++++++++++++++: \n {}".format(node[:-1]))
-
         current = Category.objects.filter(name=node[-1])
-        #print("Current -----------------: \n {}".format(current))
-
-        children = Category.objects.filter(parent__name=node[-1]) # mettre un get avec un contrôle d'existence
-        #print("Children -----------------: \n {}".format(children))
-
-        #ancestors = Category.objects.filter(children__name=node[-1])
+        children = Category.objects.filter(parent__name=node[-1])
         ancestors = current.get_ancestors()
-        #print("Ancestors -----------------: \n {}".format(ancestors))
 
         if not ancestors:
             ancestors = current
-            #print("Ancestors 222222 -----------------: \n {}".format(ancestors))
         else:
             ancestors = current.get_ancestors(include_self=True)
-        #print("GET_ANCESTORS ------+++++--------: \n".format(children[0].get_ancestors()))
-
-        #toto = Category.objects.filter(name=node[-1]).get_ancestors(include_self=True)
-        #print("TOTOTOTOTOTOTOTOTOTO: \n {}".format(toto))
 
 
     return render(request, 'Categories/categories.html',
                   {'cats': cats,
                    'ancestors': ancestors,
                    'children': children,
-                   #'node': node,
-                   #'toto': toto,
                    'current': current,
                    })
