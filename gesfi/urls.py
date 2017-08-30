@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin, auth
+from django.conf import settings
 #from django.core.urlresolvers import reverse_lazy
 #from django.contrib.auth import views as auth_views
 
@@ -27,3 +28,11 @@ urlpatterns = [
     url(r'^', include('banksandaccounts.urls')),
     url(r'^', include('managegesfi.urls')),
 ]
+
+# TODO: debug_toolbar doesn't work with __debug__/ adress ????
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+

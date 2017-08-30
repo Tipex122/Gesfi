@@ -51,6 +51,14 @@ a:hover, a:active {
 
 }
 
+
+body {
+    margin-top: 0px;
+    /*uniquement dans le cas d'une navbar-fixed-bottom */
+    /* margin-bottom: 50px; */
+}
+
+
 body .font-red {
     color: #ff0000;
 }
@@ -78,6 +86,6 @@ body .page-header h1 {
     height: 100%;
     background-size: cover;
     overflow: hidden;
-    /* font-color: grey; */
+    /* font-color: grey;  */
     color: #fcfff8;
 }
