@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 # from .models import Category
 from banksandaccounts.models import *
 from .models import *
-from .forms import TagForm
+from .forms import TagForm, CategoryForm
 
 
 # Create your views here.
@@ -168,3 +168,35 @@ def show_category(request, node=None):
                    'children': children,
                    'current': current,
                    })
+
+@login_required
+def category_create(request):
+    if request.method == 'POST':
+        form = CategoryForm(data=request.POST)
+        if form.is_valid():
+            category = form.save(commit=False)
+            # category.owner = request.user
+            category.save()
+            # form.save_m2m()
+            return redirect('show_category')
+    else:
+        form = CategoryForm()
+    context = {'form': form, 'create': True}
+    return render(request, 'Categories/category_edit.html', context)
+
+
+@login_required
+def category_edit(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    cats = Category.objects.all()
+    # if bookmark.owner != request.user and not request.user.is_superuser:
+    #     raise PermissionDenied
+    if request.method == 'POST':
+        form = CategoryForm(instance=category, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('show_category')
+    else:
+        form = CategoryForm(instance=category)
+    context = {'cats':cats, 'form': form, 'create': False}
+    return render(request, 'Categories/category_edit.html', context)

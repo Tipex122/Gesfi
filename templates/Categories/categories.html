@@ -25,7 +25,7 @@
     </h4>
     {% for i in children %}
         {% if i.is_leaf_node %}
-            <a href="" class="list-group-item">
+            <a href="{% url 'category_edit' pk=i.pk %}" class="list-group-item">
                 <span>{{ i.name }}</span>
                 <span class="badge">{{i.amount}}</span>
             </a>
@@ -49,19 +49,20 @@
     <div class="row">
         <div class="list-group">
             <a class="list-group-item active" href="{% url 'transactions_by_category' pk=Null %}"> Categories</a>
-
             <ul>
-            {% recursetree cats %}
-                <li>
-                    <a href="{{ node.name }}">{{ node.name }}</a>
-                    {% if not node.is_leaf_node %}
-                        <ul class="children">
-                            {{ children }}
-                        </ul>
-                    {% endif %}
-                </li>
-            {% endrecursetree %}
-            </ul>
+                {% recursetree cats %}
+                    <li>
+                        {% if not node.is_leaf_node %}
+                        <a href="{{ node.name }}">{{ node.name }}</a>
+                            <ul class="children">
+                                {{ children }}
+                            </ul>
+                        {% else %}
+                            <a href="{% url 'category_edit' pk=node.pk %}"> {{ node.name }}</a>
+                        {% endif %}
+                    </li>
+                {% endrecursetree %}
+                </ul>
         </div>
     </div>
 {% endblock sidebar %}

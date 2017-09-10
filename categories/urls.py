@@ -16,4 +16,9 @@ urlpatterns = [
 
     url(r'^tag_edit/(?P<pk>)$', tag_edit, name='tag_edit'),
     url(r'^tag_edit/(?P<pk>[0-9]+)/$', tag_edit, name='tag_edit'),
+
+    url(r'^category_create/$', category_create, name='category_create'),
+    #url(r'^category_edit/(?P<pk>\d+)/$', category_edit, name='category_edit'),
+    url(r'^category_edit/(?P<pk>[0-9]+)/$', category_edit, name='category_edit'),
+
 ]

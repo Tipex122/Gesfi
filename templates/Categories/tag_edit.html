@@ -31,12 +31,12 @@
                 {% csrf_token %}
                 <table class="table">
                     <tr>
-                    {% for field in form %}
-                        <td>
-                            {{field.label_tag}}
-                            {{field}}
-                        </td>
-                    {% endfor %}
+                        {% for field in form %}
+                            <td>
+                                {{field.label_tag}}
+                                {{field}}
+                            </td>
+                        {% endfor %}
                         <td><span> <button type="submit" class="save btn btn-primary">Save</button> </span></td>
                     </tr>
                 </table>
