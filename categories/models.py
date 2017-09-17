@@ -134,7 +134,7 @@ class Category(MPTTModel):
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
     # TODO: remplacement de null=True par models.CASCADE pour compatibilité Django 2.0 (à vérifier)
     # parent = TreeForeignKey('self', models.CASCADE, blank=True, related_name='children', db_index=True)
-    slug = models.SlugField()
+    # slug = models.SlugField()
 
     # objects = models.Manager()
 
@@ -152,21 +152,38 @@ class Category(MPTTModel):
     def save(self, *args, **kwargs):
         """
         Used to manage total amount (budget) of a category associated with its sub-categories when modified
-        :param args:
-        :param kwargs:
-        :return: Nothing
+        param args:
+        param kwargs:
+        return: Nothing
         """
         if not self.is_root_node():
             super(Category, self).save(*args, **kwargs)  # Call the "real" save() method.
             ancestors = self.get_ancestors(True)
+            print("\n==============================================")
+            print(self)
+            print(self.is_root_node())
+            print(ancestors)
+            print("==============================================\n")
             level_amount = 0
             for sibling in self.get_siblings(True):
+                print("\tsibling.name: {0},     sibling.amount: {1}".format(sibling.name,sibling.amount))
                 level_amount = level_amount + sibling.amount
+
             for ancestor in ancestors:
                 ancestor.amount = level_amount
-                ancestor.save()
+
+                print(
+                    '\t################# ancestor: {0}  ancestor.amount: {1} #################'.format(ancestor.name, ancestor.amount))
+                # ancestor.save()
+
+                print(
+                    '\t---------------- ancestor: {0}  ancestor.amount: {1} ------------------'.format(ancestor.name, ancestor.amount))
+                print('\tancestor.get_siblings(); {0}'.format(ancestor.get_siblings()))
                 for sibling in ancestor.get_siblings():
                     level_amount = level_amount + sibling.amount
+                    print('\t\t+++++ sibling: {0} --> {1} ++++++'.format(sibling.name, sibling.amount))
+                    print('\t\t sibling: {0} sibling amount: {1},   Level amount: {2}\n'.format(sibling.name, sibling.amount, level_amount))
+
         super(Category, self).save(*args, **kwargs)  # Call the "real" save() method.
 
     def create_tags(self, tags):

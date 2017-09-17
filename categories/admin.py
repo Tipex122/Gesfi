@@ -31,8 +31,8 @@ class CategoryAdmin(DraggableMPTTAdmin):
     #   ('Tags associés', {'fields': ['tag',]})
     ]
     '''
-    #list_display = ('indented_title', 'amount', 'parent',)
-
+    list_display = ('tree_actions', 'indented_title', 'amount',)
+    list_display_links = ('indented_title',)
     search_fields = ['name', 'amount', ]
     # list_filter = ('parent',)
 
