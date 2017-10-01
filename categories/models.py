@@ -160,13 +160,13 @@ class Category(MPTTModel):
         super(Category, self).save(*args, **kwargs)  # Call the "real" save() method.
 
         for sibling in self.get_siblings(True):
-            print("\tsibling.name: {0},     sibling.amount: {1}".format(sibling.name, sibling.amount))
+            # print("\tsibling.name: {0},     sibling.amount: {1}".format(sibling.name, sibling.amount))
             level_amount = level_amount + sibling.amount
-        print('level_amount = {0}'.format(level_amount))
+        # print('level_amount = {0}'.format(level_amount))
 
         if self.parent is not None:
           ancestor = self.parent
-          print(ancestor)
+          # print(ancestor)
           ancestor.amount = level_amount
           ancestor.save()
 
