@@ -156,35 +156,26 @@ class Category(MPTTModel):
         param kwargs:
         return: Nothing
         """
-        if not self.is_root_node():
-            super(Category, self).save(*args, **kwargs)  # Call the "real" save() method.
-            ancestors = self.get_ancestors(True)
-            print("\n==============================================")
-            print(self)
-            print(self.is_root_node())
-            print(ancestors)
-            print("==============================================\n")
-            level_amount = 0
-            for sibling in self.get_siblings(True):
-                print("\tsibling.name: {0},     sibling.amount: {1}".format(sibling.name,sibling.amount))
-                level_amount = level_amount + sibling.amount
-
-            for ancestor in ancestors:
-                ancestor.amount = level_amount
-
-                print(
-                    '\t################# ancestor: {0}  ancestor.amount: {1} #################'.format(ancestor.name, ancestor.amount))
-                # ancestor.save()
-
-                print(
-                    '\t---------------- ancestor: {0}  ancestor.amount: {1} ------------------'.format(ancestor.name, ancestor.amount))
-                print('\tancestor.get_siblings(); {0}'.format(ancestor.get_siblings()))
-                for sibling in ancestor.get_siblings():
-                    level_amount = level_amount + sibling.amount
-                    print('\t\t+++++ sibling: {0} --> {1} ++++++'.format(sibling.name, sibling.amount))
-                    print('\t\t sibling: {0} sibling amount: {1},   Level amount: {2}\n'.format(sibling.name, sibling.amount, level_amount))
-
+        level_amount = 0
         super(Category, self).save(*args, **kwargs)  # Call the "real" save() method.
+
+        for sibling in self.get_siblings(True):
+            print("\tsibling.name: {0},     sibling.amount: {1}".format(sibling.name, sibling.amount))
+            level_amount = level_amount + sibling.amount
+        print('level_amount = {0}'.format(level_amount))
+
+        if self.parent is not None:
+          ancestor = self.parent
+          print(ancestor)
+          ancestor.amount = level_amount
+          ancestor.save()
+
+        #ancestors = self.get_ancestors(True, False)
+        #print(ancestors)
+        #print(ancestor)
+        #ancestor.amount = level_amount
+        #ancestor.save()
+
 
     def create_tags(self, tags):
         # TODO: what for ? ==> to be explained

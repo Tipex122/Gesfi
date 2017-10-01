@@ -195,7 +195,8 @@ def category_edit(request, pk):
         form = CategoryForm(instance=category, data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('show_category')
+            return redirect('show_category', node=category.parent.name)
+            #return redirect('budget')
     else:
         form = CategoryForm(instance=category)
     context = {'cats':cats, 'form': form, 'create': False}
