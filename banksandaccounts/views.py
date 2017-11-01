@@ -218,6 +218,7 @@ def transaction_detail(request, transaction_id):
 @login_required
 def transaction_create(request):
     banks = Banks.objects.all().filter(accounts__owner_of_account=request.user)
+
     if request.method == 'POST':
         form = TransactionForm(data=request.POST)
         if form.is_valid():
@@ -228,7 +229,15 @@ def transaction_create(request):
             return redirect('transactions_list')
     else:
         form = TransactionForm()
-    context = {'form': form, 'banks':banks, 'create': True}
+    context = {
+        'all_accounts': accounts_info2(request, 0),
+        # general information related
+        # to all accounts (due to "0") and used in sidebar
+
+        'form': form,
+        'banks':banks,
+        'create': True
+    }
     return render(request, 'BanksAndAccounts/transaction_edit.html', context)
 
 
@@ -236,6 +245,7 @@ def transaction_create(request):
 def transaction_edit(request, pk):
     transaction = get_object_or_404(Transactions, pk=pk)
     banks = Banks.objects.all().filter(accounts__owner_of_account=request.user)
+    # account = Accounts.objects.all().filter(accounts__owner_of_account=request.user)
 
     # if bookmark.owner != request.user and not request.user.is_superuser:
     #     raise PermissionDenied
@@ -253,7 +263,8 @@ def transaction_edit(request, pk):
         'all_accounts': accounts_info2(request, 0),
         # general information related
         # to all accounts (due to "0") and used in sidebar
-        'banks':banks,
+        # 'account': account,
+        'banks': banks,
         'form': form,
         'create': False
     }

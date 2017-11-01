@@ -9,5 +9,5 @@ class TransactionForm(forms.ModelForm):
                   'name_of_transaction',
                   'amount_of_transaction',
                   'currency_of_transaction',
-                  # 'account',
+                  'account',
                   'category_of_transaction',)

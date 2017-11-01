@@ -36,24 +36,13 @@
                 <a class="list-group-item active" href="#"> {{bank}} </a>
                 {% for account in all_accounts %}
                     {% if account.bank == bank %}
-                        {% if account == transaction.account %}
-                            <a class="list-group-item font-blue" href="/account/{{account.id}}/">{{account}}
-                                <br> Account id: {{account.num_of_account}}
-                                <i>
-                                    <br> Total : {{account.total_amount_by_account}}
-                                    <br> Number of transactions: <span class="label label-default"> {{account.num_transac_by_account}}</span>
-                                </i>
-                            </a>
-                        {% else %}
-                            <a class="list-group-item" href="/account/{{account.id}}/">{{account}}
-                                <br> Account id: {{account.num_of_account}}
-                                <i>
-                                    <br> Total : {{account.total_amount_by_account}}
-                                    <br> Number of transactions: <span class="label label-default"> {{account.num_transac_by_account}}</span>
-                                </i>
-                            </a>
-                        {% endif %}
-                        <a class="list-group-item" href="#">Test autre compte (PEL) <br> 0123456789 </a>
+                        <a class="list-group-item" href="/account/{{account.id}}/">{{account}}
+                            <br> Account id: {{account.num_of_account}}
+                            <i>
+                                <br> Total : {{account.total_amount_by_account}}
+                                <br> Number of transactions: <span class="label label-default"> {{account.num_transac_by_account}}</span>
+                            </i>
+                        </a>
                     {% endif %}
                 {% endfor %}
             </div>
