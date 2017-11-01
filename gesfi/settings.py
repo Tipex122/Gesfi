@@ -15,7 +15,7 @@ from unipath import Path
 from decouple import config, Csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-#UNIPATH# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# UNIPATH# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 BASE_DIR = Path(__file__).parent.parent
 
@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-#ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
+# ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Application definition
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'banksandaccounts.apps.BanksandaccountsConfig',
     'categories.apps.CategoriesConfig',
     #    'categories',
-#    'banksandaccounts',
+    #    'banksandaccounts',
     'import_export',
     'gunicorn',
     'mptt',
@@ -80,7 +80,7 @@ if DEBUG:
     INSTALLED_APPS += (
         'debug_toolbar',
     )
-    INTERNAL_IPS = ('127.0.0.1', )
+    INTERNAL_IPS = ('127.0.0.1',)
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
     }
@@ -106,7 +106,7 @@ CONFIG_DEFAULTS = {
     'RESULTS_CACHE_SIZE': 3,
     'SHOW_COLLAPSED': True,
     # Panel options
-    'SQL_WARNING_THRESHOLD': 100,   # milliseconds
+    'SQL_WARNING_THRESHOLD': 100,  # milliseconds
 
     # XLH
     # 'SHOW_TOOLBAR_CALLBACK': True,
@@ -132,7 +132,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'gesfi.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
@@ -142,7 +141,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -162,16 +160,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-#LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'fr-fr'
 
-#TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
 TIME_ZONE = 'Europe/Paris'
-
 
 USE_I18N = True
 
@@ -179,47 +175,46 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static')
 ##STATIC_ROOT = '/home/pi/Prog/django/gesfi/collect_static'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static')
 
 ##XLH STATIC_URL = '/collect_static/'
 STATIC_URL = '/static/'
-#STATIC_URL = os.path.join(BASE_DIR, 'collect_static/')
-#STATIC_URL = os.path.join(BASE_DIR, 'collect_static')
+# STATIC_URL = os.path.join(BASE_DIR, 'collect_static/')
+# STATIC_URL = os.path.join(BASE_DIR, 'collect_static')
 
-#STATICFILES_DIRS = [
+# STATICFILES_DIRS = [
 #    os.path.join(BASE_DIR, 'collect_static/'),
 #    '/var/www/static/',
-#]
+# ]
 
 STATICFILES_DIRS = [
-	os.path.join(BASE_DIR, "static"),
-	"/var/www/static/",
+    os.path.join(BASE_DIR, "static"),
+    "/var/www/static/",
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
- 
-#TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
-#TODO: Voir login vs logout sur Marcador
+# TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+
+# TODO: Voir login vs logout sur Marcador
 
 LOGIN_URL = 'gesfi_login'
 LOGOUT_URL = 'gesfi_logout'
 LOGIN_REDIRECT_URL = 'gesfi_login'
 # LOGIN_REDIRECT_URL = '/'
 
-#LOGIN_REDIRECT_URL = '/'
+# LOGIN_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 GRAPH_MODELS = {
     'all_applications': True,
-    'group_models':True,
+    'group_models': True,
 }
 
 # La ligne ci-dessous ne semble pas avoir d'impact sur l'interface MPTT Admin (?)

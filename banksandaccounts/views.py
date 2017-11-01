@@ -1,5 +1,8 @@
-from django.shortcuts import render
+# from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
+
 from .models import *
+from .forms import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # from django.http import HttpResponse
 from django.db.models import Avg, Sum, Min, Max, Count
@@ -84,7 +87,7 @@ def banks_and_accounts_list(request):
     )
 
 @login_required
-def transactions_list2(request):
+def transactions_list(request):
     # banks = Banks.objects.all()
     banks = Banks.objects.all().filter(accounts__owner_of_account=request.user)
     # accounts = Accounts.objects.all()
@@ -128,7 +131,7 @@ def transactions_list2(request):
         # to count the number of visit on the main page (transactions_list2.html only)
         # just for test to use django.sessions middleware
     }
-    return render(request, 'BanksAndAccounts/transactions_list2.html', context)
+    return render(request, 'BanksAndAccounts/transactions_list.html', context)
 
 
 # TODO: Access management ==> to be improved with ListView
@@ -188,7 +191,7 @@ def account_list(request, account_id):
     context = {
         'banks': banks,
         # used for dispatching accounts by bank in sidebar
-        'transactions': transactions, # pour utilisation avec transactions_list2.html
+        'transactions': transactions, # pour utilisation avec transactions_list.html
         # 'transactions_list': transactions_list, # pour utilisation avec transactions_list3.html
 
         # used to list transactions related to account(s)
@@ -203,7 +206,7 @@ def account_list(request, account_id):
         # to alla accounts (due to "0") and used in sidebar
     }
 
-    return render(request, 'BanksAndAccounts/transactions_list2.html', context)
+    return render(request, 'BanksAndAccounts/transactions_list.html', context)
 
 
 @login_required
@@ -211,6 +214,51 @@ def transaction_detail(request, transaction_id):
     transaction = Transactions.objects.get(id=transaction_id)
     context = {'transaction': transaction}
     return render(request, 'BanksAndAccounts/transaction_detail.html', context)
+
+@login_required
+def transaction_create(request):
+    banks = Banks.objects.all().filter(accounts__owner_of_account=request.user)
+    if request.method == 'POST':
+        form = TransactionForm(data=request.POST)
+        if form.is_valid():
+            transaction = form.save(commit=False)
+            # category.owner = request.user
+            transaction.save()
+            # form.save_m2m()
+            return redirect('transactions_list')
+    else:
+        form = TransactionForm()
+    context = {'form': form, 'banks':banks, 'create': True}
+    return render(request, 'BanksAndAccounts/transaction_edit.html', context)
+
+
+@login_required
+def transaction_edit(request, pk):
+    transaction = get_object_or_404(Transactions, pk=pk)
+    banks = Banks.objects.all().filter(accounts__owner_of_account=request.user)
+
+    # if bookmark.owner != request.user and not request.user.is_superuser:
+    #     raise PermissionDenied
+    if request.method == 'POST':
+        form = TransactionForm(instance=transaction, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('transactions_list')
+            # return redirect('budget')
+    else:
+        form = TransactionForm(instance=transaction)
+
+    context = {
+        'transaction': transaction,
+        'all_accounts': accounts_info2(request, 0),
+        # general information related
+        # to all accounts (due to "0") and used in sidebar
+        'banks':banks,
+        'form': form,
+        'create': False
+    }
+    return render(request, 'BanksAndAccounts/transaction_edit.html', context)
+
 
 # TODO: to verify if this function is used (transactions_with_tag ?: not sure)
 @login_required

@@ -73,6 +73,8 @@ class TransactionsAdmin(ImportExportModelAdmin):
                    'category_of_transaction'
                    )
 
+    date_hierarchy = 'date_of_transaction'
+
     search_fields = ['name_of_transaction',
                      'amount_of_transaction'
                      ]
@@ -84,11 +86,11 @@ admin.site.register(Transactions, TransactionsAdmin)
 class AccountsAdmin(admin.ModelAdmin):
     list_display = ('num_of_account',
                     'name_of_account',
-                    #'owner_of_account',
                     'get_users',
                     'bank')
 
     list_filter = ('bank','owner_of_account',)
+    filter_horizontal = ('owner_of_account',)
 
 
 admin.site.register(Accounts, AccountsAdmin)

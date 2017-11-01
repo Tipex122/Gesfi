@@ -4,7 +4,6 @@ from categories.models import Category
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 
-
 # Create your models here.
 
 
@@ -47,7 +46,7 @@ class Accounts(models.Model):
     # TODO: remplacement de null=True par models.CASCADE pour compatibilité Django 2.0 (à vérifier)
     bank = models.ForeignKey('Banks', null=True, blank=True)
     # bank = models.ForeignKey('Banks', models.CASCADE, blank=True)
-    #owner_of_account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    # owner_of_account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     # TODO: Il faut pouvoir affecter un User à un 'Bank account' (ce n'est pas le cas: tout le monde est 'owner'
     # Nota: remplacer "get_users" par "owner_of_account" dans "AccountsAdmin" pour revenir à la solution "ForeignKey"
     owner_of_account = models.ManyToManyField(User)
@@ -97,16 +96,17 @@ class Transactions(models.Model):
         null=True,
         # models.CASCADE,
         blank=True)
+
     # transcat = models.ForeignKey(Category, null=True,
     # blank=True) #to be used in case of transversal categorization need
 
-#    def get_tags(self):
-#        tags = str.split(self.name_of_transaction)
-#        for tag in tags:
-#            tag = tag.lower(tag)
-#            if len(tag) < 2 or tag.isdecimal():
-#                tags.remove(self, tag)
-#        return tags
+    #    def get_tags(self):
+    #        tags = str.split(self.name_of_transaction)
+    #        for tag in tags:
+    #            tag = tag.lower(tag)
+    #            if len(tag) < 2 or tag.isdecimal():
+    #                tags.remove(self, tag)
+    #        return tags
 
     def __str__(self):
         return "[%s] -- %s ===>  %s" % (
@@ -114,9 +114,9 @@ class Transactions(models.Model):
             self.name_of_transaction,
             self.amount_of_transaction,)
 
-#    def __init__(self):
-#        tags = self.tags
-#        super(Transactions, self).__init__(self, *args, **kwargs)
+    #    def __init__(self):
+    #        tags = self.tags
+    #        super(Transactions, self).__init__(self, *args, **kwargs)
 
     class Meta:
         verbose_name = _('transaction')

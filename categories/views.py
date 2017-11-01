@@ -141,7 +141,6 @@ def tag_edit(request, pk):
 
 @login_required
 def show_category(request, node=None):
-
     cats = Category.objects.all()
     node = node.split('/')
     # current = Category.objects.filter(name=node[-1])
@@ -161,13 +160,13 @@ def show_category(request, node=None):
         else:
             ancestors = current.get_ancestors(include_self=True)
 
-
     return render(request, 'Categories/categories.html',
                   {'cats': cats,
                    'ancestors': ancestors,
                    'children': children,
                    'current': current,
                    })
+
 
 @login_required
 def category_create(request):
@@ -196,8 +195,8 @@ def category_edit(request, pk):
         if form.is_valid():
             form.save()
             return redirect('show_category', node=category.parent.name)
-            #return redirect('budget')
+            # return redirect('budget')
     else:
         form = CategoryForm(instance=category)
-    context = {'cats':cats, 'form': form, 'create': False}
+    context = {'cats': cats, 'form': form, 'create': False}
     return render(request, 'Categories/category_edit.html', context)

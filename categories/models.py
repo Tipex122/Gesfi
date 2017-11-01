@@ -3,13 +3,12 @@ from decimal import Decimal
 from mptt.models import MPTTModel, TreeForeignKey
 from django.utils.translation import ugettext_lazy as _
 
-
-
 # Create your models here.
 
 
 ORDER_VAR = 'o'
 ORDER_TYPE_VAR = 'ot'
+
 
 class SortHeaders:
     """
@@ -21,8 +20,9 @@ class SortHeaders:
     Based in part on the Django Admin application's ``ChangeList``
     functionality.
     """
+
     def __init__(self, request, headers, default_order_field=None,
-            default_order_type='asc', additional_params=None):
+                 default_order_type='asc', additional_params=None):
         """
         request
             The request currently being processed - the current sort
@@ -75,7 +75,7 @@ class SortHeaders:
                 if headers[new_order_field][1] is not None:
                     self.order_field = new_order_field
             except (IndexError, ValueError):
-                pass # Use the default
+                pass  # Use the default
         if ORDER_TYPE_VAR in params and params[ORDER_TYPE_VAR] in ('asc', 'desc'):
             self.order_type = params[ORDER_TYPE_VAR]
 
@@ -132,6 +132,7 @@ class Category(MPTTModel):
                                  verbose_name="Estimated budget", blank=True, null=True)
 
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
+
     # TODO: remplacement de null=True par models.CASCADE pour compatibilité Django 2.0 (à vérifier)
     # parent = TreeForeignKey('self', models.CASCADE, blank=True, related_name='children', db_index=True)
     # slug = models.SlugField()
@@ -165,17 +166,16 @@ class Category(MPTTModel):
         print('level_amount = {0}'.format(level_amount))
 
         if self.parent is not None:
-          ancestor = self.parent
-          print(ancestor)
-          ancestor.amount = level_amount
-          ancestor.save()
+            ancestor = self.parent
+            print(ancestor)
+            ancestor.amount = level_amount
+            ancestor.save()
 
-        #ancestors = self.get_ancestors(True, False)
-        #print(ancestors)
-        #print(ancestor)
-        #ancestor.amount = level_amount
-        #ancestor.save()
-
+            # ancestors = self.get_ancestors(True, False)
+            # print(ancestors)
+            # print(ancestor)
+            # ancestor.amount = level_amount
+            # ancestor.save()
 
     def create_tags(self, tags):
         # TODO: what for ? ==> to be explained
@@ -189,10 +189,11 @@ class Category(MPTTModel):
             if tag:
                 t, created = Tag.objects.get_or_create(tag=tag.lower(),
                                                        category=self)
+
     def get_tags(self):
         return Tag.objects.filter(category=self)
 
-    #TODO: not sure it works or it's necessary
+    # TODO: not sure it works or it's necessary
     def get_ancestors(self, ascending=False, include_self=False):
         return super(Category, self).get_ancestors(ascending=False, include_self=True)
 
@@ -204,6 +205,7 @@ class Tag(models.Model):
 
     # TODO: remplacement de null=True par models.CASCADE pour compatibilité Django 2.0 (à vérifier)
     category = models.ForeignKey(Category, null=True, blank=True)
+
     # category = models.ForeignKey(Category, models.CASCADE, blank=True)
 
     class Meta:
@@ -221,10 +223,10 @@ class Tag(models.Model):
         tags = Tag.objects.all()
         count = {}
         for tag in tags:
-            #if tag.categry.status == Article.PUBLISHED:
-                if tag.tag in count:
-                    count[tag.tag] = count[tag.tag] + 1
-                else:
-                    count[tag.tag] = 1
+            # if tag.categry.status == Article.PUBLISHED:
+            if tag.tag in count:
+                count[tag.tag] = count[tag.tag] + 1
+            else:
+                count[tag.tag] = 1
         sorted_count = sorted(count.items(), key=lambda t: t[1], reverse=True)
         return sorted_count[:20]

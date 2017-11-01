@@ -10,10 +10,11 @@
 {% block heading %}
 <!-- A améliorer car à chaque fois cela liste l'ensemble des comptes -->
     <h2>{% trans 'Transactions of account(s):' %}</h2>
-            {% for account in accounts_info %}
+    {% for account in accounts_info %}
 <!-- #TODO: indiquer le nombre de transactions par compte -->
-                <p><i>{{account.name_of_account}} - {{account.num_of_account}} <i>[total: {{account.total_amount_by_account}} - Number of transaction(s): {{account.num_transac_by_account}}]</i></p>
-            {% endfor %}
+        <p><i>{{account.name_of_account}} - {{account.num_of_account}} <i>[total: {{account.total_amount_by_account}} - Number of transaction(s): {{account.num_transac_by_account}}]</i></p>
+    {% endfor %}
+    <p>You have visited this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p>
 {% endblock heading %}
 
 
@@ -37,7 +38,9 @@
                     <tr>
                         <td>{{ transaction.date_of_transaction|date:" Y/m/d" }}</td>
                         <td>{{ transaction.type_of_transaction }}</td>
-                        <td><a href="/transaction_detail/{{transaction.id}}/"> {{ transaction.name_of_transaction }} </a> </td>
+                        {# <td><a href="/transaction_detail/{{transaction.id}}/"> {{ transaction.name_of_transaction }} </a> </td> #}
+                        <td><a href="/transaction_edit/{{transaction.id}}/"> {{ transaction.name_of_transaction }} </a> </td>
+
                         {% if transaction.amount_of_transaction >= 0 %}
                             <td class="font-blue"> {{ transaction.amount_of_transaction | rjust:"10" }} </td>
                         {% else %}
@@ -70,24 +73,24 @@
     </div>
 
     {% if transactions.has_other_pages %}
-      <ul class="pagination">
-        {% if transactions.has_previous %}
-          <li><a href="?page={{ transactions.previous_page_number }}">&laquo;</a></li>
-        {% else %}
-          <li class="disabled"><span>&laquo;</span></li>
-        {% endif %}
-        {% for i in transactions.paginator.page_range %}
-          {% if transactions.number == i %}
-            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-          {% else %}
-            <li><a href="?page={{ i }}">{{ i }}</a></li>
-          {% endif %}
-        {% endfor %}
-        {% if transactions.has_next %}
-          <li><a href="?page={{ transactions.next_page_number }}">&raquo;</a></li>
-        {% else %}
-          <li class="disabled"><span>&raquo;</span></li>
-        {% endif %}
+        <ul class="pagination">
+            {% if transactions.has_previous %}
+                <li><a href="?page={{ transactions.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in transactions.paginator.page_range %}
+                {% if transactions.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if transactions.has_next %}
+                <li><a href="?page={{ transactions.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
       </ul>
     {% endif %}
 
@@ -118,8 +121,8 @@
                 <a class="list-group-item active" href="#"> {{bank}} </a>
                 {% for account in all_accounts %}
                     {% if account.bank == bank %}
-                        <!-- <a class="list-group-item" href={% url "transactions_list" %}>{{account}} -->
-                        <a class="list-group-item" href="/account/{{account.id}}">{{account}}
+                        {# <a class="list-group-item" href={% url "transactions_list" %}>{{account}} #}
+                        <a class="list-group-item" href="/account/{{account.id}}/">{{account}}
                             <br> Account id: {{account.num_of_account}}
                             <i>
                                 <br> Total : {{account.total_amount_by_account}}
