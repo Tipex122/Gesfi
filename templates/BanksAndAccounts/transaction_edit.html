@@ -7,13 +7,12 @@
 {% endblock %}
 
 {% block heading %}
-    <h2>
-        {% if create %}
-            Create transaction
-        {% else %}
-            Edit transaction: <i>{{ transaction.name_of_transaction }}</i>
-        {% endif %}
-    </h2>
+    {% if create %}
+        <h2>Create transaction</h2>
+    {% else %}
+        <h2>Edit transaction:</h2>
+        <h4><i>{{ transaction.name_of_transaction }}</i></h4>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -42,6 +41,9 @@
                                 <br> Total : {{account.total_amount_by_account}}
                                 <br> Number of transactions: <span class="label label-default"> {{account.num_transac_by_account}}</span>
                             </i>
+                        </a>
+                        <a class="list-group-item" href="/transaction_create/">
+                            Create new transaction
                         </a>
                     {% endif %}
                 {% endfor %}

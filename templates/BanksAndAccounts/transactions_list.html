@@ -94,7 +94,6 @@
       </ul>
     {% endif %}
 
-
 {% endblock %}
 
 {% block sidebar %}
@@ -128,6 +127,9 @@
                                 <br> Total : {{account.total_amount_by_account}}
                                 <br> Number of transactions: <span class="label label-default"> {{account.num_transac_by_account}}</span>
                             </i>
+                        </a>
+                        <a class="list-group-item" href="/transaction_create/">
+                            Create new transaction
                         </a>
                         {# <a class="list-group-item" href="#">Test autre compte (PEL) <br> 0123456789 </a> #}
                     {% endif %}

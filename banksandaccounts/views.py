@@ -229,6 +229,7 @@ def transaction_create(request):
             return redirect('transactions_list')
     else:
         form = TransactionForm()
+
     context = {
         'all_accounts': accounts_info2(request, 0),
         # general information related
@@ -245,18 +246,41 @@ def transaction_create(request):
 def transaction_edit(request, pk):
     transaction = get_object_or_404(Transactions, pk=pk)
     banks = Banks.objects.all().filter(accounts__owner_of_account=request.user)
+    # account = forms.ChoiceField(queryset=Accounts.objects.all().filter(owner_of_account=request.user))
+
     # account = Accounts.objects.all().filter(accounts__owner_of_account=request.user)
 
     # if bookmark.owner != request.user and not request.user.is_superuser:
     #     raise PermissionDenied
     if request.method == 'POST':
         form = TransactionForm(instance=transaction, data=request.POST)
+        # form.account = Accounts.objects.all().filter(owner_of_account=request.user)
+        # form.account = forms.ChoiceField(queryset=Accounts.objects.all().filter(owner_of_account=request.user))
+
+        # form = form.as_ul()
         if form.is_valid():
             form.save()
             return redirect('transactions_list')
             # return redirect('budget')
     else:
         form = TransactionForm(instance=transaction)
+        # form = form.as_table()
+        # form.account = forms.ChoiceField(choices=Accounts.objects.all().filter(owner_of_account=request.user))
+
+    print('User ==== {}'.format(request.user))
+    print('=======================================================================')
+    print('Request {}'.format(request))
+    print('=======================================================================')
+
+    list_accounts = Accounts.objects.all().filter(owner_of_account=request.user)
+    print('Choice ==== {}'.format(list_accounts))
+    # choix = [tuple(list_accounts)]
+    # print('Choice ==== {}'.format(choix))
+    # print(form.as_table())
+    form.account = forms.ChoiceField(choices=Accounts.objects.all().filter(owner_of_account=request.user))
+    print(form.account)
+    # form.account = forms.ChoiceField(choices=choix)
+
 
     context = {
         'transaction': transaction,

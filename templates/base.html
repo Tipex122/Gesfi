@@ -130,6 +130,8 @@
                                 <li><a href="{% url 'search_tags' %}">{% trans 'Search Tags' %}</a></li>
                                 <li><a href="{% url 'tag_edit' pk=Null %}">{% trans 'Tags allocation to Categories' %}</a></li>
                                 <li><a href="{% url 'tag_category_edit' %}">{% trans 'Category allocation to Transactions' %}</a></li>
+                                <li class="dropdown-divider"></li> <!-- TODO: dropdown-divider doesn't work -->
+                                <li><a href="{% url 'display_meta' %}">{% trans 'Display META Info' %}</a></li>
                             </ul>
                         </li>
 

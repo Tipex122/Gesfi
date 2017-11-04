@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.db.models import Q
 # from django.contrib.auth.models import User
 
@@ -106,3 +106,14 @@ def transactions_by_category(request, pk=None):
 
     context = {'transactions': transactions, 'ancestors':ancestors, 'categories': categories,}
     return render(request, 'ManageGesfi/transactions_by_category.html', context)
+
+@login_required
+def display_meta(request):
+    values = request.META.items()
+    # values.sort()
+    html = []
+    for k, v in values:
+        html.append(
+            '<tr><td>%s</td><td>%s</td></tr>' % (k,v)
+        )
+    return HttpResponse('<table>%s</table>' % '\n'.join(html))
