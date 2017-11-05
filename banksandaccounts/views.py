@@ -73,12 +73,16 @@ def banks_and_accounts_list(request):
     accounts_list = Accounts.objects.all().filter(owner_of_account=request.user)
     account_total =\
         Transactions.objects.filter(account__owner_of_account=request.user).aggregate(total=Sum('amount_of_transaction'))
+    # TODO: To place num_visits on each view and all contexts to get the number of view on each bottom page (or only on the main page?)
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
 
     context = {
         'banks_list': banks_list,
         'accounts_list': accounts_list,
         'account_total': account_total,
-        'accounts_info': accounts_info2(request)
+        'accounts_info': accounts_info2(request),
+        'num_visits': num_visits,
     }
     return render(
         request,
@@ -167,6 +171,8 @@ def account_list(request, account_id):
     transactions_list = Transactions.objects.filter(account_id=account_id)
     # transactions_list = Transactions.objects.get(id=account_id)
 
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
 
     account_total = Transactions.objects.filter(
             account_id=account_id).aggregate(Sum('amount_of_transaction'))
@@ -201,9 +207,13 @@ def account_list(request, account_id):
         'accounts_info': accounts_info2(request, account_id),
         # general information related to selectede account
         # 'all_accounts': accounts_info(0)
-        'all_accounts': accounts_info2(request, 0)
+        'all_accounts': accounts_info2(request, 0),
         # general information related
         # to alla accounts (due to "0") and used in sidebar
+        'num_visits': num_visits,
+        # to count the number of visit on the main page (transactions_list2.html only)
+        # just for test to use django.sessions middleware
+
     }
 
     return render(request, 'BanksAndAccounts/transactions_list.html', context)

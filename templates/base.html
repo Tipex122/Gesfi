@@ -222,7 +222,6 @@
                                 <input type="hidden" name="next" value="{{ next }}">
                                 <input class="btn btn-default" type="submit" value="Login">
                             </form>
-
                         </div>
                     </div>
                     <h5>*In case of difficulty: ask to your administrator</h5>
@@ -236,25 +235,22 @@
         -->
 
     {% block pagination %}
-      {% if is_paginated %}
-          <div class="pagination">
-              <span class="page-links">
-                  {% if page_obj.has_previous %}
-                      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-                  {% endif %}
-                  <span class="page-current">
-                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                  </span>
-                  {% if page_obj.has_next %}
-                      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-                  {% endif %}
-              </span>
-          </div>
-      {% endif %}
+        {% if is_paginated %}
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                        <span class="page-current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+                    {% if page_obj.has_next %}
+                        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
     {% endblock %}
-
-
-
 
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -262,9 +258,7 @@
         <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
 
-
         <script src="{% static 'js/vendor/bootstrap-select/bootstrap-select.min.js' %}"></script>
-
 
     </body>
 
@@ -273,7 +267,7 @@
     <div class="container-fluid">
         <footer>
             <div class="col-md-9">
-                <p>&copy; GesFi Company 2016</p>
+                <p>&copy; GesFi Company 2016 - You have visited this page {{ num_visits }}{% if num_visits == 1 %} 1 time{% else %} times{% endif %}.</p>
             </div>
             {% if user.is_authenticated %}
             <div class="col-md-3">
