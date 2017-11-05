@@ -34,7 +34,8 @@ class Accounts(models.Model):
     name_of_account = models.CharField(
         'Nom du compte',
         default='Nom du compte en banque',
-        max_length=256)
+        max_length=256
+    )
 
     def get_users(self):
         return "\n".join([u.username for u in User.objects.all()])

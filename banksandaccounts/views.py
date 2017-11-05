@@ -217,6 +217,7 @@ def transaction_detail(request, transaction_id):
 
 @login_required
 def transaction_create(request):
+    # TODO: How to obtain the list of accounts only available for the connected user ?
     banks = Banks.objects.all().filter(accounts__owner_of_account=request.user)
 
     if request.method == 'POST':
@@ -226,7 +227,9 @@ def transaction_create(request):
             # category.owner = request.user
             transaction.save()
             # form.save_m2m()
-            return redirect('transactions_list')
+            # return redirect('transactions_list', transaction.account.id)
+            return redirect('account_list', transaction.account.id)
+
     else:
         form = TransactionForm()
 
@@ -244,32 +247,16 @@ def transaction_create(request):
 
 @login_required
 def transaction_edit(request, pk):
+    # TODO: How to obtain the list of accounts only available for the connected user ?
     transaction = get_object_or_404(Transactions, pk=pk)
     banks = Banks.objects.all().filter(accounts__owner_of_account=request.user)
     # account = forms.ChoiceField(queryset=Accounts.objects.all().filter(owner_of_account=request.user))
+    account_id = transaction.account.pk
 
     # account = Accounts.objects.all().filter(accounts__owner_of_account=request.user)
-
-    # if bookmark.owner != request.user and not request.user.is_superuser:
-    #     raise PermissionDenied
-    if request.method == 'POST':
-        form = TransactionForm(instance=transaction, data=request.POST)
-        # form.account = Accounts.objects.all().filter(owner_of_account=request.user)
-        # form.account = forms.ChoiceField(queryset=Accounts.objects.all().filter(owner_of_account=request.user))
-
-        # form = form.as_ul()
-        if form.is_valid():
-            form.save()
-            return redirect('transactions_list')
-            # return redirect('budget')
-    else:
-        form = TransactionForm(instance=transaction)
-        # form = form.as_table()
-        # form.account = forms.ChoiceField(choices=Accounts.objects.all().filter(owner_of_account=request.user))
-
     print('User ==== {}'.format(request.user))
     print('=======================================================================')
-    print('Request {}'.format(request))
+    print('Request {}'.format(request.POST))
     print('=======================================================================')
 
     list_accounts = Accounts.objects.all().filter(owner_of_account=request.user)
@@ -277,10 +264,35 @@ def transaction_edit(request, pk):
     # choix = [tuple(list_accounts)]
     # print('Choice ==== {}'.format(choix))
     # print(form.as_table())
+
+    if request.method == 'POST':
+        form = TransactionForm(instance=transaction, data=request.POST)
+        # form.account = Accounts.objects.all().filter(owner_of_account=request.user)
+        # form.account = forms.ChoiceField(queryset=Accounts.objects.all().filter(owner_of_account=request.user))
+        print('User ==== {}'.format(request.user))
+        print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+        print('Request {}'.format(request.POST))
+        print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+        # form = form.as_ul()
+        if form.is_valid():
+            form.save()
+            # return redirect('transactions_list')
+            return redirect('account_list', transaction.account.id)
+
+            # return redirect('budget')
+    else:
+        data = {'Account':list_accounts,}
+        form = TransactionForm(instance=transaction)
+        print('############## form = TransactionForm(instance=transaction)  ##################')
+        # form = form.as_table()
+        # form.account = forms.ChoiceField(choices=Accounts.objects.all().filter(owner_of_account=request.user))
+
+    # *****************************************************************************************************************
     form.account = forms.ChoiceField(choices=Accounts.objects.all().filter(owner_of_account=request.user))
     print(form.account)
     # form.account = forms.ChoiceField(choices=choix)
 
+    # *****************************************************************************************************************
 
     context = {
         'transaction': transaction,
