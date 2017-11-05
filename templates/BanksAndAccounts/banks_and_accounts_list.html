@@ -35,6 +35,25 @@
                 {% endfor %}
             </div>
         {% endfor %}
+        {% for bank in banks_list %}
+            {% for account in accounts_info %}
+                {% if account.bank == bank %}
+                    <div class="card" style="width: 20rem;">
+                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <div class="card-body">
+                            <h4 class="card-title">{{bank}}</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">Account id: {{account.num_of_account}}</h6>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            {# <a href="#" class="btn btn-primary">Go somewhere</a> #}
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                        </div>
+                    </div>
+                    <br>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
 {% endblock content %}
 
 {% block sidebar %}
