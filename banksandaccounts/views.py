@@ -251,7 +251,6 @@ def transaction_edit(request, pk):
     transaction = get_object_or_404(Transactions, pk=pk)
     banks = Banks.objects.all().filter(accounts__owner_of_account=request.user)
     # account = forms.ChoiceField(queryset=Accounts.objects.all().filter(owner_of_account=request.user))
-    account_id = transaction.account.pk
 
     # account = Accounts.objects.all().filter(accounts__owner_of_account=request.user)
     print('User ==== {}'.format(request.user))
@@ -276,7 +275,6 @@ def transaction_edit(request, pk):
         # form = form.as_ul()
         if form.is_valid():
             form.save()
-            # return redirect('transactions_list')
             return redirect('account_list', transaction.account.id)
 
             # return redirect('budget')
