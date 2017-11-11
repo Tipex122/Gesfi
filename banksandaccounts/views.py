@@ -263,13 +263,13 @@ def transaction_edit(request, pk):
     # account = forms.ChoiceField(queryset=Accounts.objects.all().filter(owner_of_account=request.user))
 
     # account = Accounts.objects.all().filter(accounts__owner_of_account=request.user)
-    print('User ==== {}'.format(request.user))
+    # XLH print('User ==== {}'.format(request.user))
     print('=======================================================================')
     print('Request {}'.format(request.POST))
     print('=======================================================================')
 
     list_accounts = Accounts.objects.all().filter(owner_of_account=request.user)
-    print('Choice ==== {}'.format(list_accounts))
+    # XLH print('Choice ==== {}'.format(list_accounts))
     # choix = [tuple(list_accounts)]
     # print('Choice ==== {}'.format(choix))
     # print(form.as_table())
@@ -278,10 +278,10 @@ def transaction_edit(request, pk):
         form = TransactionForm(instance=transaction, data=request.POST)
         # form.account = Accounts.objects.all().filter(owner_of_account=request.user)
         # form.account = forms.ChoiceField(queryset=Accounts.objects.all().filter(owner_of_account=request.user))
-        print('User ==== {}'.format(request.user))
-        print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-        print('Request {}'.format(request.POST))
-        print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+        # XLH print('User ==== {}'.format(request.user))
+        # XLH print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+        # XLH print('Request {}'.format(request.POST))
+        # XLH print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
         # form = form.as_ul()
         if form.is_valid():
             form.save()
