@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% load mptt_tags %}
+{% load i18n %}
+
+{% block title %}
+    {% trans 'Edit Categories' %}
+{% endblock %}
 
 
 {% block title %}
