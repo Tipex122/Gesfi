@@ -53,7 +53,7 @@
         <thead>
             <tr>
                 <th><h4>Date</h4></th>
-                <th><h4>Type</h4></th>
+                <!-- <th><h4>Type</h4></th> -->
                 <th><h4>Name</h4></th>
                 <!-- <th><h4>Category</h4></th> -->
                 <th><h4>Amount</h4></th>
@@ -65,7 +65,7 @@
             {% for transaction in transactions %}
                 <tr>
                     <td>{{ transaction.date_of_transaction|date:" Y/m/d" }}</td>
-                    <td>{{ transaction.type_of_transaction }}</td>
+                    <!-- <td>{{ transaction.type_of_transaction }}</td> -->
                     {# <td><a href="/transaction_detail/{{transaction.id}}/"> {{ transaction.name_of_transaction }} </a> </td> #}
                     <td><a href="/transaction_edit/{{transaction.id}}/"> {{ transaction.name_of_transaction }} </a> </td>
                     <!-- <td>{{transaction.category_of_transaction}}</td> -->
