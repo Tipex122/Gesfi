@@ -14,16 +14,16 @@
         <div class="panel-heading">
             <h2 class="panel-title">
                 <a href="/">
-                    {% trans 'Transactions of account(s):' %}
+                    <strong>{% trans 'Transactions of account(s):' %}</strong>
                 </a>
             </h2>
         </div>
         <table class="table table-hover table-bordered table-condensed">
             <thead>
                 <tr>
-                    <th style="text-align: center"><b>Account</b></th>
-                    <th style="text-align: center"><b>Ref.</b></th>
-                    <th style="text-align: center"><b>Total amount</b></th>
+                    <th style="text-align: center"><strong>Account</strong></th>
+                    <th style="text-align: center"><strong>Ref.</strong></th>
+                    <th style="text-align: center"><strong>Total amount</strong></th>
                     <!-- <th style="text-align: center"><b>Nmbr. of line(s)</b></th> -->
                 </tr>
             </thead>
@@ -151,8 +151,13 @@
                         <a class="list-group-item" href="/account/{{account.id}}/">{{account}}
                             <br> Account id: {{account.num_of_account}}
                             <i>
-                                <br> Total : {{account.total_amount_by_account}}
-                                <br> Number of transactions: <span class="label label-default"> {{account.num_transac_by_account}}</span>
+                                <br>Total :
+                                {% if account.total_amount_by_account >= 0 %}
+                                    <span>{{account.total_amount_by_account}}</span>
+                                {% else %}
+                                    <span class="font-red">{{account.total_amount_by_account}}</span>
+                                {% endif %}
+                                <br>Number of transactions: <span class="label label-default"> {{account.num_transac_by_account}}</span>
                             </i>
                         </a>
                         <a class="list-group-item" href="/transaction_create/">
