@@ -3,10 +3,6 @@
 {% load mptt_tags %}
 {% load i18n %}
 
-{% block title %}
-    {% trans 'Edit Categories' %}
-{% endblock %}
-
 
 {% block title %}
     {% if create %}Create{% else %}Edit{% endif %} category {{ form.instance.name }}
