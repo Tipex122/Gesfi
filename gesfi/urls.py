@@ -13,11 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+
 from django.conf.urls import include, url
 from django.contrib import admin, auth
 from django.conf import settings
-#from django.core.urlresolvers import reverse_lazy
-#from django.contrib.auth import views as auth_views
+
+# from django.core.urlresolvers import reverse_lazy
+# from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name='admin'),
@@ -27,12 +29,13 @@ urlpatterns = [
     url(r'^', include('categories.urls')),
     url(r'^', include('banksandaccounts.urls')),
     url(r'^', include('managegesfi.urls')),
+    # url(r'xadmin/', include(xadmin.site.urls)),
 ]
 
 # TODO: debug_toolbar doesn't work with __debug__/ adress ????
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
 
+    urlpatterns = [
+                      url(r'^__debug__/', include(debug_toolbar.urls)),
+                  ] + urlpatterns

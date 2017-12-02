@@ -21,25 +21,25 @@ main .container {
 
 }
 
-body .row-header {
-  /* margin: 0; */
+/* body .row-header {
+
   margin-left: 0px;
   margin-right: 0px;
   margin-top: 0px;
   margin-bottom: 20px;
 
   padding: 5px;
+  background: #ecebf3;
+
+  */
   /*
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   */
-
-  background: #ecebf3;
-/*  font-family: "Audiowide", cursive; */
-
-}
+/*}
+*/
 
 a.link, a.visited {
     text-decoration: none;

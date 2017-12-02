@@ -264,9 +264,9 @@ def transaction_edit(request, pk):
 
     # account = Accounts.objects.all().filter(accounts__owner_of_account=request.user)
     # XLH print('User ==== {}'.format(request.user))
-    print('=======================================================================')
-    print('Request {}'.format(request.POST))
-    print('=======================================================================')
+    # XLH print('=======================================================================')
+    # XLH print('Request {}'.format(request.POST))
+    # XLH print('=======================================================================')
 
     list_accounts = Accounts.objects.all().filter(owner_of_account=request.user)
     # XLH print('Choice ==== {}'.format(list_accounts))
@@ -290,14 +290,15 @@ def transaction_edit(request, pk):
             # return redirect('budget')
     else:
         data = {'Account':list_accounts,}
+        print(data)
         form = TransactionForm(instance=transaction)
-        print('############## form = TransactionForm(instance=transaction)  ##################')
+        print('############## form = TransactionForm(instance=transaction)  {}'.format(form))
         # form = form.as_table()
         # form.account = forms.ChoiceField(choices=Accounts.objects.all().filter(owner_of_account=request.user))
 
     # *****************************************************************************************************************
-    form.account = forms.ChoiceField(choices=Accounts.objects.all().filter(owner_of_account=request.user))
-    print(form.account)
+    form.account = forms.Select(choices=Accounts.objects.all().filter(owner_of_account=request.user))
+    print(form.account.choices)
     # form.account = forms.ChoiceField(choices=choix)
 
     # *****************************************************************************************************************

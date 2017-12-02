@@ -34,7 +34,8 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Categories',
             },
             managers=[
-                ('_default_manager', django.db.models.manager.Manager()),
+                # XLH ('_default_manager', django.db.models.manager.Manager()),
+                ('objects', django.db.models.manager.Manager()),
             ],
         ),
     ]

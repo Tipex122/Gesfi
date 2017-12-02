@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'django_mptt_admin',
     'crispy_forms',
     'django_extensions',
-    'controlcenter'
+    'controlcenter',
 ]
 
 CONTROLCENTER_DASHBOARDS = (

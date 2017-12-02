@@ -9,11 +9,45 @@
 
 {% block heading %}
 <!-- A améliorer car à chaque fois cela liste l'ensemble des comptes -->
-    <h2>{% trans 'Transactions of account(s):' %}</h2>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                <a href="/">
+                    {% trans 'Transactions of account(s):' %}
+                </a>
+            </h2>
+        </div>
+    <!-- <h2>{% trans 'Transactions of account(s):' %}</h2> -->
+    <table class="table table-bordered table-condensed">
+        <thead>
+            <tr>
+                <th style="text-align: center"><b>Account</b></th>
+                <th style="text-align: center"><b>Ref.</b></th>
+                <th style="text-align: center"><b>Total amount</b></th>
+                <th style="text-align: center"><b>Nmbr. of line(s)</b></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in accounts_info %}
+                <tr>
+                    <td><a href="/account/{{account.id}}/">{{account.name_of_account}}</a></td>
+                    <td>{{account.num_of_account}}</td>
+                    <td style="text-align: right">{{account.total_amount_by_account | rjust:"10" }}</td>
+                    <td  style="text-align: center">{{account.num_transac_by_account}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% comment %}
     {% for account in accounts_info %}
-<!-- #TODO: indiquer le nombre de transactions par compte -->
-        <p>{{account.name_of_account}} - {{account.num_of_account}} <i>[total: {{account.total_amount_by_account}} - Number of transaction(s): {{account.num_transac_by_account}}]</i></p>
+        <p>{{account.name_of_account}} - {{account.num_of_account}}
+            <i>[total: {{account.total_amount_by_account}} - Number of transaction(s): {{account.num_transac_by_account}}]</i>
+        </p>
     {% endfor %}
+{% endcomment %}
+
 {% endblock heading %}
 
 
