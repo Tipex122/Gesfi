@@ -16,7 +16,12 @@
                     {% if account.bank == bank %}
                         <a class="list-group-item" href="/account/{{account.id}}/">{{account}}
                             <br> Account id: {{account.num_of_account}}
-                            <br> Total : {{account.total_amount_by_account}}
+                            <br> Total :
+                                {% if account.total_amount_by_account >= 0 %}
+                                    <span>{{account.total_amount_by_account}}</span>
+                                {% else %}
+                                    <span class="font-red"><strong>{{account.total_amount_by_account}}</strong></span>
+                                {% endif %}
                             <br> Transaction Mini:
                                 {% if account.min_amount_by_account < 0 %}
                                     <span class="label label-danger"> {{account.min_amount_by_account}} </span>
