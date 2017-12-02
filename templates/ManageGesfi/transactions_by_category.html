@@ -58,18 +58,17 @@
     <!-- <div class="row"> -->
         <div class="list-group">
             <a class="list-group-item active" href="{% url 'transactions_by_category' pk=Null %}"> Transactions by Category</a>
-
-            <ul>
-                {% recursetree categories %}
-                    <li>
-                        <a href="{% url 'transactions_by_category' pk=node.pk %}">{{ node.name }}</a>
-                        {% if not node.is_leaf_node %}
-                            <ul class="children">
-                                {{ children }}
-                            </ul>
-                        {% endif %}
-                    </li>
-                {% endrecursetree %}
+                <ul>
+                    {% recursetree categories %}
+                        <li>
+                            <a href="{% url 'transactions_by_category' pk=node.pk %}">{{ node.name }}</a>
+                            {% if not node.is_leaf_node %}
+                                <ul class="children">
+                                    {{ children }}
+                                </ul>
+                            {% endif %}
+                        </li>
+                    {% endrecursetree %}
             </ul>
         </div>
     <!--
