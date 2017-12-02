@@ -18,7 +18,7 @@
                 </a>
             </h2>
         </div>
-        <table class="table table-bordered table-condensed">
+        <table class="table table-hover table-bordered table-condensed">
             <thead>
                 <tr>
                     <th style="text-align: center"><b>Account</b></th>
@@ -48,7 +48,8 @@
 
 
 {% block content %}
-    <table class="table table-bordered table-striped table-condensed">
+    <div class="table-responsive">
+    <table class="table table-hover table-bordered table-striped table-condensed">
         <thead>
             <tr>
                 <th><h4>Date</h4></th>
@@ -79,7 +80,7 @@
             {% endfor %}
         </tbody>
     </table>
-
+    </div>
     <!-- La pagination pourrait être mieux placée ... à creuser ultérieurement -->
     <!-- Voir aussi site https://simpleisbetterthancomplex.com/tutorial/2016/08/03/how-to-paginate-with-django.html  pour tenir compte des ordres de tri -->
     <div class="pagination">
