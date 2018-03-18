@@ -15,16 +15,17 @@ class TransactionsResource(resources.ModelResource):
     class Meta:
         model = Transactions
         #exclude = ('id', 'creation_date','account','category_of_transaction',)
-        exclude = ('id',)
+        # exclude = ('id',)
         #import_id_fields = ('name_of_transaction',)
         skip_unchanged = True
 
         fields = (
-            'id',
+            # 'id',
             'date_of_transaction','type_of_transaction','name_of_transaction','amount_of_transaction','currency_of_transaction',
             'creation_date',
             'account',
-            'category_of_transaction'
+            'category_of_transaction',
+            'id'
         )
 
         #widgets = {
