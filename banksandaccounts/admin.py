@@ -20,21 +20,21 @@ class TransactionsResource(resources.ModelResource):
         skip_unchanged = True
 
         fields = (
-            # 'id',
-            'date_of_transaction','type_of_transaction','name_of_transaction','amount_of_transaction','currency_of_transaction',
+            'type_of_transaction',
+            'name_of_transaction',
+            'amount_of_transaction',
+            'currency_of_transaction',
             'creation_date',
             'account',
             'category_of_transaction',
             'id'
         )
 
-        #widgets = {
+        # widgets = {
         #    'date_of_transaction': {'format': '%d/%m/%Y'},
         #    'creation_date': {'format': '%d/%m/%Y'},
-        #}
 
-
-#class TransactionsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+# class TransactionsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class TransactionsAdmin(ImportExportModelAdmin):
     resource_class = TransactionsResource
 
