@@ -1,12 +1,56 @@
 cmds.*
 start_gunicorn.sh
 *.log
-*.csv
 *.sqlite3
-.idea/*
 .directory
 *.xmi
 *.pyc
 __pycache__
 .env
 strt_gun.sh
+/venv2/
+/.idea/*
+/csv/
+#start_gunicorn.sh
+#strt_gun.sh
+Supprimerait Gesfi.sublime-project
+Supprimerait Gesfi.sublime-workspace
+Supprimerait TAGS
+Supprimerait banksandaccounts/migrations/0003_transactions_transcat.py
+Supprimerait banksandaccounts/migrations/0004_auto_20161120_1045.py
+Supprimerait banksandaccounts/migrations/0005_auto_20161231_0539.py
+Supprimerait categories/migrations/0003_auto_20161120_1045.py
+Supprimerait categories/migrations/0004_auto_20161218_1956.py
+Supprimerait categories/migrations/0005_auto_20161220_1605.py
+Supprimerait categories/migrations/0006_auto_20161221_1045.py
+Supprimerait categories/templatetags/__init__.py
+Supprimerait launch-server.sh
+Supprimerait static/bootstrap-select-1.12.1/
+Supprimerait static/v1.12.1
+#.idea
+my_*
+#my_project.*
+#my_project_visualized
+#my_project_visualized*.*
+Gesfi.sublime*
+Supprimerait banksandaccounts/migrations/0006_auto_20170716_2009.py
+Supprimerait banksandaccounts/migrations/0007_auto_20170724_1129.py
+Supprimerait categories/migrations/0007_category_slug.py
+Supprimerait collect_static/css/bootstrap.min.css.origin
+Supprimerait collect_static/css/jumbotron-bg-V1.jpg
+Supprimerait static/css/bootstrap.min.css.origin
+Supprimerait static/css/jumbotron-bg-V1.jpg
+Supprimerait venv3/
+Supprimerait venv_test/
+Supprimerait categories/migrations/0008_remove_category_slug.py
+Supprimerait categories/migrations/0009_auto_20171130_2158.py
+Supprimerait collect_static/admin/js/cancel.js
+Supprimerait collect_static/admin/js/change_form.js
+Supprimerait collect_static/admin/js/popup_response.js
+Supprimerait collect_static/admin/js/prepopulate_init.js
+Supprimerait collect_static/admin/js/vendor/xregexp/xregexp.js
+Supprimerait collect_static/controlcenter/
+Supprimerait collect_static/css/cover.css
+Supprimerait collect_static/debug_toolbar/
+Supprimerait collect_static/django_extensions/
+Supprimerait collect_static/img/favicon.ico

@@ -14,9 +14,9 @@ from .models import Transactions
 class TransactionsResource(resources.ModelResource):
     class Meta:
         model = Transactions
-        #exclude = ('id', 'creation_date','account','category_of_transaction',)
+        # exclude = ('id', 'creation_date','account','category_of_transaction',)
         # exclude = ('id',)
-        #import_id_fields = ('name_of_transaction',)
+        # import_id_fields = ('name_of_transaction',)
         skip_unchanged = True
 
         fields = (
